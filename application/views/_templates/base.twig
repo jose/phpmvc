@@ -8,13 +8,14 @@ PUBLIC "-//W3C//DTD XHTML 1.1//EN"
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ constant('WEBPAGE_TITLE') }}</title>
 
+  <!-- Icon -->
+  <link href="{{ constant('URL') }}public/img/favicon.ico" rel="shortcut icon">
+
   <!-- Bootstrap -->
   <link href="{{ constant('URL') }}vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Include in here any custom local style -->
-  <style>
-    
-  </style>
+  <link href="{{ constant('URL') }}public/css/custom.css" rel="stylesheet">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,6 +48,7 @@ PUBLIC "-//W3C//DTD XHTML 1.1//EN"
   <script type="text/javascript" src="{{ constant('URL') }}vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script type="text/javascript" src="{{ constant('URL') }}public/js/custom.js"></script>
 
 </body>
 </html>

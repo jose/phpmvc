@@ -1,0 +1,20 @@
+{
+  "name": "PhPMVC",
+  "type": "project",
+  "description": "A custom and lightweight server-side MVC-based framework written in PHP",
+  "keywords": ["php", "mvc"],
+  "homepage": "https://github.com/jose/phpmvc",
+  "license": "",
+  "authors": [
+    {
+      "name": "José Campos",
+      "homepage": "http://jose.github.io/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "twig/twig": "1.*",
+    "twbs/bootstrap": "3.3.7"
+  }
+}

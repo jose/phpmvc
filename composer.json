@@ -15,6 +15,7 @@
   "require": {
     "php": ">=5.3.3",
     "twig/twig": "1.*",
-    "twbs/bootstrap": "3.3.7"
+    "twbs/bootstrap": "3.3.7",
+    "fortawesome/font-awesome": "4.7.0"
   }
 }

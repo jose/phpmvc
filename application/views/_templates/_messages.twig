@@ -1,11 +1,11 @@
 {% for error in s_errors %}
   <div class="alert alert-danger">
-    <strong>Error:</strong> {{error}}
+    <strong>{{ constant('MESSAGE_ERROR') }}</strong> {{error}}
   </div>
 {% endfor %}
 
 {% for message in s_messages %}
   <div class="alert alert-success">
-    <strong></strong> {{message}}
+    <strong>{{ constant('MESSAGE_SUCCESS') }}</strong> {{message}}
   </div>
 {% endfor %}

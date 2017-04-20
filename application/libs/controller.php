@@ -40,7 +40,7 @@ class Controller {
     }
     // if an error is catched, database connection failed
     catch (PDOException $e) {
-      Session::set('s_errors', array('database' => 'Database connection problem. ' . $e->getMessage()));
+      Session::set('s_errors', array('database' => MESSAGE_DATABASE_ERROR . ' ' . $e->getMessage()));
     }
   }
 

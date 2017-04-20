@@ -2,8 +2,8 @@
 {% block content %}
 
 <div class="jumbotron">
-  <h1>HOME TITLE</h1>
-  <p>HOME SUB TITLE</p>
+  <h1>{{ constant('HOME_TITLE') }}</h1>
+  <p>{{ constant('HOME_SUB_TITLE') }}</p>
 </div>
 
 <p>Some introduction text...<p>
@@ -12,12 +12,12 @@
 <div class="row center-block">
   <p>
     <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">ID Label</span>
-      <input type="text" class="form-control" name="user_id" id="user_id" placeholder="ID_PLACE_HOLDER" aria-describedby="basic-addon1" value="" required/>
+      <span class="input-group-addon" id="basic-addon1">"{{ constant('USER_ID_LABEL') }}"</span>
+      <input type="text" class="form-control" name="user_id" id="user_id" placeholder="{{ constant('USER_ID_PLACE_HOLDER') }}" aria-describedby="basic-addon1" value="" required/>
     </div>
   </p>
   <p>
-    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">START</button>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">{{ constant('START') }}</button>
   </p>
 </div>
 </form>

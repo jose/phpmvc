@@ -12,6 +12,9 @@ if (file_exists('vendor/autoload.php')) {
 // load application config (error reporting etc.)
 require_once('application/config/config.php');
 
+// include the to-be-used language, english by default.
+require_once('translations/en.php');
+
 // load application class
 require_once('application/libs/application.php');
 require_once('application/libs/controller.php');

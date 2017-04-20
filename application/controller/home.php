@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Home
+ * Home Class Controller
  */
 class Home extends Controller {
 
@@ -25,6 +25,23 @@ class Home extends Controller {
    * Handles the actions performed on the homepage
    */
   public function action() {
+
+    if ($_POST['submit'] == 'Begin') {
+      $user_id = $_POST['user_id'];
+      Session::set('user_id', $user_id);
+
+      // load 'User' model
+      $user_model = $this->loadModel('user');
+
+      if (!$user_model->exists($user_id)) {
+        // new user
+        Session::set('s_messages', array("User '$user_id' is not in the database"));
+      } else {
+        // existing user
+        Session::set('s_messages', array("User '$user_id' is in the database"));
+      }
+    }
+
     header('location: ' . URL);
     return;
   }

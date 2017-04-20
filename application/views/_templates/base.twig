@@ -1,0 +1,52 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PHPMVC</title>
+
+  <!-- Bootstrap -->
+  <link href="{{ constant('URL') }}vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Include in here any custom local style -->
+  <style>
+    
+  </style>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!-- Navbar -->
+  {% include '_templates/_navbar.twig' %}
+
+  <!-- Container -->
+  <div class="container">
+    <!-- Success/Error/Info Messages -->
+    {% include '_templates/_messages.twig' %}
+
+    <!-- Content, will be passed here via Twig -->
+    {% block content %} {% endblock %}
+
+    <!-- Footer -->
+    <hr />
+    <footer>
+      <p>PHPMVC &copy; 2017</p>
+    </footer>
+  </div><!-- /.container -->
+
+  <!-- Bootstrap-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> <!-- requires jQuery -->
+  <script type="text/javascript" src="{{ constant('URL') }}vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+</body>
+</html>

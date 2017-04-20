@@ -1,0 +1,25 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<div class="jumbotron">
+  <h1>HOME TITLE</h1>
+  <p>HOME SUB TITLE</p>
+</div>
+
+<p>Some introduction text...<p>
+
+<form role="form" method="post" action="{{ constant('URL') }}home/action">
+<div class="row center-block">
+  <p>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">ID Label</span>
+      <input type="text" class="form-control" name="id" id="id" placeholder="ID_PLACE_HOLDER" aria-describedby="basic-addon1" value="" required/>
+    </div>
+  </p>
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">START</button>
+  </p>
+</div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<h1>Progress Bar</h1>
+<div class="progress">
+  <div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+    {{ progress }}% {{ constant('PROGRESS_BAR_INFO') }}
+  </div>
+</div>
+
+{% endblock %}

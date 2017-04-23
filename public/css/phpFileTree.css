@@ -1,0 +1,186 @@
+/**
+ * PHP File Tree Default Theme
+ *
+ * By Cory LaViska (http://abeautifulsite.net/)
+ * Featuring the Silk Icon Set from famfamfam (http://www.famfamfam.com/lab/icons/silk/)
+ */
+
+.php-file-tree {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857
+  color: #555;
+
+  background-color: #FFF;
+
+  min-height: 810px;
+  max-height: 810px;
+
+  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.php-file-tree A {
+  color: #555;
+}
+
+.php-file-tree A:hover, A:visited, A:link, A:active {
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+.php-file-tree .glyphicon-triangle-right {
+  padding-right: 3px;
+}
+.php-file-tree .glyphicon-triangle-right:hover {
+  color: rgba(0, 172, 237, 0.7);
+}
+
+.php-file-tree .pft-directory {
+  /*list-style-image: url(../img/phpFileTree/directory.png);*/
+  list-style-type: none;
+  margin-left: -35px;
+}
+.php-file-tree .pft-directory-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-directory-img:before {
+  content: url(../img/phpFileTree/directory.png);
+}
+
+.php-file-tree .pft-file {
+  list-style-type: none;
+  margin-left: -30px;
+}
+.php-file-tree .pft-file-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+
+/* Default file */
+.php-file-tree .pft-file-img:before {
+  content: url(../img/phpFileTree/file.png);
+}
+/* Additional file types */
+.php-file-tree .ext-3gp:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-afp:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-afpa:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-asp:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-aspx:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-avi:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-bat:before { content: url(../img/phpFileTree/application.png); }
+.php-file-tree .ext-bmp:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-c:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-cfm:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-cgi:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-com:before { content: url(../img/phpFileTree/application.png); }
+.php-file-tree .ext-cpp:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-css:before { content: url(../img/phpFileTree/css.png); }
+.php-file-tree .ext-doc:before { content: url(../img/phpFileTree/doc.png); }
+.php-file-tree .ext-exe:before { content: url(../img/phpFileTree/application.png); }
+.php-file-tree .ext-gif:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-fla:before { content: url(../img/phpFileTree/flash.png); }
+.php-file-tree .ext-h:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-htm:before { content: url(../img/phpFileTree/html.png); }
+.php-file-tree .ext-html:before { content: url(../img/phpFileTree/html.png); }
+.php-file-tree .ext-java:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-jar:before { content: url(../img/phpFileTree/java.png); }
+.php-file-tree .ext-jpg:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-jpeg:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-js:before { content: url(../img/phpFileTree/script.png); }
+.php-file-tree .ext-lasso:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-log:before { content: url(../img/phpFileTree/txt.png); }
+.php-file-tree .ext-m4p:before { content: url(../img/phpFileTree/music.png); }
+.php-file-tree .ext-mov:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-mp3:before { content: url(../img/phpFileTree/music.png); }
+.php-file-tree .ext-mp4:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-mpg:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-mpeg:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-ogg:before { content: url(../img/phpFileTree/music.png); }
+.php-file-tree .ext-pcx:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-pdf:before { content: url(../img/phpFileTree/pdf.png); }
+.php-file-tree .ext-php:before { content: url(../img/phpFileTree/php.png); }
+.php-file-tree .ext-png:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-ppt:before { content: url(../img/phpFileTree/ppt.png); }
+.php-file-tree .ext-psd:before { content: url(../img/phpFileTree/psd.png); }
+.php-file-tree .ext-pl:before { content: url(../img/phpFileTree/script.png); }
+.php-file-tree .ext-py:before { content: url(../img/phpFileTree/script.png); }
+.php-file-tree .ext-rb:before { content: url(../img/phpFileTree/ruby.png); }
+.php-file-tree .ext-rbx:before { content: url(../img/phpFileTree/ruby.png); }
+.php-file-tree .ext-rhtml:before { content: url(../img/phpFileTree/ruby.png); }
+.php-file-tree .ext-rpm:before { content: url(../img/phpFileTree/linux.png); }
+.php-file-tree .ext-ruby:before { content: url(../img/phpFileTree/ruby.png); }
+.php-file-tree .ext-sql:before { content: url(../img/phpFileTree/db.png); }
+.php-file-tree .ext-swf:before { content: url(../img/phpFileTree/flash.png); }
+.php-file-tree .ext-tif:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-tiff:before { content: url(../img/phpFileTree/picture.png); }
+.php-file-tree .ext-txt:before { content: url(../img/phpFileTree/txt.png); }
+.php-file-tree .ext-vb:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-wav:before { content: url(../img/phpFileTree/music.png); }
+.php-file-tree .ext-wmv:before { content: url(../img/phpFileTree/film.png); }
+.php-file-tree .ext-xls:before { content: url(../img/phpFileTree/xls.png); }
+.php-file-tree .ext-xml:before { content: url(../img/phpFileTree/code.png); }
+.php-file-tree .ext-zip:before { content: url(../img/phpFileTree/zip.png); }
+
+.php-file-tree .ptf-class {
+  list-style-type: none;
+  margin-left: -20px;
+}
+.php-file-tree .pft-class-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-class-img:before {
+  content: url(../img/phpFileTree/generate_class.gif);
+}
+.php-file-tree .pft-interface-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-interface-img:before {
+  content: url(../img/phpFileTree/interface_obj.gif);
+}
+
+.php-file-tree .ptf-method {
+  list-style-type: none;
+  margin-left: -22px;
+}
+.php-file-tree .pft-method-default-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-method-default-img:before {
+  content: url(../img/phpFileTree/default_co.gif);
+}
+.php-file-tree .pft-method-public-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-method-public-img:before {
+  content: url(../img/phpFileTree/public_co.gif);
+}
+.php-file-tree .pft-method-private-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-method-private-img:before {
+  content: url(../img/phpFileTree/private_co.gif);
+}
+.php-file-tree .pft-method-protected-img {
+  position: relative;
+  top: 3px;
+  padding-right: 3px;
+}
+.php-file-tree .pft-method-protected-img:before {
+  content: url(../img/phpFileTree/protected_co.gif);
+}
+

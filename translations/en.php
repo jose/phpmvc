@@ -31,5 +31,16 @@ define('PROGRESS_BAR_INFO', 'Complete');
 
 // snippets
 define('SNIPPET', 'Snippet');
+define('TEST', 'Test');
+define('TEST_CASE', 'Test Case');
+define('TEST_A', 'Test A');
+define('TEST_B', 'Test B');
+define('TEST_CASE_A', 'Test Case A');
+define('TEST_CASE_B', 'Test Case B');
+define('SOURCE', 'Source Code');
+
+define('EXPLORER', 'Source Explorer');
+define('PASS', 'Pass');
+define('FAIL', 'Fail');
 
 ?>

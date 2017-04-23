@@ -1,0 +1,59 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<h1>File Tree example</h1>
+
+<p>You can view the source code of any classes related to the unit test by selecting their name in the Source Explorer.<br /> Clicking the small triangle in front of the class name in the Source Explorer expands the class to show all of its methods for easier navigation.<br /> To view the test case again, click the "Test Case" tab above the source code view. <br />Remember, a unit test passes only if all of its assertions evaluate to true, and no unexpected exceptions are thrown.<br /><br />
+
+Select either the Pass or Fail button below the source code view, and click Next or Submit your answers.<p>
+
+<!-- FileTree and TestCase -->
+<div class="row row-offcanvas row-offcanvas-left">
+  
+  <!-- FileTree -->
+  <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('EXPLORER') }}</h3>
+      </div>
+      <div class="panel-body">
+        {{ tree | raw}}
+      </div>
+    </div>
+  </div>
+
+  <!-- TestCase -->
+  <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
+    <div class="row center-block">
+      <!-- Tab header -->
+      <ul class="nav nav-tabs" id="test_case_tab">
+        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">{{ constant('TEST_CASE') }}</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="test">
+          <pre class="scrollable"><code class="language-java">{{ snippet }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <form id="_form" role="form" method="post" action="{{ constant('URL') }}study/action">
+    <div class="row center-block">
+      <p class="text-center" data-toggle="buttons">
+          <label class="btn btn-success" style="width: 49.6%">
+            <input type="radio" name="answer" value="1" autocomplete="off" role="button" >{{ constant('PASS') }}</input>
+          </label>
+          <label class="btn btn-danger" style="width: 49.6%;">
+            <input type="radio" name="answer" value="0" autocomplete="off" role="button" >{{ constant('FAIL') }}</input>
+          </label>
+      </p>
+      <p class="text-center">
+        <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.6%">{{ constant('PREVIOUS') }}</button>
+        <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 79.6%;">{{ constant('NEXT') }}</button>
+      </p>
+    </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

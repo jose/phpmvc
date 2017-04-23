@@ -74,9 +74,8 @@ function registerCloseEvent() {
   });
 }
 
-//shows the tab with passed content div id..paramter tabid indicates the div where the content resides
+// Shows the tab with passed content div id..paramter tabid indicates the div where the content resides
 function showTab(tabId, total_lines, line) {
-  //$(this).tab('show');
   $('#test_case_tab a[href="#' + tabId + '"]').tab('show');
 
   // workaround to IE and Mozilla
@@ -108,7 +107,7 @@ function getCurrentTab() {
 function loadJavaFile(path, loadDivSelector, total_lines, line) {
   var url = path;
   $.get(url).done(function (html) {
-    $("#" + loadDivSelector).html('<pre class="scrollable line-numbers" id="_pre" ><code class="language-java"></code></pre>');
+    $("#" + loadDivSelector).html('<pre class="scrollable_snippet line-numbers" id="_pre" ><code class="language-java"></code></pre>');
     var _code = $("#" + loadDivSelector).children().first().children().first();
     _code.text(html);
 

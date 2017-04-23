@@ -22,9 +22,8 @@
  */
 code, kbd, pre, samp, code[class*="language-"], pre[class*="language-"] {
   font-family: "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
-  /*font-size: 14px;*/
+  font-size: 14px;
   margin: 0 0 0px;
-  padding-left: 8px;
   word-wrap: inherit;
   resize: vertical;
 }
@@ -41,6 +40,21 @@ code[class*="language-none"] {
 }
 .line-highlight:before, .line-highlight[data-end]:after {
   color: black;
+}
+.scrollable_snippet {
+  min-height: 818px;
+  max-height: 818px;
+  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+
+  padding-left: 10em;
+}
+span.glyphicon-triangle-right {
+  font-size: 0.8em;
+}
+span.glyphicon-triangle-bottom {
+  font-size: 0.8em;
 }
 
 /**

@@ -39,6 +39,10 @@ class Home extends Controller {
       } else {
         // existing user
         Session::set('s_messages', array("User '$user_id' is in the database"));
+
+        // go to 'examples'
+        header('location: ' . URL . 'example');
+        return;
       }
     }
 

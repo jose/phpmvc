@@ -24,8 +24,21 @@ class Example extends Controller {
       return;
     }
 
-    $this->render('example/index');
+    // Progress bar
+    $progress = 35;
+
+    $this->render('example/index', array(
+      'progress' => $progress
+    ));
     return;
+  }
+
+  /**
+   *
+   */
+  public function action() {
+    // TODO
+    header('location: ' . URL);
   }
 }
 

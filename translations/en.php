@@ -22,7 +22,14 @@ define('USER_ID_PLACE_HOLDER', 'User ID');
 
 // app
 define('START', 'Start »');
+define('NEXT', 'Next »');
+define('PREVIOUS', '« Previous');
+define('SUBMIT', 'Submit your data »');
 define('MESSAGE_ERROR', 'Error:');
 define('MESSAGE_SUCCESS', '');
+define('PROGRESS_BAR_INFO', 'Complete');
+
+// snippets
+define('SNIPPET', 'Snippet');
 
 ?>

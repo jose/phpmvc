@@ -2,4 +2,44 @@
  * Custom CSS
  */
 
+/**
+ * Override bootstrap's style
+*/
+
+.table {
+  margin-bottom: 0px;
+}
+/*.tab-content {
+  margin: 0 0 10px;
+}*/
+.panel-body {
+  padding: 0px;
+  margin: 0 0 0px;
+}
+
+/**
+ * Code snippets
+ */
+code, kbd, pre, samp, code[class*="language-"], pre[class*="language-"] {
+  font-family: "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+  /*font-size: 14px;*/
+  margin: 0 0 0px;
+  padding-left: 8px;
+  word-wrap: inherit;
+  resize: vertical;
+}
+code[class*="language-none"] {
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.dashed-line-highlight .line-highlight {
+  border-bottom: 1px dashed hsl(0, 0%, 33%);
+  border-top: 1px dashed hsl(0, 0%, 33%);
+}
+.line-highlight:before, .line-highlight[data-end]:after {
+  color: black;
+}
 

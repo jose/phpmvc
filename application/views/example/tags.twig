@@ -1,0 +1,128 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<h1>Tags</h1>
+
+<!-- TestCase and a box to put tags -->
+<div class="row row-offcanvas row-offcanvas-left">
+
+  <!-- TestCase -->
+  <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
+    <div class="row center-block">
+      <!-- Tab header -->
+      <ul class="nav nav-tabs" id="test_case_tab">
+        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">{{ constant('TEST_CASE') }}</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="test">
+          <pre class="scrollable"><code class="language-java">
+@Test
+public void test() {
+  Attribute.Type attribute_Type0 = Attribute.Type.CDATA;
+  Attribute attribute0 = Attribute.build("&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[", attribute_Type0, "&9Df+!V@Mq=J+L[.8[");
+  String string0 = attribute0.getQualifiedName();
+  Attribute attribute1 = null;
+  try {
+    attribute1 = new Attribute("xml:id", "&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[");
+    fail("Expecting exception: NamespaceConflictException");
+  
+  } catch(NamespaceConflictException e) {
+     //
+     // Wrong namespace URI for xml prefix: &9Df+!V@Mq=J+L[.8[
+     //
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
+    <div class="row center-block">
+      <p class="text-center">
+        <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.7%">{{ constant('PREVIOUS') }}</button>
+        <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 79.7%;">{{ constant('NEXT') }}</button>
+      </p>
+    </div>
+    </form>
+  </div>
+  
+  <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
+
+    <!-- All Tags -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container1" class="bootstrap-tagsinput">
+          <span id="Length" itemid="Length" class="btn box-item tag label label-info">Length</span>
+          <span id="Width" itemid="Width" class="btn box-item tag label label-info">Width</span>
+          <span id="Variables" itemid="Variables" class="btn box-item tag label label-info">Variables</span>
+          <span id="Indentation" itemid="Indentation" class="btn box-item tag label label-info">Indentation</span>
+          <span id="Keywords" itemid="Keywords" class="btn box-item tag label label-info">Keywords</span>
+          <span id="Periods" itemid="Periods" class="btn box-item tag label label-info">Periods</span>
+          <span id="Parameters" itemid="Parameters" class="btn box-item tag label label-info">Parameters</span>
+          <span id="Spaces" itemid="Spaces" class="btn box-item tag label label-info">Spaces</span>
+          <span id="Parentheses" itemid="Parentheses" class="btn box-item tag label label-info">Parentheses</span>
+          <span id="Comparisons" itemid="Comparisons" class="btn box-item tag label label-info">Comparisons</span>
+          <span id="Assertions" itemid="Assertions" class="btn box-item tag label label-info">Assertions</span>
+          <span id="Methods" itemid="Methods" class="btn box-item tag label label-info">Methods</span>
+          <span id="Classes" itemid="Classes" class="btn box-item tag label label-info">Classes</span>
+          <span id="Strings" itemid="Strings" class="btn box-item tag label label-info">Strings</span>
+          <span id="Numbers" itemid="Numbers" class="btn box-item tag label label-info">Numbers</span>
+          <span id="Exceptions" itemid="Exceptions" class="btn box-item tag label label-info">Exceptions</span>
+          <span id="Nulls" itemid="Nulls" class="btn box-item tag label label-info">Nulls</span>
+          <span id="Casts" itemid="Casts" class="btn box-item tag label label-info">Casts</span>
+          <span id="Comments" itemid="Comments" class="btn box-item tag label label-info">Comments</span>
+          <span id="Fields" itemid="Fields" class="btn box-item tag label label-info">Fields</span>
+          <span id="Booleans" itemid="Booleans" class="btn box-item tag label label-info">Booleans</span>
+          <span id="Arrays" itemid="Arrays" class="btn box-item tag label label-info">Arrays</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Like -->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+      </div>
+      <div class="panel-body">
+        <div id="scrollable-dropdown-menu">
+          <div id="container2" class="bootstrap-tagsinput" style="padding: 0px;">
+            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dislike -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container3" class="bootstrap-tagsinput" style="padding: 0px;">
+          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Don't care 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Don't care</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container4" class="bootstrap-tagsinput" style="padding: 0px;">
+          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+</div>
+
+{% endblock %}

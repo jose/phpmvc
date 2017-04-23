@@ -81,6 +81,14 @@ class Example extends Controller {
   /**
    *
    */
+  public function tags() {
+    $this->render('example/tags');
+    return;
+  }
+
+  /**
+   *
+   */
   public function action() {
     // TODO
     header('location: ' . URL);

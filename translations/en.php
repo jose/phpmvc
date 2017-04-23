@@ -42,5 +42,6 @@ define('SOURCE', 'Source Code');
 define('EXPLORER', 'Source Explorer');
 define('PASS', 'Pass');
 define('FAIL', 'Fail');
+define('TAGS', 'Tags');
 
 ?>

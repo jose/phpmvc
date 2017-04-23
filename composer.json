@@ -16,6 +16,8 @@
     "php": ">=5.3.3",
     "twig/twig": "1.*",
     "twbs/bootstrap": "3.3.7",
-    "fortawesome/font-awesome": "4.7.0"
+    "fortawesome/font-awesome": "4.7.0",
+    "bordercloud/bootstrap-tagsinput": "0.7.2",
+    "bassjobsen/bootstrap-3-typeahead": "4.0.2"
   }
 }

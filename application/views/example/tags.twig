@@ -17,20 +17,35 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="test">
           <pre class="scrollable"><code class="language-java">
-@Test
-public void test() {
-  Attribute.Type attribute_Type0 = Attribute.Type.CDATA;
-  Attribute attribute0 = Attribute.build("&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[", attribute_Type0, "&9Df+!V@Mq=J+L[.8[");
-  String string0 = attribute0.getQualifiedName();
-  Attribute attribute1 = null;
+@Test(timeout = 8000)
+public void test01()  throws Throwable  {
+  MutableDateTime mutableDateTime0 = new MutableDateTime();
+  int int0 = Calendar.ALL_STYLES;
+  mutableDateTime0.setTime(int0, int0, int0, int0);
+  MutableDateTime mutableDateTime1 = new MutableDateTime(mutableDateTime0.ROUND_NONE, mutableDateTime0.ROUND_HALF_CEILING, mutableDateTime0.ROUND_FLOOR, mutableDateTime0.ROUND_HALF_FLOOR, mutableDateTime0.ROUND_HALF_FLOOR, mutableDateTime0.ROUND_HALF_EVEN, mutableDateTime0.ROUND_NONE);
+  EvoSuiteFile evoSuiteFile0 = null;
+  byte[] byteArray0 = new byte[0];
+  FileSystemHandling.shouldAllThrowIOExceptions();
+  DateTimeFieldType.weekyear();
+  FileSystemHandling fileSystemHandling0 = new FileSystemHandling();
+  mutableDateTime0.setDayOfYear(mutableDateTime0.ROUND_FLOOR);
+  mutableDateTime0.getSecondOfMinute();
+  long long0 = 0L;
+  mutableDateTime1.getMillisOfSecond();
+  mutableDateTime0.addHours(mutableDateTime1.ROUND_CEILING);
+  int int1 = 2775;
+  mutableDateTime1.getCenturyOfEra();
+  String string0 = "{fmN^IHDDF\\;jb?Z@";
+  // Undeclared exception!
   try {
-    attribute1 = new Attribute("xml:id", "&9Df+!V@Mq=J+L[.8[", "&9Df+!V@Mq=J+L[.8[");
-    fail("Expecting exception: NamespaceConflictException");
+    LocalDate.parse(string0);
+    fail("Expecting exception: IllegalArgumentException");
   
-  } catch(NamespaceConflictException e) {
+  } catch(IllegalArgumentException e) {
      //
-     // Wrong namespace URI for xml prefix: &9Df+!V@Mq=J+L[.8[
+     // Invalid format: \"{fmN^IHDDF\\;jb?Z@\"
      //
+     verifyException("org.joda.time.format.DateTimeFormatter", e);
   }
 }</code></pre>
         </div>
@@ -112,18 +127,16 @@ public void test() {
       </div>
     </div>
 
-    <!-- Don't care 
+    <!-- Star rating -->
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Don't care</h3>
+        <h3 class="panel-title">
+          <i class="fa fa-star" aria-hidden="true"></i>  Rating</h3>
       </div>
-      <div class="panel-body">
-        <div id="container4" class="bootstrap-tagsinput" style="padding: 0px;">
-          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
-        </div>
+      <div class="panel-body text-center">
+        <input id="star-rating" type="text" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
       </div>
     </div>
-    -->
   </div>
 </div>
 

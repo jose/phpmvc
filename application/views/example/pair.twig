@@ -1,0 +1,327 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<!--<h1>Pair</h1>-->
+
+<!-- A pair of test cases -->
+<div class="row row-offcanvas">
+  <!--
+  <div class="row center-block col-md-12">
+    <p class="text-center" data-toggle="buttons">
+      <label class="btn btn-primary" style="width: 49.7%;">
+        <input type="radio" name="answer" id="1" value="1" autocomplete="off">{{ constant('TEST_A') }}</input>
+      </label>
+      <label class="btn btn-primary" style="width: 49.7%;">
+        <input type="radio" name="answer" id="2" value="2" autocomplete="off">{{ constant('TEST_B') }}</input>
+      </label>
+    </p>
+  </div>
+  -->
+
+  <!--
+    TestCase A
+  -->
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
+        <label class="btn btn-primary" style="width:100%;">
+          <input type="radio" name="answer" id="1" value="1" autocomplete="off">{{ constant('TEST_A') }}</input>
+        </label>
+      </div>
+      <div class="panel-body">
+        <pre class="scrollable" style="height: 550px;"><code class="language-java">
+@Test(timeout = 8000)
+public void test31()  throws Throwable  {
+  CopticChronology copticChronology0 = CopticChronology.getInstance();
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- All Tags -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container1" class="bootstrap-tagsinput">
+          <span id="Length" itemid="Length" class="btn box-item tag label label-info">Length</span>
+          <span id="Width" itemid="Width" class="btn box-item tag label label-info">Width</span>
+          <span id="Variables" itemid="Variables" class="btn box-item tag label label-info">Variables</span>
+          <span id="Indentation" itemid="Indentation" class="btn box-item tag label label-info">Indentation</span>
+          <span id="ConditionalStatements" itemid="ConditionalStatements" class="btn box-item tag label label-info">Conditional statements</span>
+          <span id="Numbers" itemid="Numbers" class="btn box-item tag label label-info">Numbers</span>
+          <span id="Comments" itemid="Comments" class="btn box-item tag label label-info">Comments</span>
+          <span id="Methods" itemid="Methods" class="btn box-item tag label label-info">Methods</span>
+          <span id="Parameters" itemid="Parameters" class="btn box-item tag label label-info">Parameters</span>
+          <span id="ArrayLength" itemid="ArrayLength" class="btn box-item tag label label-info">Array Length</span>
+          <span id="Spaces" itemid="Spaces" class="btn box-item tag label label-info">Spaces</span>
+          <span id="Parentheses" itemid="Parentheses" class="btn box-item tag label label-info">Parentheses</span>
+          <span id="ArithmeticOperators" itemid="ArithmeticOperators" class="btn box-item tag label label-info">Arithmetic operators</span>
+          <span id="Comparisons" itemid="Comparisons" class="btn box-item tag label label-info">Comparisons</span>
+          <span id="Assertions" itemid="Assertions" class="btn box-item tag label label-info">Assertions</span>
+          <span id="Classes" itemid="Classes" class="btn box-item tag label label-info">Classes</span>
+          <span id="Characters" itemid="Characters" class="btn box-item tag label label-info">Characters</span>
+          <span id="Strings" itemid="Strings" class="btn box-item tag label label-info">Strings</span>
+          <span id="Exceptions" itemid="Exceptions" class="btn box-item tag label label-info">Exceptions</span>
+          <span id="Nulls" itemid="Nulls" class="btn box-item tag label label-info">Nulls</span>
+          <span id="Casts" itemid="Casts" class="btn box-item tag label label-info">Casts</span>
+          <span id="Booleans" itemid="Booleans" class="btn box-item tag label label-info">Booleans</span>
+          <span id="Arrays" itemid="Arrays" class="btn box-item tag label label-info">Arrays</span>
+          <span id="Fields" itemid="Fields" class="btn box-item tag label label-info">Fields</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Like -->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+      </div>
+      <div class="panel-body">
+        <div id="scrollable-dropdown-menu">
+          <div id="container2" class="bootstrap-tagsinput" style="padding: 0px;">
+            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dislike -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container3" class="bootstrap-tagsinput" style="padding: 0px;">
+          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!--
+    TestCase B
+  -->
+  <div class="col-xs-6 col-sm-9 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
+        <label class="btn btn-primary" style="width:100%;">
+          <input type="radio" name="answer" id="2" value="2" autocomplete="off">{{ constant('TEST_B') }}</input>
+        </label>
+      </div>
+      <div class="panel-body">
+        <pre class="scrollable" style="height: 550px;"><code class="language-java">
+@Test(timeout = 8000)
+public void test51()  throws Throwable  {
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  EvoSuiteFile evoSuiteFile0 = null;
+  FileSystemHandling.shouldThrowIOException(evoSuiteFile0);
+  FixedDateTimeZone fixedDateTimeZone0 = (FixedDateTimeZone)DateTimeZone.UTC;
+  CopticChronology copticChronology0 = CopticChronology.getInstance((DateTimeZone) fixedDateTimeZone0);
+  BuddhistChronology buddhistChronology0 = BuddhistChronology.getInstance();
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+  try {
+    localTime0 = new LocalTime(int0, byteArray0[0]);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Value -2148 for hourOfDay must be in the range [0,23]
+     //
+     verifyException("org.joda.time.field.FieldUtils", e);
+  }
+  strictChronology0.set(monthDay1, buddhistChronology0.BE);
+  LocalTime localTime0 = null;
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- All Tags -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container6" class="bootstrap-tagsinput">
+          <span id="Length" itemid="Length" class="btn box-item tag label label-info">Length</span>
+          <span id="Width" itemid="Width" class="btn box-item tag label label-info">Width</span>
+          <span id="Variables" itemid="Variables" class="btn box-item tag label label-info">Variables</span>
+          <span id="Indentation" itemid="Indentation" class="btn box-item tag label label-info">Indentation</span>
+          <span id="ConditionalStatements" itemid="ConditionalStatements" class="btn box-item tag label label-info">Conditional statements</span>
+          <span id="Numbers" itemid="Numbers" class="btn box-item tag label label-info">Numbers</span>
+          <span id="Comments" itemid="Comments" class="btn box-item tag label label-info">Comments</span>
+          <span id="Methods" itemid="Methods" class="btn box-item tag label label-info">Methods</span>
+          <span id="Parameters" itemid="Parameters" class="btn box-item tag label label-info">Parameters</span>
+          <span id="ArrayLength" itemid="ArrayLength" class="btn box-item tag label label-info">Array Length</span>
+          <span id="Spaces" itemid="Spaces" class="btn box-item tag label label-info">Spaces</span>
+          <span id="Parentheses" itemid="Parentheses" class="btn box-item tag label label-info">Parentheses</span>
+          <span id="ArithmeticOperators" itemid="ArithmeticOperators" class="btn box-item tag label label-info">Arithmetic operators</span>
+          <span id="Comparisons" itemid="Comparisons" class="btn box-item tag label label-info">Comparisons</span>
+          <span id="Assertions" itemid="Assertions" class="btn box-item tag label label-info">Assertions</span>
+          <span id="Classes" itemid="Classes" class="btn box-item tag label label-info">Classes</span>
+          <span id="Characters" itemid="Characters" class="btn box-item tag label label-info">Characters</span>
+          <span id="Strings" itemid="Strings" class="btn box-item tag label label-info">Strings</span>
+          <span id="Exceptions" itemid="Exceptions" class="btn box-item tag label label-info">Exceptions</span>
+          <span id="Nulls" itemid="Nulls" class="btn box-item tag label label-info">Nulls</span>
+          <span id="Casts" itemid="Casts" class="btn box-item tag label label-info">Casts</span>
+          <span id="Booleans" itemid="Booleans" class="btn box-item tag label label-info">Booleans</span>
+          <span id="Arrays" itemid="Arrays" class="btn box-item tag label label-info">Arrays</span>
+          <span id="Fields" itemid="Fields" class="btn box-item tag label label-info">Fields</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Like -->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+      </div>
+      <div class="panel-body">
+        <div id="scrollable-dropdown-menu">
+          <div id="container4" class="bootstrap-tagsinput" style="padding: 0px;">
+            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dislike -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+      </div>
+      <div class="panel-body">
+        <div id="container5" class="bootstrap-tagsinput" style="padding: 0px;">
+          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
+  <div class="row center-block col-md-12">
+    <!--p class="text-center" data-toggle="buttons">
+      <label class="btn btn-primary" style="width: 49.7%;">
+        <input type="radio" name="answer" id="1" value="1" autocomplete="off">{{ constant('TEST_A') }}</input>
+      </label>
+      <label class="btn btn-primary" style="width: 49.7%;">
+        <input type="radio" name="answer" id="2" value="2" autocomplete="off">{{ constant('TEST_B') }}</input>
+      </label>
+    </p-->
+    <p class="text-center">
+      <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.7%">{{ constant('PREVIOUS') }}</button>
+      <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 79.7%;">{{ constant('NEXT') }}</button>
+    </p>
+  </div>
+  </form>
+</div>
+
+{% endblock %}

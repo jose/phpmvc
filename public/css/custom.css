@@ -17,6 +17,11 @@
   margin: 0 0 0px;
 }
 
+.panel-heading-choose-option {
+  .clearfix;
+  padding: 1px;
+}
+
 /**
  * Code snippets
  */

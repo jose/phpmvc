@@ -89,6 +89,14 @@ class Example extends Controller {
   /**
    *
    */
+  public function pair() {
+    $this->render('example/pair');
+    return;
+  }
+
+  /**
+   *
+   */
   public function action() {
     // TODO
     header('location: ' . URL);

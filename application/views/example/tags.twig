@@ -5,6 +5,7 @@
 
 <!-- TestCase and a box to put tags -->
 <div class="row row-offcanvas row-offcanvas-left">
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
 
   <!-- TestCase -->
   <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
@@ -52,7 +53,6 @@ public void test01()  throws Throwable  {
       </div>
     </div>
 
-    <form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
     <div class="row center-block">
       <p class="text-center">
         <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.7%">{{ constant('PREVIOUS') }}</button>
@@ -60,7 +60,6 @@ public void test01()  throws Throwable  {
       </p>
       <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
     </div>
-    </form>
   </div>
 
   <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
@@ -87,7 +86,7 @@ public void test01()  throws Throwable  {
       </div>
       <div class="panel-body">
         <div id="like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
+          <input name="like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
         </div>
       </div>
     </div>
@@ -100,7 +99,7 @@ public void test01()  throws Throwable  {
       </div>
       <div class="panel-body">
         <div id="dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+          <input name="dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
         </div>
       </div>
     </div>
@@ -112,10 +111,12 @@ public void test01()  throws Throwable  {
           <i class="fa fa-star" aria-hidden="true"></i>  Rating</h3>
       </div>
       <div class="panel-body text-center">
-        <input id="star-rating" type="text" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
+        <input id="star-rating" name="star-rating" type="text" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
       </div>
     </div>
   </div>
+
+</form>
 </div>
 
 {% endblock %}

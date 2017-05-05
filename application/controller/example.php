@@ -109,7 +109,9 @@ class Example extends Controller {
    */
   public function action() {
     // TODO
-    header('location: ' . URL);
+    //header('location: ' . URL);
+    print_r($_POST);
+    die(); // so that previous print could be read
   }
 }
 

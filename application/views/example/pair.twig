@@ -5,6 +5,7 @@
 
 <!-- A pair of test cases -->
 <div class="row row-offcanvas">
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
   <!--
   <div class="row center-block col-md-12">
     <p class="text-center" data-toggle="buttons">
@@ -25,7 +26,7 @@
     <div class="panel panel-default">
       <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
         <label class="btn btn-primary" style="width:100%;">
-          <input type="radio" name="chosen_snippet" id="1" value="1" autocomplete="off">{{ constant('TEST_A') }}</input>
+          <input name="chosen_snippet" type="radio" id="snippet_a" value="snippet_a" autocomplete="off">{{ constant('TEST_A') }}</input>
         </label>
       </div>
       <div class="panel-body">
@@ -60,7 +61,7 @@ public void test31()  throws Throwable  {
       <div class="panel-body">
         <div id="scrollable-dropdown-menu">
           <div id="test_case_a_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+            <input name="test_case_a_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
           </div>
         </div>
       </div>
@@ -74,7 +75,7 @@ public void test31()  throws Throwable  {
       </div>
       <div class="panel-body">
         <div id="test_case_a_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+          <input name="test_case_a_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
         </div>
       </div>
     </div>
@@ -89,7 +90,7 @@ public void test31()  throws Throwable  {
     <div class="panel panel-default">
       <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
         <label class="btn btn-primary" style="width:100%;">
-          <input type="radio" name="chosen_snippet" id="2" value="2" autocomplete="off">{{ constant('TEST_B') }}</input>
+          <input type="radio" name="chosen_snippet" id="snippet_b" value="snippet_b" autocomplete="off">{{ constant('TEST_B') }}</input>
         </label>
       </div>
       <div class="panel-body">
@@ -244,7 +245,7 @@ public void test51()  throws Throwable  {
       <div class="panel-body">
         <div id="scrollable-dropdown-menu">
           <div id="test_case_b_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+            <input name="test_case_b_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
           </div>
         </div>
       </div>
@@ -258,29 +259,21 @@ public void test51()  throws Throwable  {
       </div>
       <div class="panel-body">
         <div id="test_case_b_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+          <input name="test_case_b_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
         </div>
       </div>
     </div>
   </div>
 
-  <form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
   <div class="row center-block col-md-12">
-    <!--p class="text-center" data-toggle="buttons">
-      <label class="btn btn-primary" style="width: 49.7%;">
-        <input type="radio" name="chosen_snippet" id="1" value="1" autocomplete="off">{{ constant('TEST_A') }}</input>
-      </label>
-      <label class="btn btn-primary" style="width: 49.7%;">
-        <input type="radio" name="chosen_snippet" id="2" value="2" autocomplete="off">{{ constant('TEST_B') }}</input>
-      </label>
-    </p-->
     <p class="text-center">
       <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.7%">{{ constant('PREVIOUS') }}</button>
       <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 79.7%;">{{ constant('NEXT') }}</button>
     </p>
     <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
   </div>
-  </form>
+
+</form>
 </div>
 
 {% endblock %}

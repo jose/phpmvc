@@ -95,7 +95,12 @@ class Example extends Controller {
    *
    */
   public function pair() {
-    $this->render('example/pair');
+    // TODO get this list of tags from a database
+    $tags = ["Length", "Width", "Variables", "Indentation", "ConditionalStatements", "Numbers", "Comments", "Methods", "Parameters", "ArrayLength", "Spaces", "Parentheses", "ArithmeticOperators", "Comparisons", "Assertions", "Classes", "Characters", "Strings", "Exceptions", "Nulls", "Casts", "Booleans", "Arrays", "Fields"];
+
+    $this->render('example/pair', array(
+      'tags' => $tags,
+    ));
     return;
   }
 

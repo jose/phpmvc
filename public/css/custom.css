@@ -75,6 +75,7 @@ span.glyphicon-triangle-bottom {
 .bootstrap-tagsinput {
   border-radius: 0px;
   border: 0px;
+  width: 100%;
 }
 .bootstrap-tagsinput .label {
   display: inline-block;

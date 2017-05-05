@@ -79,7 +79,7 @@ widthScaleFactor = 10;</code></pre>
               <tbody>
                 <tr>
                   <th>
-                    {% if selected == 1 %}
+                    {% if option_selected == 1 %}
                     <label class="active">
                       <input type="radio" name="_option" value="1" autocomplete="off" role="button" checked/>
                     </label>
@@ -96,7 +96,7 @@ widthScaleFactor = 10;</code></pre>
                 <!-- -->
                 <tr>
                   <th>
-                    {% if selected == 2 %}
+                    {% if option_selected == 2 %}
                     <label class="active">
                       <input type="radio" name="_option" value="2" autocomplete="off" role="button" checked/>
                     </label>
@@ -113,7 +113,7 @@ widthScaleFactor = 10;</code></pre>
                 <!-- -->
                 <tr>
                   <th>
-                    {% if selected == 3 %}
+                    {% if option_selected == 3 %}
                     <label class="active">
                       <input type="radio" name="_option" value="3" autocomplete="off" role="button" checked/>
                     </label>
@@ -130,7 +130,7 @@ widthScaleFactor = 10;</code></pre>
                 <!-- -->
                 <tr>
                   <th>
-                    {% if selected == 4 %}
+                    {% if option_selected == 4 %}
                     <label class="active">
                       <input type="radio" name="_option" value="4" autocomplete="off" role="button" checked/>
                     </label>
@@ -150,8 +150,17 @@ widthScaleFactor = 10;</code></pre>
         </div>
       </div>
       <p class="text-center">
-        <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
-        <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+        {% if (question_index == 1) and (question_index == total_num_questions) %}
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 98.5%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index == 1) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Nest" style="width: 98.5%;">{{ constant('NEXT') }}</button>
+        {% elseif (question_index > 1) and (question_index == total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index > 1) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.0%;">{{ constant('NEXT') }}</button>
+        {% endif %}
       </p>
       <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
     </form>

@@ -51,7 +51,11 @@ class Example extends Controller {
    *
    */
   public function multiple_choice_question() {
-    $this->render('example/multiple_choice_question');
+    $this->render('example/multiple_choice_question', array(
+      'question_index' => 2,
+      'option_selected' => 3,
+      'total_num_questions' => 5
+    ));
     return;
   }
 

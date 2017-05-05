@@ -2,45 +2,23 @@
  * Tags
  */
 
-function init_draggables_and_droppables() {
-  $('.box-item').draggable({
+function init_draggables() {
+  $('.tag-item').draggable({
     cursor: 'move',
     helper: "clone"
   });
+}
 
-  $("#container1").droppable({
+function init_droppables() {
+  // TODO add containers for 'pair' study
+  $("#like-container, #dislike-container").droppable({
     drop: function(event, ui) {
-      var itemid = $(event.originalEvent.toElement).attr("itemid");
-      $('.box-item').each(function() {
-        if ($(this).attr("itemid") === itemid) {
-          $(this).appendTo("#container1");
-          return ;
-        }
-      });
-    }
-  });
-
-  $("#container2").droppable({
-    drop: function(event, ui) {
-      var itemid = $(event.originalEvent.toElement).attr("itemid");
-      $('.box-item').each(function() {
-        if ($(this).attr("itemid") === itemid) {
-          //$(this).prependTo("#container2 .bootstrap-tagsinput");
-          $('#container2 .tagsinput-typeahead').tagsinput('add', itemid);
-          return ;
-        }
-      });
-    }
-  });
-
-  $("#container3").droppable({
-    drop: function(event, ui) {
-      var itemid = $(event.originalEvent.toElement).attr("itemid");
-      $('.box-item').each(function() {
-        if ($(this).attr("itemid") === itemid) {
-          //$(this).prependTo("#container3 .bootstrap-tagsinput");
-          $('#container3 .tagsinput-typeahead').tagsinput('add', itemid);
-          return ;
+      var container = $(this);
+      //var itemid = $(event.originalEvent.target.attributes).attr("value");
+      var itemid = ui.draggable.attr("id");
+      $('.tag-item').each(function() {
+        if ($(this).attr("id") === itemid) {
+          container.find('.tagsinput-typeahead').tagsinput('add', itemid);
         }
       });
     }
@@ -48,71 +26,69 @@ function init_draggables_and_droppables() {
 }
 
 $(document).ready(function() {
-  init_draggables_and_droppables();
+  init_draggables();
+  init_droppables();
 
-  tags = $.get('../public/tags.json', function(data) {
-    // add all tags to 'all tags' panel
-    $.each(data, function(index) {
-      console.log(data[index]);
-      //$('#container1').tagsinput('add', data[index]);
-    });
+  // read tags from a file
+  tags = $.get('../public/tags.json');
 
-  }, 'json');
-
+  // TODO currently 'all' tags container is populated with tags from
+  // a database. the autocomplete system works with a list of tags
+  // from a file. we need to find a way to synchronise both, or just
+  // one system (either db or file)
   $('.tagsinput-typeahead').tagsinput({
     allowDuplicates: false,
     freeInput: false,
     typeahead: {
-      source: tags,
-      items: "all",
-      minLength: 1,
       name: "tags",
+      items: "all",
+      source: tags,
+      minLength: 1,
       afterSelect: function() {
       	this.$element[0].value = '';
       }
     }
   });
 
-  // FIXME do we really need two functions (on per container) with the same code?!
-
-  /* before adding a new element */
-
-  $('#container2 .tagsinput-typeahead').on('beforeItemAdd', function(event) {
-    $("#" + event.item).remove();
-  });
-  $('#container3 .tagsinput-typeahead').on('beforeItemAdd', function(event) {
-    $("#" + event.item).remove();
-  });
-
-  /* right after adding a new element */
+  /**
+   * Catch remove/add methods of tags
+   */
 
   var removeAfterAdding = false;
 
-  $('#container2 .tagsinput-typeahead').on('itemAdded', function(event) {
+  // remove tag from any container before adding it to another container
+  $('#like-container, #dislike-container').on('beforeItemAdd', function(event) {
+    // remove it from 'all' tags container
+    // TODO what if we have more than one tags container, as in the
+    // 'pair' example?
+    $("#" + event.item).remove();
+
+    // TODO can we find all '.tagsinput-typeahead' and apply remove?
     removeAfterAdding = true;
-    $('#container3 .tagsinput-typeahead').tagsinput('remove', event.item);
-  });
-  $('#container3 .tagsinput-typeahead').on('itemAdded', function(event) {
+    $('#like-container').find('.tagsinput-typeahead').tagsinput('remove', event.item);
     removeAfterAdding = true;
-    $('#container2 .tagsinput-typeahead').tagsinput('remove', event.item);
+    $('#dislike-container').find('.tagsinput-typeahead').tagsinput('remove', event.item);
   });
 
-  /* right after removing an element */
+  // after adding a tag to a container, set its' id
+  $('#like-container, #dislike-container').on('itemAdded', function(event) {
+    $(this).find('span').each(function() {
+      if ($(this).text() == event.item) {
+        $(this).attr('id', event.item);
+      }
+    });
+  });
 
-  $('#container2 .tagsinput-typeahead').on('itemRemoved', function(event) {
+  // add tag back to the 'all' tags container
+  $('#like-container, #dislike-container').on('itemRemoved', function(event) {
     if (removeAfterAdding) {
       removeAfterAdding = false;
     } else {
-      $("#container1").append("<span id=\"" + event.item + "\" itemid=\"" + event.item + "\" class=\"btn box-item tag label label-info\">"+event.item+"</span>");
-      init_draggables_and_droppables();
-    }
-  });
-  $('#container3 .tagsinput-typeahead').on('itemRemoved', function(event) {
-    if (removeAfterAdding) {
-      removeAfterAdding = false;
-    } else {
-      $("#container1").append("<span id=\"" + event.item + "\" itemid=\"" + event.item + "\" class=\"btn box-item tag label label-info\">"+event.item+"</span>");
-      init_draggables_and_droppables();
+      // TODO what if we have more than one tags container, as in the
+      // 'pair' example?
+      $("#tags_container").append("<span id=\"" + event.item + "\" class=\"btn tag-item tag label label-info\">"+event.item+"</span>");
+      // restart draggables
+      init_draggables();
     }
   });
 });

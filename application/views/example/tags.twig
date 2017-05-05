@@ -61,7 +61,7 @@ public void test01()  throws Throwable  {
     </div>
     </form>
   </div>
-  
+
   <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
 
     <!-- All Tags -->
@@ -70,31 +70,10 @@ public void test01()  throws Throwable  {
         <h3 class="panel-title">{{ constant('TAGS') }}</h3>
       </div>
       <div class="panel-body">
-        <div id="container1" class="bootstrap-tagsinput">
-          <span id="Length" itemid="Length" class="btn box-item tag label label-info">Length</span>
-          <span id="Width" itemid="Width" class="btn box-item tag label label-info">Width</span>
-          <span id="Variables" itemid="Variables" class="btn box-item tag label label-info">Variables</span>
-          <span id="Indentation" itemid="Indentation" class="btn box-item tag label label-info">Indentation</span>
-          <span id="ConditionalStatements" itemid="ConditionalStatements" class="btn box-item tag label label-info">Conditional statements</span>
-          <span id="Numbers" itemid="Numbers" class="btn box-item tag label label-info">Numbers</span>
-          <span id="Comments" itemid="Comments" class="btn box-item tag label label-info">Comments</span>
-          <span id="Methods" itemid="Methods" class="btn box-item tag label label-info">Methods</span>
-          <span id="Parameters" itemid="Parameters" class="btn box-item tag label label-info">Parameters</span>
-          <span id="ArrayLength" itemid="ArrayLength" class="btn box-item tag label label-info">Array Length</span>
-          <span id="Spaces" itemid="Spaces" class="btn box-item tag label label-info">Spaces</span>
-          <span id="Parentheses" itemid="Parentheses" class="btn box-item tag label label-info">Parentheses</span>
-          <span id="ArithmeticOperators" itemid="ArithmeticOperators" class="btn box-item tag label label-info">Arithmetic operators</span>
-          <span id="Comparisons" itemid="Comparisons" class="btn box-item tag label label-info">Comparisons</span>
-          <span id="Assertions" itemid="Assertions" class="btn box-item tag label label-info">Assertions</span>
-          <span id="Classes" itemid="Classes" class="btn box-item tag label label-info">Classes</span>
-          <span id="Characters" itemid="Characters" class="btn box-item tag label label-info">Characters</span>
-          <span id="Strings" itemid="Strings" class="btn box-item tag label label-info">Strings</span>
-          <span id="Exceptions" itemid="Exceptions" class="btn box-item tag label label-info">Exceptions</span>
-          <span id="Nulls" itemid="Nulls" class="btn box-item tag label label-info">Nulls</span>
-          <span id="Casts" itemid="Casts" class="btn box-item tag label label-info">Casts</span>
-          <span id="Booleans" itemid="Booleans" class="btn box-item tag label label-info">Booleans</span>
-          <span id="Arrays" itemid="Arrays" class="btn box-item tag label label-info">Arrays</span>
-          <span id="Fields" itemid="Fields" class="btn box-item tag label label-info">Fields</span>
+        <div id="tags_container" class="bootstrap-tagsinput">
+          {% for tag in tags %}
+            <span id={{tag}} class="btn tag-item tag label label-info">{{tag}}</span>
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -106,10 +85,8 @@ public void test01()  throws Throwable  {
           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
       </div>
       <div class="panel-body">
-        <div id="scrollable-dropdown-menu">
-          <div id="container2" class="bootstrap-tagsinput" style="padding: 0px;">
-            <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
-          </div>
+        <div id="like-container" class="bootstrap-tagsinput" style="padding: 0px;">
+          <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" style="border-radius: 0px;" />
         </div>
       </div>
     </div>
@@ -121,7 +98,7 @@ public void test01()  throws Throwable  {
           <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
       </div>
       <div class="panel-body">
-        <div id="container3" class="bootstrap-tagsinput" style="padding: 0px;">
+        <div id="dislike-container" class="bootstrap-tagsinput" style="padding: 0px;">
           <input class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
         </div>
       </div>

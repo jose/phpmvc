@@ -22,11 +22,12 @@ class UserModel {
   /**
    *
    */
-  public function addUser($id) {
+  public function addUser($id, $competency_id) {
     try {
-      $query = $this->db->prepare('INSERT INTO User(id) VALUES (:id)');
+      $query = $this->db->prepare('INSERT INTO User(id, competency_id) VALUES (:id, :competency_id)');
       $query->execute(array(
         ':id' => $id,
+        ':competency_id' => $competency_id
       ));
     } catch(PDOExecption $e) {
       $this->db->rollback();

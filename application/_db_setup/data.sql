@@ -18,11 +18,20 @@ USE `phpmvc-example`;
 -- Data
 
 --
+-- Data for table `Competency`
+--
+
+INSERT INTO `Competency` (`id`, `score`) VALUES
+(1, 90),
+(2, 25);
+
+--
 -- Data for table `User`
 --
 
-INSERT INTO `User` (`id`) VALUES
-("xpto");
+INSERT INTO `User` (`id`, `competency_id`) VALUES
+("allowed", 1),
+("notallowed", 2);
 
 -- END
 

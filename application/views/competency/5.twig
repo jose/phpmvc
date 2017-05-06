@@ -1,0 +1,155 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<!-- Progress-Bar -->
+<div class="progress">
+  <div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+    {{ progress }}% {{ constant('PROGRESS_BAR_INFO') }}
+  </div>
+</div>
+
+<!--  -->
+<div class="row row-offcanvas row-offcanvas-left">
+
+  <h4>Please choose the option that exclusively contains variables that are in scope (i.e. defined
+  and usable) on line 15.<br/ > <br/ ></h4>
+
+  <div class="col-xs-12 col-sm-6 col-md-8">
+    <div class="row center-block">
+      <!-- Tab header -->
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">Snippet</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="test">
+          <pre class="line-numbers dashed-line-highlight" data-line="15"><code class="language-java">public String getToolTipText(MouseEvent e) {
+    String result = null;
+    if (this.info != null) {
+        EntityCollection entities = this.info.getEntityCollection();
+        if (entities != null) {
+            Insets insets = getInsets();
+            ChartEntity entity = entities.getEntity(
+                (int) ((e.getX() - insets.left) / this.scaleX),
+                (int) ((e.getY() - insets.top) / this.scaleY)
+            );
+            if (entity != null) {
+                result = entity.getToolTipText();
+            }
+        }
+        System.out.println("debug: " + result);
+    }
+    return result;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-md-4" id="sidebar" role="navigation">
+    <form id="_form" role="form" method="post" action="{{ constant('URL') }}competency/action">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Please choose your answer</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>
+                    {% if option_selected == 1 %}
+                    <label class="active">
+                      <input type="radio" name="_option" value="1" autocomplete="off" role="button" checked/>
+                    </label>
+                    {% else %}
+                    <label class="">
+                      <input type="radio" name="_option" value="1" autocomplete="off" role="button"/>
+                    </label>
+                    {% endif %}
+                  </th>
+                  <td>
+                    <pre><code class="language-java">e, result, this.info</code></pre>
+                  </td>
+                </tr>
+                <!-- -->
+                <tr>
+                  <th>
+                    {% if option_selected == 2 %}
+                    <label class="active">
+                      <input type="radio" name="_option" value="2" autocomplete="off" role="button" checked/>
+                    </label>
+                    {% else %}
+                    <label class="">
+                      <input type="radio" name="_option" value="2" autocomplete="off" role="button"/>
+                    </label>
+                    {% endif %}
+                  </th>
+                  <td>
+                    <pre><code class="language-java">e, result, this.info, entities,
+this.scaleX, this.scaleY</code></pre>
+                  </td>
+                </tr>
+                <!-- -->
+                <tr>
+                  <th>
+                    {% if option_selected == 3 %}
+                    <label class="active">
+                      <input type="radio" name="_option" value="3" autocomplete="off" role="button" checked/>
+                    </label>
+                    {% else %}
+                    <label class="">
+                      <input type="radio" name="_option" value="3" autocomplete="off" role="button"/>
+                    </label>
+                    {% endif %}
+                  </th>
+                  <td>
+                    <pre><code class="language-java">e, result, this.info, entities,
+  insets, entity</code></pre>
+                  </td>
+                </tr>
+                <!-- -->
+                <tr>
+                  <th>
+                    {% if option_selected == 4 %}
+                    <label class="active">
+                      <input type="radio" name="_option" value="4" autocomplete="off" role="button" checked/>
+                    </label>
+                    {% else %}
+                    <label class="">
+                      <input type="radio" name="_option" value="4" autocomplete="off" role="button"/>
+                    </label>
+                    {% endif %}
+                  </th>
+                  <td>
+                    <pre><code class="language-java">e, result, this.info, entities,
+  insets, entity, insets.left,
+  this.scaleX, insets.top,
+  this.scaleY</code></pre>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <p class="text-center">
+        {% if (question_index == 1) and (question_index == total_num_questions) %}
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 100%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index == 1) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 98.5%;">{{ constant('NEXT') }}</button>
+        {% elseif (question_index > 1) and (question_index == total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index > 1) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.0%;">{{ constant('NEXT') }}</button>
+        {% endif %}
+      </p>
+      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -28,6 +28,7 @@ define('SUBMIT', 'Submit your data »');
 define('MESSAGE_ERROR', 'Error:');
 define('MESSAGE_SUCCESS', '');
 define('PROGRESS_BAR_INFO', 'Complete');
+define('THANKS_MESSAGE', 'Thank you very much for your time!');
 
 // snippets
 define('SNIPPET', 'Snippet');
@@ -44,5 +45,14 @@ define('PASS', 'Pass');
 define('FAIL', 'Fail');
 define('TAGS', 'Tags');
 define('TAGS_BOX_PLACE_HOLDER', 'Drag & Drop tags, or type tag names');
+
+// competency
+define('COMPETENCY_TITLE', 'Java Competency Test');
+define('COMPETENCY_SUB_TITLE', 'Please click on \'Start »\' button to begin the test.');
+define('COMPETENCY_SUBMIT_MESSAGE', 'You have finished your test, please submit your answers.');
+define('INCOMPLETE_COMPETENCY', 'You have to answer all your questions!');
+define('COMPETENCY_RESULT_SUCESS', '');
+define('ALREADY_DONE_COMPETENCY', 'User with ID: \'$user_id\', already have done the competency test.');
+define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' with a score of $score%.');
 
 ?>

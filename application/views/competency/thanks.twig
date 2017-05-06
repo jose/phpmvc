@@ -1,0 +1,26 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<div class="jumbotron">
+  <h1>{{ constant('COMPETENCY_TITLE') }}</h1>
+  <p>{{ constant('THANKS_MESSAGE') }}</p>
+  <br /><br />
+  <p>Thank you for answering the qualification questions.
+  
+  {% if score >= threshold_score %}
+    You achieved a score of {{ score }}%. <br />
+    We will be in touch with you soon to let you know whether you
+    are eligible to take part in our unit testing study.
+    <br /><br />
+
+    Please note that you will not have to do the competency quiz again
+    if you do any future HITs with the same qualification.
+  {% else %}
+    Unfortunately, you only achieved a score of {{ score }}%. <br />
+    We are sorry but without qualification you cannot proceed to take
+    the survey.
+  {% endif %}
+  </p>
+</div>
+
+{% endblock %}

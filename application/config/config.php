@@ -30,6 +30,11 @@ define('PATH_VIEWS', 'application/views/'); // path to views
 define('PATH_VIEW_FILE_TYPE', '.twig'); // ending of your view files, like .php, .twig or similar.
 
 /**
+ * Custom configurations
+ */
+define('PATH_CONFS', 'application/config/');
+
+/**
  * Upload
  */
 define('UPLOAD_SIZE', 1000000);

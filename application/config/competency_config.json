@@ -1,0 +1,26 @@
+{
+  "threshold_score": 75,
+  "num_questions": 5,
+  "questions_answers": [
+    {
+      "question_id": 1,
+      "answer": 1
+    },
+    {
+      "question_id": 2,
+      "answer": 1
+    },
+    {
+      "question_id": 3,
+      "answer": 4
+    },
+    {
+      "question_id": 4,
+      "answer": 3
+    },
+    {
+      "question_id": 5,
+      "answer": 2
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<div class="jumbotron">
+  <h1>{{ constant('COMPETENCY_TITLE') }}</h1>
+  <p>{{ constant('COMPETENCY_SUB_TITLE') }}</p>
+</div>
+
+<p>This survey requires a Java qualification.<br/> The Java
+qualification test consists of <b>{{ total_num_questions }} code
+snippets</b> associated with questions. All {{ total_num_questions }}
+questions are multiple choice, please answer them to the best of your
+ability. <br /> <br /> You should not need previous knowledge of the
+system or any contextual information to answer these questions -- they
+are designed to test basic knowledge of the language.</p>
+
+<form role="form" method="post" action="{{ constant('URL') }}competency/action">
+<div class="row center-block">
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">{{ constant('START') }}</button>
+  </p>
+</div>
+</form>
+
+{% endblock %}

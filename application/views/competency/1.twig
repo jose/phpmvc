@@ -1,0 +1,221 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<!-- Progress-Bar -->
+<div class="progress">
+  <div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+    {{ progress }}% {{ constant('PROGRESS_BAR_INFO') }}
+  </div>
+</div>
+
+
+<div class="row row-offcanvas row-offcanvas-left">
+
+  <h4>Given the following source code and test cases, which of the
+  JUnit tests will pass in your opinion? <br/ > <br/ ></h4>
+
+  <!--
+    Source Code
+  -->
+  <div class="col-xs-6 col-sm-9 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('SOURCE') }}</h3>
+      </div>
+      <div class="panel-body">
+        <pre><code class="language-java">public class Stack {
+  private int[] elems;
+  private int index = -1;
+
+  public Stack(int size) throws Exception {
+    if (size < 1)
+      throw new Exception("Stack size could not "
+              + "be zero or negative");
+      this.elems = new int[size];
+  }
+
+  public boolean isEmpty() {
+    return this.index == -1;
+  }
+
+  public boolean isFull() {
+    return this.index == (this.elems.length - 1);
+  }
+
+  public void push(int elem) throws Exception {
+    if (this.index == this.elems.length)
+      throw new Exception("Stack is full");
+    this.elems[++this.index] = elem;
+  }
+
+  public int pop() throws Exception {
+    if (this.index == -1)
+      throw new Exception("Stack is empty");
+    return this.elems[this.index--];
+  }
+
+  public int peek() throws Exception {
+    if (this.index == -1)
+      throw new Exception("Stack is empty");
+    return this.elems[this.index];
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+  <!--
+    Test Case
+  -->
+  <div class="col-xs-6 col-sm-9 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TEST_CASE') }}</h3>
+      </div>
+      <div class="panel-body">
+        <pre><code class="language-java">import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class StackTest {
+  @Test
+  public void test1() {
+    try {
+      new Stack(0);
+      fail("Stack size zero");
+    } catch (Exception e) {
+      // expected
+    }
+  }
+
+  @Test
+  public void test2() throws Exception {
+   Stack stack = new Stack(10);
+   assertTrue(stack.isEmpty());
+  }
+
+  @Test
+  public void test3() throws Exception {
+    Stack stack = new Stack(3);
+    stack.push(5);
+    assertTrue(stack.isEmpty());
+    assertEquals(5, stack.peek());
+  }
+
+  @Test
+  public void test4() throws Exception {
+    Stack stack = new Stack(2);
+    stack.push(7);
+    assertTrue(stack.isFull());
+  }
+
+  @Test
+  public void test5() throws Exception {
+    Stack stack = new Stack(1);
+    stack.push(3);
+    stack.pop();
+    assertTrue(stack.isEmpty());
+  }
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}competency/action">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Please choose your answer</h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <!-- -->
+            <tr>
+              <th>
+                {% if option_selected == 1 %}
+                <label class="active">
+                  <input type="radio" name="_option" value="1" autocomplete="off" role="button" checked/>
+                </label>
+                {% else %}
+                <label class="">
+                  <input type="radio" name="_option" value="1" autocomplete="off" role="button" />
+                </label>
+                {% endif %}
+              </th>
+              <td>
+                <pre><code class="language-none">test1, test2, test5</code></pre>
+              </td>
+            </tr>
+            <!-- -->
+            <tr>
+              <th>
+                {% if option_selected == 2 %}
+                <label class="active">
+                  <input type="radio" name="_option" value="2" autocomplete="off" role="button" checked/>
+                </label>
+                {% else %}
+                <label class="">
+                  <input type="radio" name="_option" value="2" autocomplete="off" role="button"/>
+                </label>
+                {% endif %}
+              </th>
+              <td>
+                <pre><code class="language-none">test2, test4</code></pre>
+              </td>
+            </tr>
+            <!-- -->
+            <tr>
+              <th>
+                {% if option_selected == 3 %}
+                <label class="active">
+                  <input type="radio" name="_option" value="3" autocomplete="off" role="button" checked/>
+                </label>
+                {% else %}
+                <label class="">
+                  <input type="radio" name="_option" value="3" autocomplete="off" role="button" />
+                </label>
+                {% endif %}
+              </th>
+              <td>
+                <pre><code class="language-none">test2, test3, test5</code></pre>
+              </td>
+            </tr>
+            <!-- -->
+            <tr>
+              <th>
+                {% if option_selected == 4 %}
+                <label class="active">
+                  <input type="radio" name="_option" value="4" autocomplete="off" role="button" checked/>
+                </label>
+                {% else %}
+                <label class="">
+                  <input type="radio" name="_option" value="4" autocomplete="off" role="button" />
+                </label>
+                {% endif %}
+              </th>
+              <td>
+                <pre><code class="language-none">test1, test2, test3, test4, test5</code></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="text-center">
+    {% if (question_index == 1) and (question_index == total_num_questions) %}
+      <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 100%;">{{ constant('SUBMIT') }}</button>
+    {% elseif (question_index == 1) and (question_index != total_num_questions) %}
+      <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 98.5%;">{{ constant('NEXT') }}</button>
+    {% elseif (question_index > 1) and (question_index == total_num_questions) %}
+      <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+      <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+    {% elseif (question_index > 1) and (question_index != total_num_questions) %}
+      <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+      <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.0%;">{{ constant('NEXT') }}</button>
+    {% endif %}
+  </p>
+  <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
+</form>
+
+{% endblock %}

@@ -36,6 +36,9 @@ class Home extends Controller {
       if (!$user_model->exists($user_id)) {
         // new user
         Session::set('s_messages', array("User '$user_id' is not in the database"));
+        // new competency java test
+        header('location: ' . URL . 'competency?user_id=' . $user_id);
+        return;
       } else {
         // existing user
         Session::set('s_messages', array("User '$user_id' is in the database"));

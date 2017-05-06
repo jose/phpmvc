@@ -49,16 +49,21 @@ function get_related_tags_container(id) {
 }
 
 $(document).ready(function() {
+
+  // collect tags from an existing container, i.e., the all tags
+  // container
+  tags = [];
+  $('.bootstrap-tagsinput').first().find('span').each(function() {
+    tags.push($(this).text());
+  });
+
+  if (tags.length == 0) {
+    return;
+  }
+
   init_draggables();
   init_droppables();
 
-  // read tags from a file
-  tags = $.get('../public/tags.json');
-
-  // TODO currently 'all' tags container is populated with tags from
-  // a database. the autocomplete system works with a list of tags
-  // from a file. we need to find a way to synchronise both, or just
-  // one system (either db or file)
   $('.tagsinput-typeahead').tagsinput({
     allowDuplicates: false,
     freeInput: false,

@@ -153,7 +153,7 @@ widthScaleFactor = 10;</code></pre>
         {% if (question_index == 1) and (question_index == total_num_questions) %}
           <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 98.5%;">{{ constant('SUBMIT') }}</button>
         {% elseif (question_index == 1) and (question_index != total_num_questions) %}
-          <button class="btn btn-default" type="submit" name="submit" value="Nest" style="width: 98.5%;">{{ constant('NEXT') }}</button>
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 98.5%;">{{ constant('NEXT') }}</button>
         {% elseif (question_index > 1) and (question_index == total_num_questions) %}
           <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
           <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>

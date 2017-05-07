@@ -6,7 +6,7 @@
 class Study extends Controller {
 
   // a score < than will not allow user to perform the study
-  public $threshold_score;
+  private $threshold_score;
 
   private $study_type;
 

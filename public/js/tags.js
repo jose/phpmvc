@@ -105,15 +105,6 @@ $(document).ready(function() {
     }
   });
 
-  // after adding a tag to a container, set its' id
-  $('.draggable_container').on('itemAdded', function(event) {
-    $(this).find('span').each(function() {
-      if ($(this).text() == event.item) {
-        $(this).attr('id', event.item);
-      }
-    });
-  });
-
   // add tag back to the 'all' tags container
   $('.draggable_container').on('itemRemoved', function(event) {
     if (removeAfterAdding) {

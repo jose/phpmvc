@@ -1,0 +1,122 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<!-- Progress-Bar -->
+<div class="progress">
+  <div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+    {{ progress }}% {{ constant('PROGRESS_BAR_INFO') }}
+  </div>
+</div>
+
+<!-- TestCase and a box to put tags -->
+<div class="row row-offcanvas row-offcanvas-left">
+
+  <h4>(instructions) <br/ > <br/ ></h4>
+
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}study/action">
+
+  <!-- TestCase -->
+  <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
+    <div class="row center-block">
+      <!-- Tab header -->
+      <ul class="nav nav-tabs" id="test_case_tab">
+        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">{{ constant('TEST_CASE') }}</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="test">
+          <pre class="scrollable_snippet"><code class="language-java">{{ snippet_source_code }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="row center-block">
+      <p class="text-center">
+        {% if (question_index == 0) and (question_index == total_num_questions) %}
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 100%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index == 0) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 100%;">{{ constant('NEXT') }}</button>
+        {% elseif (question_index > 0) and (question_index == total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.5%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.5%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index > 0) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.5%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.5%;">{{ constant('NEXT') }}</button>
+        {% endif %}
+      </p>
+      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
+
+    <!-- All Tags -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+      </div>
+      <div class="panel-body">
+        <div id="tags_container" class="bootstrap-tagsinput">
+          {% for tag in tags %}
+            <span id={{tag}} class="btn tag-item tag label label-info">{{tag}}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Like -->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+      </div>
+      <div class="panel-body">
+        <div id="like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+          <input name="like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Dislike -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+      </div>
+      <div class="panel-body">
+        <div id="dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+          <input name="dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="Type a tag name" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Star rating -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-star" aria-hidden="true"></i>  Rating</h3>
+      </div>
+      <div class="panel-body text-center">
+        <input id="star-rating" name="star-rating" type="text" value="{{ num_stars }}" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
+      </div>
+    </div>
+  </div>
+
+</form>
+</div>
+
+<!-- keep session tags -->
+<script type="text/javascript">
+$(document).ready(function() {
+  {% for like in likes %}
+    var tag = $('#tags_container').find({{like}}).text();
+    $('#like-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
+  {% endfor %}
+  {% for dislike in dislikes %}
+    var tag = $('#tags_container').find({{dislike}}).text();
+    $('#dislike-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
+  {% endfor %}
+});
+</script>
+
+{% endblock %}

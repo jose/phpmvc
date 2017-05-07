@@ -1,0 +1,24 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<div class="jumbotron">
+  <h1>{{ constant('SURVEY_TITLE') }}</h1>
+  <p>{{ constant('SURVEY_SUB_TITLE') }}</p>
+</div>
+
+<p>Since you have already passed the Java qualification, you can
+immediately proceed with the Readability Survey. <br /> <br />
+This survey consists of <b>{{ total_num_questions }} code snippets</b>
+with associated questions. Please answer them to the best of your
+ability. <br /> Any knowledge of the system or any contextual
+information to answer these questions is provided.</p>
+
+<form role="form" method="post" action="{{ constant('URL') }}study/action">
+<div class="row center-block">
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">{{ constant('START') }}</button>
+  </p>
+</div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<div class="jumbotron">
+  <h1>{{ constant('SURVEY_TITLE') }}</h1>
+  <p>{{ constant('THANKS_MESSAGE') }}</p>
+  <br /><br />
+  <p>{{ constant('TOKEN_MESSAGE') }} {{ token }}</p>
+</div>
+
+{% endblock %}

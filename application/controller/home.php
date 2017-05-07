@@ -34,17 +34,12 @@ class Home extends Controller {
       $user_model = $this->loadModel('user');
 
       if (!$user_model->exists($user_id)) {
-        // new user
-        Session::set('s_messages', array("User '$user_id' is not in the database"));
         // new competency java test
         header('location: ' . URL . 'competency?user_id=' . $user_id);
         return;
       } else {
         // existing user
-        Session::set('s_messages', array("User '$user_id' is in the database"));
-
-        // go to 'examples'
-        header('location: ' . URL . 'example');
+        header('location: ' . URL . 'study?user_id=' . $user_id);
         return;
       }
     }

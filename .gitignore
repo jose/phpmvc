@@ -619,7 +619,8 @@ composer.lock
 
 # ------------------------------------------------------------- Custom
 
-
+public/snippets/
+public/subjects/
 
 # EOF
 

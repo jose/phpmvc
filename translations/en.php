@@ -9,16 +9,16 @@
  */
 
 // website
-define('WEBPAGE_TITLE', 'PHP-MVC framework');
+define('WEBPAGE_TITLE', 'Java Unit Testing Study');
 
 // database
 define('MESSAGE_DATABASE_ERROR', 'Database connection problem');
 
 // home
-define('HOME_TITLE', 'Home Title');
-define('HOME_SUB_TITLE', 'Home Sub-Title');
-define('USER_ID_LABEL', 'User ID');
-define('USER_ID_PLACE_HOLDER', 'User ID');
+define('HOME_TITLE', 'Java Unit Testing Study');
+define('HOME_SUB_TITLE', 'Please insert your \'Prolific Academic ID\' and click on \'Start »\' button to begin the survey.');
+define('USER_ID_LABEL', 'Prolific Academic ID');
+define('USER_ID_PLACE_HOLDER', 'Write here your Prolific Academic ID (e.g., A3IZSXSSGW80FN)');
 
 // app
 define('START', 'Start »');

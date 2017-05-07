@@ -21,6 +21,16 @@ class Study extends Controller {
   function __construct() {
     parent::__construct();
 
+    if (Session::get('token') !== null) {
+      // to avoid reading parameters over and over
+      $this->study_type = Session::get('study_type');
+      $this->num_questions = Session::get('num_questions');
+      $this->allow_multiple_attempts = Session::get('allow_multiple_attempts');
+      $this->threshold_score = Session::get('threshold_score');
+
+      return;
+    }
+
     // read configurations
     $configurations = json_decode(file_get_contents(PATH_CONFS . "study_config.json"), true);
     if (!isset($configurations) || $configurations == null) {
@@ -39,8 +49,13 @@ class Study extends Controller {
     }
 
     $this->study_type = $type_of_studies[array_rand($configurations['type'])];
+    Session::set('study_type', $this->study_type);
+
     $this->num_questions = $configurations[$this->study_type][0]['num_questions'];
+    Session::set('num_questions', $this->num_questions);
+
     $this->allow_multiple_attempts = (strtolower($configurations[$this->study_type][0]['allow_multiple_attempts']) == "no" ? false : true);
+    Session::set('allow_multiple_attempts', $this->allow_multiple_attempts);
 
     if (!isset($this->study_type) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
       Session::set('s_errors', array('study_configuration' => 'Configuration file is not well formed.'));
@@ -55,6 +70,7 @@ class Study extends Controller {
     }
 
     $this->threshold_score = $configurations['threshold_score'];
+    Session::set('threshold_score', $this->threshold_score);
   }
 
   /**

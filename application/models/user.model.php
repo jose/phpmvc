@@ -62,6 +62,18 @@ class UserModel {
 
     return $query->fetchObject();
   }
+
+  /**
+   *
+   */
+  public function getCompetencyScore($id) {
+    $query = $this->db->prepare("SELECT score FROM User, Competency WHERE User.id = :id AND User.competency_id = Competency.id");
+    $query->execute(array(
+      ':id' => $id
+    ));
+
+    return $query->fetchObject()->score;
+  }
 }
 
 ?>

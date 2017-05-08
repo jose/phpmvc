@@ -17,16 +17,12 @@
 
   <!-- TestCase -->
   <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
-    <div class="row center-block">
-      <!-- Tab header -->
-      <ul class="nav nav-tabs" id="test_case_tab">
-        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">{{ constant('TEST_CASE') }}</a></li>
-      </ul>
-      <!-- Tab content -->
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="test">
-          <pre class="scrollable_snippet"><code class="language-java">{{ snippet_source_code }}</code></pre>
-        </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TEST_CASE') }}</h3>
+      </div>
+      <div class="panel-body">
+        <pre class="scrollable_snippet"><code class="language-java">{{ snippet_source_code }}</code></pre>
       </div>
     </div>
 

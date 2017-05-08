@@ -77,6 +77,9 @@ span.glyphicon-triangle-bottom {
   border: 0px;
   width: 100%;
 }
+.bootstrap-tagsinput input {
+  width: 100%;
+}
 .bootstrap-tagsinput .label {
   display: inline-block;
 }

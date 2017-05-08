@@ -392,13 +392,13 @@ class Study extends Controller {
     $how_many_answered_so_far = 0;
     foreach ($questions as $question) {
       if ($question['question_type'] == "individual") {
-        if ((count($question['likes']) + count($question['dislikes']) == count($question['tags']))
-            && ($question['num_stars'] > 0.0)) {
+        if (count($question['likes']) > 0 || count($question['dislikes']) > 0) {
           $how_many_answered_so_far++;
         }
       } else if ($question['question_type'] == "pair") {
-        if ((count($question['snippet_a_likes']) + count($question['snippet_a_dislikes']) + count($question['snippet_b_likes']) + count($question['snippet_b_dislikes']) == count($question['tags']) * 2)
-            && ($question['chosen_snippet_id'] != "")) {
+        if ((count($question['snippet_a_likes']) > 0 || count($question['snippet_a_dislikes']) > 0)
+            && (count($question['snippet_b_likes']) > 0 || count($question['snippet_b_dislikes']) > 0)
+            && $question['chosen_snippet_id'] != "") {
           $how_many_answered_so_far++;
         }
       }
@@ -427,13 +427,13 @@ class Study extends Controller {
       $completed = true;
 
       if ($question['question_type'] == "individual") {
-        if ((count($question['likes']) + count($question['dislikes']) != count($question['tags']))
-            || ($question['num_stars'] == 0.0)) {
+        if (count($question['likes']) == 0 && count($question['dislikes']) == 0) {
           $completed = false;
         }
       } else if ($question['question_type'] == "pair") {
-        if ((count($question['snippet_a_likes']) + count($question['snippet_a_dislikes']) + count($question['snippet_b_likes']) + count($question['snippet_b_dislikes']) != count($question['tags']) * 2)
-              || ($question['chosen_snippet_id'] == "")) {
+        if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
+            || (count($question['snippet_b_likes']) == 0 || count($question['snippet_b_dislikes']) == 0)
+            || $question['chosen_snippet_id'] == "") {
           $completed = false;
         }
       }

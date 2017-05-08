@@ -338,6 +338,9 @@ class Study extends Controller {
 
     // no answer?
     $dont_know = isset($_POST['dont_know_textarea']) ? $_POST['dont_know_textarea'] : '';
+    if (str_word_count($dont_know) == 0) {
+      $dont_know = '';
+    }
 
     $is_it_complete = true;
     if ($dont_know != '') {

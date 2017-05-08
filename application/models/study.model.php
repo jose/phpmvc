@@ -103,13 +103,14 @@ class StudyModel {
   /**
    *
    */
-  public function createStudy($type, $user_id, $time_to_answer) {
+  public function createStudy($type, $user_id, $time_to_answer, $dont_know_answer) {
     try {
-      $query = $this->db->prepare('INSERT INTO Study(type, user_id, time_to_answer) VALUES (:type, :user_id, :time_to_answer)');
+      $query = $this->db->prepare('INSERT INTO Study(type, user_id, time_to_answer, dont_know_answer) VALUES (:type, :user_id, :time_to_answer, :dont_know_answer)');
       $query->execute(array(
         ':type' => $type,
         ':user_id' => $user_id,
-        ':time_to_answer' => $time_to_answer
+        ':time_to_answer' => $time_to_answer,
+        ':dont_know_answer' => $dont_know_answer
       ));
     } catch(PDOExecption $e) {
       $this->db->rollback();

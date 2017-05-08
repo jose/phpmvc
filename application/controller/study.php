@@ -132,26 +132,18 @@ class Study extends Controller {
 
       $action_to_perform = 'study/question/' . $question_index;
     } else if ($_POST['submit'] == 'Next') {
-      $this->trackAnswer($question_index);
-
-      $question_index++;
-      Session::set('question_index', $question_index);
-
-      $this->progressBar();
-
-      $action_to_perform = 'study/question/' . $question_index;
-    } else if ($_POST['submit'] == 'Previous') {
-      $this->trackAnswer($question_index);
-
-      $question_index--;
-      Session::set('question_index', $question_index);
-
-      $this->progressBar();
-
+      if ($this->registerAnswer($question_index)) {
+        $question_index++; // next question number
+        Session::set('question_index', $question_index);
+        $this->progressBar();
+      }
       $action_to_perform = 'study/question/' . $question_index;
     } else if ($_POST['submit'] == 'Submit') {
-      $this->trackAnswer($question_index);
-      $action_to_perform = 'study/submit/';
+      if ($this->registerAnswer($question_index)) {
+        $action_to_perform = 'study/submit/';
+      } else  {
+        $action_to_perform = 'study/question/' . $question_index;
+      }
     }
 
     header('location: ' . URL . $action_to_perform);
@@ -208,6 +200,7 @@ class Study extends Controller {
           'snippet_source_code' => file_get_contents(URL . $selected_snippet->path),
           'time_to_answer' => 0,
           'num_stars' => 0.0,
+          'dont_know' => '',
           'tags' => $tags_names,
           'likes' => array(),
           'dislikes' => array(),
@@ -266,6 +259,7 @@ class Study extends Controller {
           'snippet_b_likes' => array(),
           'snippet_b_dislikes' => array(),
           'chosen_snippet_id' => '',
+          'dont_know' => '',
           'tags' => $tags_names,
           'time_to_answer' => 0,
           'question_type' => 'pair'
@@ -290,13 +284,11 @@ class Study extends Controller {
       return;
     }
 
-    if ($question_index > $this->num_questions-1) {
-      header('location: ' . URL . 'study/question/' . Session::get('question_index'));
+    $it_should_be_at_question_index = Session::get('question_index');
+    if ($question_index != $it_should_be_at_question_index) {
+      header('location: ' . URL . 'study/question/' . $it_should_be_at_question_index);
       return;
     }
-
-    // if user use back button
-    Session::set('question_index', $question_index);
 
     $question = Session::get('questions')[$question_index];
 
@@ -311,6 +303,7 @@ class Study extends Controller {
         'likes' => $question['likes'],
         'dislikes' => $question['dislikes'],
         'num_stars' => $question['num_stars'],
+        'dont_know' => $question['dont_know'],
         'total_num_questions' => $this->num_questions-1
       ));
     } else if ($question['question_type'] == "pair") {
@@ -327,6 +320,7 @@ class Study extends Controller {
         'snippet_b_likes' => $question['snippet_b_likes'],
         'snippet_b_dislikes' => $question['snippet_b_dislikes'],
         'chosen_snippet_id' => $question['chosen_snippet_id'],
+        'dont_know' => $question['dont_know'],
         'total_num_questions' => $this->num_questions-1
       ));
     }
@@ -335,52 +329,50 @@ class Study extends Controller {
   /**
    *
    */
-  private function trackAnswer($question_index) {
+  private function registerAnswer($question_index) {
     $questions = Session::get('questions');
     $question = $questions[$question_index];
 
-    $updated = false;
-    if ($question['question_type'] == "individual") {
-      $likes = ($_POST['like-container'] == "" ? array() : explode(',', $_POST['like-container']));
-      $dislikes = ($_POST['dislike-container'] == "" ? array() : explode(',', $_POST['dislike-container']));
-      $num_stars = $_POST['star-rating'];
+    // tracking time
+    $question['time_to_answer'] = $_POST['time_to_answer'];
 
-      if ($likes != $question['likes']
-          || $dislikes != $question['dislikes']
-          || $num_stars != $question['num_stars']) {
-        $updated = true;
-        $question['likes'] = $likes;
-        $question['dislikes'] = $dislikes;
-        $question['num_stars'] = $num_stars;
-      }
-    } else if ($question['question_type'] == "pair") {
-      $snippet_a_likes = ($_POST['test_case_a_like-container'] == "" ? array() : explode(',', $_POST['test_case_a_like-container']));
-      $snippet_a_dislikes = ($_POST['test_case_a_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_a_dislike-container']));
-      $snippet_b_likes = ($_POST['test_case_b_like-container'] == "" ? array() : explode(',', $_POST['test_case_b_like-container']));
-      $snippet_b_dislikes = ($_POST['test_case_b_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_b_dislike-container']));
-      $chosen_snippet_id = $_POST['chosen_snippet_id'];
+    // no answer?
+    $dont_know = isset($_POST['dont_know_textarea']) ? $_POST['dont_know_textarea'] : '';
 
-      if ($snippet_a_likes != $question['snippet_a_likes']
-          || $snippet_a_dislikes != $question['snippet_a_dislikes']
-          || $snippet_b_likes != $question['snippet_b_likes']
-          || $snippet_b_dislikes != $question['snippet_b_dislikes']
-          || $chosen_snippet_id != $question['chosen_snippet_id']) {
-        $updated = true;
-        $question['snippet_a_likes'] = $snippet_a_likes;
-        $question['snippet_a_dislikes'] = $snippet_a_dislikes;
-        $question['snippet_b_likes'] = $snippet_b_likes;
-        $question['snippet_b_dislikes'] = $snippet_b_dislikes;
-        $question['chosen_snippet_id'] = $chosen_snippet_id;
+    $is_it_complete = true;
+    if ($dont_know != '') {
+      $question['dont_know'] = $dont_know;
+    } else {
+      if ($question['question_type'] == "individual") {
+        $question['likes'] = ($_POST['like-container'] == "" ? array() : explode(',', $_POST['like-container']));
+        $question['dislikes'] = ($_POST['dislike-container'] == "" ? array() : explode(',', $_POST['dislike-container']));
+        $question['num_stars'] = $_POST['star-rating'];
+
+        if (count($question['likes']) == 0 && count($question['dislikes']) == 0) {
+          Session::set('s_errors', array(INCOMPLETE_ANSWER));
+          $is_it_complete = false;
+        }
+      } else if ($question['question_type'] == "pair") {
+        $question['snippet_a_likes'] = ($_POST['test_case_a_like-container'] == "" ? array() : explode(',', $_POST['test_case_a_like-container']));
+        $question['snippet_a_dislikes'] = ($_POST['test_case_a_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_a_dislike-container']));
+        $question['snippet_b_likes'] = ($_POST['test_case_b_like-container'] == "" ? array() : explode(',', $_POST['test_case_b_like-container']));
+        $question['snippet_b_dislikes'] = ($_POST['test_case_b_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_b_dislike-container']));
+        $question['chosen_snippet_id'] = $_POST['chosen_snippet_id'];
+
+        if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
+            || (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)
+            || $question['chosen_snippet_id'] == "") {
+          Session::set('s_errors', array(INCOMPLETE_ANSWER));
+          $is_it_complete = false;
+        }
       }
     }
 
-    // has answer been updated?
-    if ($updated) {
-      $question['time_to_answer'] = $question['time_to_answer'] + $_POST['time_to_answer'];
+    // update questions
+    $questions[$question_index] = $question;
+    Session::set('questions', $questions);
 
-      $questions[$question_index] = $question;
-      Session::set('questions', $questions);
-    }
+    return $is_it_complete;
   }
 
   /**
@@ -391,15 +383,19 @@ class Study extends Controller {
 
     $how_many_answered_so_far = 0;
     foreach ($questions as $question) {
-      if ($question['question_type'] == "individual") {
-        if (count($question['likes']) > 0 || count($question['dislikes']) > 0) {
-          $how_many_answered_so_far++;
-        }
-      } else if ($question['question_type'] == "pair") {
-        if ((count($question['snippet_a_likes']) > 0 || count($question['snippet_a_dislikes']) > 0)
-            && (count($question['snippet_b_likes']) > 0 || count($question['snippet_b_dislikes']) > 0)
-            && $question['chosen_snippet_id'] != "") {
-          $how_many_answered_so_far++;
+      if ($question['dont_know'] != '') {
+        $how_many_answered_so_far++;
+      } else {
+        if ($question['question_type'] == "individual") {
+          if (count($question['likes']) > 0 || count($question['dislikes']) > 0) {
+            $how_many_answered_so_far++;
+          }
+        } else if ($question['question_type'] == "pair") {
+          if ((count($question['snippet_a_likes']) > 0 || count($question['snippet_a_dislikes']) > 0)
+              && (count($question['snippet_b_likes']) > 0 || count($question['snippet_b_dislikes']) > 0)
+              && $question['chosen_snippet_id'] != "") {
+            $how_many_answered_so_far++;
+          }
         }
       }
     }
@@ -426,13 +422,17 @@ class Study extends Controller {
       $question = $questions[$question_index];
       $completed = true;
 
+      if ($question['dont_know'] != '') {
+        continue;
+      }
+
       if ($question['question_type'] == "individual") {
         if (count($question['likes']) == 0 && count($question['dislikes']) == 0) {
           $completed = false;
         }
       } else if ($question['question_type'] == "pair") {
         if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
-            || (count($question['snippet_b_likes']) == 0 || count($question['snippet_b_dislikes']) == 0)
+            || (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)
             || $question['chosen_snippet_id'] == "") {
           $completed = false;
         }
@@ -494,7 +494,7 @@ class Study extends Controller {
         }
 
         // create a general study
-        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer']);
+        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know']);
         if ($study_id == -1) {
           Session::set('s_errors', array("It was not possible to create a general study!"));
           // TODO revert DB
@@ -548,7 +548,7 @@ class Study extends Controller {
         }
 
         // create a general study
-        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer']);
+        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know']);
         if ($study_id == -1) {
           Session::set('s_errors', array("It was not possible to create a general study!"));
           // TODO revert DB
@@ -581,6 +581,7 @@ class Study extends Controller {
             print("<th>num_stars</th>");
             print("<th>likes</th>");
             print("<th>dislikes</th>");
+            print("<th>don't know</th>");
           print("</tr>");
           print("<tr>");
             print("<td>" . $question['question_type'] . "</td>");
@@ -589,6 +590,7 @@ class Study extends Controller {
             print("<td>" . $question['num_stars'] . "</td>");
             print("<td>" . implode(',', $question['likes']) . "</td>");
             print("<td>" . implode(',', $question['dislikes']) . "</td>");
+            print("<td>" . $question['dont_know'] . "</td>");
           print("</tr>");
         print("</table>");
         print("<br />");
@@ -604,6 +606,7 @@ class Study extends Controller {
             print("<th>snippet_a_dislikes</th>");
             print("<th>snippet_b_likes</th>");
             print("<th>snippet_b_dislikes</th>");
+            print("<th>don't know</th>");
           print("</tr>");
           print("<tr>");
             print("<td>" . $question['question_type'] . "</td>");
@@ -615,6 +618,7 @@ class Study extends Controller {
             print("<td>" . implode(',', $question['snippet_a_dislikes']) . "</td>");
             print("<td>" . implode(',', $question['snippet_b_likes']) . "</td>");
             print("<td>" . implode(',', $question['snippet_b_dislikes']) . "</td>");
+            print("<td>" . $question['dont_know'] . "</td>");
           print("</tr>");
         print("</table>");
         print("<br />");

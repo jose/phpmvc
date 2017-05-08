@@ -25,23 +25,6 @@
         <pre class="scrollable_snippet"><code class="language-java">{{ snippet_source_code }}</code></pre>
       </div>
     </div>
-
-    <div class="row center-block">
-      <p class="text-center">
-        {% if (question_index == 0) and (question_index == total_num_questions) %}
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 100%;">{{ constant('SUBMIT') }}</button>
-        {% elseif (question_index == 0) and (question_index != total_num_questions) %}
-          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 100%;">{{ constant('NEXT') }}</button>
-        {% elseif (question_index > 0) and (question_index == total_num_questions) %}
-          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.5%">{{ constant('PREVIOUS') }}</button>
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.5%;">{{ constant('SUBMIT') }}</button>
-        {% elseif (question_index > 0) and (question_index != total_num_questions) %}
-          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.5%">{{ constant('PREVIOUS') }}</button>
-          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.5%;">{{ constant('NEXT') }}</button>
-        {% endif %}
-      </p>
-      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
-    </div>
   </div>
 
   <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
@@ -105,6 +88,23 @@
       <div class="panel-body">
         <textarea name="justification" class="justification_textarea form-control" rows="6" placeholder="{{ constant('JUSTIFICATION_BOX_PLACE_HOLDER') }}"></textarea>
       </div>
+    </div>
+
+    <div class="row center-block">
+      <p class="text-center">
+        {% if (question_index == 0) and (question_index == total_num_questions) %}
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 100%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index == 0) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 100%;">{{ constant('NEXT') }}</button>
+        {% elseif (question_index > 0) and (question_index == total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+        {% elseif (question_index > 0) and (question_index != total_num_questions) %}
+          <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 29.5%">{{ constant('PREVIOUS') }}</button>
+          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 69.0%;">{{ constant('NEXT') }}</button>
+        {% endif %}
+      </p>
+      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
     </div>
   </div>
 

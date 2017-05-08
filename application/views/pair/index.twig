@@ -39,7 +39,8 @@
     <!-- All Tags -->
     <div class="panel panel-info">
       <div class="panel-heading">
-        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+        <h3 class="panel-title">
+          <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
       </div>
       <div class="panel-body">
         <div id="test_case_a_tags_container" class="bootstrap-tagsinput">
@@ -80,11 +81,15 @@
 
     <!-- Opinion about -->
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Justify</h3>
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">
+          <i class="fa fa-sticky-note-o" aria-hidden="true"></i>  Don't know</h3>
+        <div class="pull-right">
+          <input name="dontknow_test_case_a" type="checkbox" id="dontknow_test_case_a" onchange="enableDisableDontKnowTextArea(this)" />
+        </div>
       </div>
       <div class="panel-body">
-        <textarea name="test_case_a_justification" class="justification_textarea form-control" rows="4" placeholder="{{ constant('JUSTIFICATION_BOX_PLACE_HOLDER') }}"></textarea>
+        <textarea name="dontknow_test_case_a_textarea" id="dontknow_test_case_a_textarea" class="dontknow_textarea form-control" rows="4" placeholder="{{ constant('DONTKNOW_BOX_PLACE_HOLDER') }}" disabled></textarea>
       </div>
     </div>
   </div>
@@ -115,7 +120,8 @@
     <!-- All Tags -->
     <div class="panel panel-info">
       <div class="panel-heading">
-        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+        <h3 class="panel-title">
+          <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
       </div>
       <div class="panel-body">
         <div id="test_case_b_tags_container" class="bootstrap-tagsinput">
@@ -156,11 +162,15 @@
 
     <!-- Opinion about -->
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Justify</h3>
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">
+          <i class="fa fa-sticky-note-o" aria-hidden="true"></i>  Don't know</h3>
+        <div class="pull-right">
+          <input name="dontknow_test_case_b" type="checkbox" id="dontknow_test_case_b" onchange="enableDisableDontKnowTextArea(this)" />
+        </div>
       </div>
       <div class="panel-body">
-        <textarea name="test_case_b_justification" class="justification_textarea form-control" rows="4" placeholder="{{ constant('JUSTIFICATION_BOX_PLACE_HOLDER') }}"></textarea>
+        <textarea name="dontknow_test_case_b_textarea" id="dontknow_test_case_b_textarea" class="dontknow_textarea form-control" rows="4" placeholder="{{ constant('DONTKNOW_BOX_PLACE_HOLDER') }}" disabled></textarea>
       </div>
     </div>
   </div>

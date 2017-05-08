@@ -46,7 +46,7 @@ define('PASS', 'Pass');
 define('FAIL', 'Fail');
 define('TAGS', 'Tags');
 define('TAGS_BOX_PLACE_HOLDER', 'Drag & Drop tags, or type tag names');
-define('JUSTIFICATION_BOX_PLACE_HOLDER', 'Please justify your choice of rating and tags');
+define('DONTKNOW_BOX_PLACE_HOLDER', 'Please justify your answer');
 
 // competency
 define('COMPETENCY_TITLE', 'Java Competency Test');

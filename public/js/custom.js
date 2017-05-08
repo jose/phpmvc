@@ -14,3 +14,13 @@ $(document).ready(function() {
   });
 });
 
+function enableDisableDontKnowTextArea(checkbox) {
+  if (checkbox.name == "dontknow") {
+    document.getElementById('dontknow_textarea').disabled = checkbox.checked ? false : true;
+  } else if (checkbox.name == "dontknow_test_case_a") {
+    document.getElementById('dontknow_test_case_a_textarea').disabled = checkbox.checked ? false : true;
+  } else if (checkbox.name == "dontknow_test_case_b") {
+    document.getElementById('dontknow_test_case_b_textarea').disabled = checkbox.checked ? false : true;
+  }
+}
+

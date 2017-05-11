@@ -39,3 +39,15 @@ $('.chosen_snippet').click(function() {
   $(this).addClass("active");
 });
 
+/**
+ * Balance snippets boxes
+ */
+$(document).ready(function() {
+  var box_a = $('#scrollable_snippet_a');
+  var box_b = $('#scrollable_snippet_b');
+
+  var max_height = Math.max(box_a.height(), box_b.height());
+  box_a.height(max_height);
+  box_b.height(max_height);
+});
+

@@ -15,138 +15,141 @@
 
 <form id="_form" role="form" method="post" action="{{ constant('URL') }}study/action">
 
-  <!--
-    TestCase A
-  -->
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
-        {% if chosen_snippet_id == snippet_a_id %}
-        <label class="btn btn-default active chosen_snippet" style="width:100%;">
-          <input name="chosen_snippet_id" type="radio" id="{{ snippet_a_id }}" value="{{ snippet_a_id }}" autocomplete="off" checked>{{ constant('TEST_A') }}</input>
-        </label>
-        {% else %}
-        <label class="btn btn-default chosen_snippet" style="width:100%;">
-          <input name="chosen_snippet_id" type="radio" id="{{ snippet_a_id }}" value="{{ snippet_a_id }}" autocomplete="off">{{ constant('TEST_A') }}</input>
-        </label>
-        {% endif %}
-      </div>
-      <div class="panel-body">
-        <pre class="scrollable_snippet"><code class="language-java">{{ snippet_a_source_code }}</code></pre>
+  <!-- Test Snippets -->
+  <div id="test_snippets">
+
+    <!--
+      TestCase A
+    -->
+    <div class="col-xs-6 col-sm-9 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
+          {% if chosen_snippet_id == snippet_a_id %}
+          <label class="btn btn-default active chosen_snippet" style="width:100%;">
+            <input name="chosen_snippet_id" type="radio" id="{{ snippet_a_id }}" value="{{ snippet_a_id }}" autocomplete="off" checked>{{ constant('TEST_A') }}</input>
+          </label>
+          {% else %}
+          <label class="btn btn-default chosen_snippet" style="width:100%;">
+            <input name="chosen_snippet_id" type="radio" id="{{ snippet_a_id }}" value="{{ snippet_a_id }}" autocomplete="off">{{ constant('TEST_A') }}</input>
+          </label>
+          {% endif %}
+        </div>
+        <div class="panel-body">
+          <pre id="scrollable_snippet_a" class="scrollable_snippet"><code class="language-java">{{ snippet_a_source_code }}</code></pre>
+        </div>
       </div>
     </div>
 
-    <!-- All Tags -->
+    <!--
+      TestCase B
+    -->
+    <div class="col-xs-6 col-sm-9 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
+          {% if chosen_snippet_id == snippet_b_id %}
+          <label class="btn btn-default active chosen_snippet" style="width:100%;">
+            <input name="chosen_snippet_id" type="radio" id="{{ snippet_b_id }}" value="{{ snippet_b_id }}" autocomplete="off" checked>{{ constant('TEST_B') }}</input>
+          </label>
+          {% else %}
+          <label class="btn btn-default chosen_snippet" style="width:100%;">
+            <input name="chosen_snippet_id" type="radio" id="{{ snippet_b_id }}" value="{{ snippet_b_id }}" autocomplete="off">{{ constant('TEST_B') }}</input>
+          </label>
+          {% endif %}
+        </div>
+        <div class="panel-body">
+          <pre id="scrollable_snippet_b" class="scrollable_snippet"><code class="language-java">{{ snippet_b_source_code }}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- All Tags -->
+  <div class="row center-block col-md-12">
+
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
           <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
       </div>
       <div class="panel-body">
-        <div id="test_case_a_tags_container" class="bootstrap-tagsinput">
+        <div id="tags_container" class="bootstrap-tagsinput">
           {% for tag in tags %}
-            <span id="{{tag}}" class="btn tag-item tag label label-info">{{tag}}</span>
+            <span id="{{tag}}" class="btn tag-item tag label label-info" style="z-index: +1;">{{tag}}</span>
           {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <!-- Like -->
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
-      </div>
-      <div class="panel-body">
-        <div id="scrollable-dropdown-menu">
-          <div id="test_case_a_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-            <input name="test_case_a_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dislike -->
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
-      </div>
-      <div class="panel-body">
-        <div id="test_case_a_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input name="test_case_a_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
         </div>
       </div>
     </div>
   </div>
 
 
-
-  <!--
-    TestCase B
-  -->
-  <div class="col-xs-6 col-sm-9 col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
-        {% if chosen_snippet_id == snippet_b_id %}
-        <label class="btn btn-default active chosen_snippet" style="width:100%;">
-          <input name="chosen_snippet_id" type="radio" id="{{ snippet_b_id }}" value="{{ snippet_b_id }}" autocomplete="off" checked>{{ constant('TEST_B') }}</input>
-        </label>
-        {% else %}
-        <label class="btn btn-default chosen_snippet" style="width:100%;">
-          <input name="chosen_snippet_id" type="radio" id="{{ snippet_b_id }}" value="{{ snippet_b_id }}" autocomplete="off">{{ constant('TEST_B') }}</input>
-        </label>
-        {% endif %}
-      </div>
-      <div class="panel-body">
-        <pre class="scrollable_snippet"><code class="language-java">{{ snippet_b_source_code }}</code></pre>
-      </div>
-    </div>
-
-    <!-- All Tags -->
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
-      </div>
-      <div class="panel-body">
-        <div id="test_case_b_tags_container" class="bootstrap-tagsinput">
-          {% for tag in tags %}
-            <span id="{{tag}}" class="btn tag-item tag label label-info">{{tag}}</span>
-          {% endfor %}
+  <div id="likes_and_dislikes">
+    <!--
+      TestCase A
+    -->
+    <div class="col-xs-6 col-sm-9 col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+        </div>
+        <div class="panel-body">
+          <div id="scrollable-dropdown-menu">
+            <div id="test_case_a_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+              <input name="test_case_a_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Like -->
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
-      </div>
-      <div class="panel-body">
-        <div id="scrollable-dropdown-menu">
-          <div id="test_case_b_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-            <input name="test_case_b_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+        </div>
+        <div class="panel-body">
+          <div id="test_case_a_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+            <input name="test_case_a_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Dislike -->
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+    <!--
+      TestCase B
+    -->
+    <div class="col-xs-6 col-sm-9 col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+        </div>
+        <div class="panel-body">
+          <div id="scrollable-dropdown-menu">
+            <div id="test_case_b_like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+              <input name="test_case_b_like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-        <div id="test_case_b_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input name="test_case_b_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+        </div>
+        <div class="panel-body">
+          <div id="test_case_b_dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+            <input name="test_case_b_dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+
+  <!-- Buttons -->
   <div class="row center-block col-md-12">
     <p class="text-center">
       <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>

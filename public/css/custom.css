@@ -50,8 +50,7 @@ code[class*="language-none"] {
   color: black;
 }
 .scrollable_snippet {
-  min-height: 818px;
-  max-height: 818px;
+  max-height: 450px;
   overflow: hidden;
   overflow-x: auto;
   overflow-y: auto;

@@ -21,6 +21,9 @@
   .clearfix;
   padding: 1px;
 }
+.chosen_snippet {
+  background-color: rgba(170, 170, 170, 0.4);
+}
 
 /**
  * Code snippets

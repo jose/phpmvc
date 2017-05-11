@@ -27,3 +27,15 @@ function enableDisableDontKnowTextArea(button) {
   }
 }
 
+$('.chosen_snippet').click(function() {
+  // reset all
+  $('.chosen_snippet').removeClass("btn-primary");
+  $('.chosen_snippet').removeClass("btn-default");
+  $('.chosen_snippet').addClass("btn-default");
+  $('.chosen_snippet').removeClass("active");
+  // set
+  $(this).removeClass("btn-default");
+  $(this).addClass("btn-primary");
+  $(this).addClass("active");
+});
+

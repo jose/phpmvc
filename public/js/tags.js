@@ -96,7 +96,7 @@ $(document).ready(function() {
     }
 
     // first, remove tag from 'all' tags container
-    tags_container.find("#" + event.item).remove();
+    tags_container.find("span[id='" + event.item + "']").remove();
 
     // then, remove from any other container
     for (i = 0; i < draggable_containers.length; i++) {

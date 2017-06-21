@@ -290,7 +290,8 @@ class Study extends Controller {
       return;
     }
 
-    $question = Session::get('questions')[$question_index];
+    $questions = Session::get('questions');
+    $question = $questions[$question_index];
 
     // render question based on its type
 

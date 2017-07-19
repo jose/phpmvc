@@ -182,22 +182,22 @@ $(document).ready(function() {
    * Snippet A
    */
   {% for like in snippet_a_likes %}
-    var tag = $('#test_case_a_tags_container').find({{like}}).text();
+    var tag = $('#tags_container').find({{like}}).text();
     $('#test_case_a_like-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
   {% endfor %}
   {% for dislike in snippet_a_dislikes %}
-    var tag = $('#test_case_a_tags_container').find({{dislike}}).text();
+    var tag = $('#tags_container').find({{dislike}}).text();
     $('#test_case_a_dislike-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
   {% endfor %}
   /**
    * Snippet B
    */
   {% for like in snippet_b_likes %}
-    var tag = $('#test_case_b_tags_container').find({{like}}).text();
+    var tag = $('#tags_container').find({{like}}).text();
     $('#test_case_b_like-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
   {% endfor %}
   {% for dislike in snippet_b_dislikes %}
-    var tag = $('#test_case_b_tags_container').find({{dislike}}).text();
+    var tag = $('#tags_container').find({{dislike}}).text();
     $('#test_case_b_dislike-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
   {% endfor %}
 });

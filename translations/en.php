@@ -66,6 +66,9 @@ define('INCOMPLETE_STUDY', 'Please answer all questions before submitting.');
 define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.'); # haven't answered anything at all
 define('INCOMPLETE_STUDY_INDIVIDUAL_MISSING_RATE', 'Your answer is incomplete. Please rate the following test case.');
 define('INCOMPLETE_STUDY_INDIVIDUAL_MISSING_TAGS', 'Your answer is incomplete. Please justify your rating by selecting the most appropriated tags.');
+define('INCOMPLETE_STUDY_PAIR_MISSING_SELECTION', 'Your answer is incomplete. Please select the test case that you think is more readable by selecting \'Test A\' or \'Test B\'.');
+define('INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_A', 'Your answer is incomplete. Please justify your choice by selecting the appropriated tags, at least one per test case.');
+define('INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_B', 'Your answer is incomplete. Please justify your choice by selecting the appropriated tags, at least one per test case.');
 define('ALREADY_DONE_STUDY', 'User with ID \'$user_id\', already have done this study.');
 define('STUDY_NOT_AVAILABLE', 'We will be in touch with you soon to let you know whether you are eligible to take part in our unit testing study.');
 define('STUDY_NOT_AVAILABLE_SCORE', 'You have failed the \'Java Competency Test\' with a score of $score%. We are sorry but without qualification you cannot proceed to take the survey.');

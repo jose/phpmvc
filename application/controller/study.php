@@ -369,10 +369,21 @@ class Study extends Controller {
         $question['snippet_b_dislikes'] = ($_POST['test_case_b_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_b_dislike-container']));
         $question['chosen_snippet_id'] = $_POST['chosen_snippet_id'];
 
-        if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
-            || (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)
-            || $question['chosen_snippet_id'] == "") {
+        if ($question['chosen_snippet_id'] == "" &&
+              count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0 &&
+              count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0) {
           Session::set('s_errors', array(INCOMPLETE_ANSWER));
+          $is_it_complete = false;
+        } else if ($question['chosen_snippet_id'] == "") {
+          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_SELECTION));
+          $is_it_complete = false;
+        } else if ($question['chosen_snippet_id'] != "" &&
+              (count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)) {
+          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_A));
+          $is_it_complete = false;
+        } else if ($question['chosen_snippet_id'] != "" &&
+              (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)) {
+          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_B));
           $is_it_complete = false;
         }
       }

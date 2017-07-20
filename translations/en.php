@@ -63,7 +63,9 @@ define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');
 define('SURVEY_SUBMIT_MESSAGE', 'You have finished your survey, please submit your answers.');
 define('INCOMPLETE_STUDY', 'Please answer all questions before submitting.');
-define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.');
+define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.'); # haven't answered anything at all
+define('INCOMPLETE_STUDY_INDIVIDUAL_MISSING_RATE', 'Your answer is incomplete. Please rate the following test case.');
+define('INCOMPLETE_STUDY_INDIVIDUAL_MISSING_TAGS', 'Your answer is incomplete. Please justify your rating by selecting the most appropriated tags.');
 define('ALREADY_DONE_STUDY', 'User with ID \'$user_id\', already have done this study.');
 define('STUDY_NOT_AVAILABLE', 'We will be in touch with you soon to let you know whether you are eligible to take part in our unit testing study.');
 define('STUDY_NOT_AVAILABLE_SCORE', 'You have failed the \'Java Competency Test\' with a score of $score%. We are sorry but without qualification you cannot proceed to take the survey.');

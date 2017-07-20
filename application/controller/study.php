@@ -352,8 +352,14 @@ class Study extends Controller {
         $question['dislikes'] = ($_POST['dislike-container'] == "" ? array() : explode(',', $_POST['dislike-container']));
         $question['num_stars'] = $_POST['star-rating'];
 
-        if ($question['num_stars'] == 0 || (count($question['likes']) == 0 && count($question['dislikes']) == 0)) {
+        if ($question['num_stars'] == 0 && count($question['likes']) == 0 && count($question['dislikes']) == 0) {
           Session::set('s_errors', array(INCOMPLETE_ANSWER));
+          $is_it_complete = false;
+        } else if ($question['num_stars'] == 0 && (count($question['likes']) > 0 || count($question['dislikes']) == 0)) {
+          Session::set('s_errors', array(INCOMPLETE_STUDY_INDIVIDUAL_MISSING_RATE));
+          $is_it_complete = false;
+        } else if ($question['num_stars'] > 0 && (count($question['likes']) == 0 && count($question['dislikes']) == 0)) {
+          Session::set('s_errors', array(INCOMPLETE_STUDY_INDIVIDUAL_MISSING_TAGS));
           $is_it_complete = false;
         }
       } else if ($question['question_type'] == "pair") {

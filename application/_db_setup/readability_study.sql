@@ -78,6 +78,8 @@ CREATE TABLE `Container` (
 --
 -- Table structure for table `Tag`
 --
+-- Note: 'value' must be a single string *without* spaces
+--
 
 CREATE TABLE `Tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

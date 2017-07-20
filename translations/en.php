@@ -62,6 +62,8 @@ define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' w
 define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');
 define('SURVEY_SUBMIT_MESSAGE', 'You have finished your survey, please submit your answers.');
+define('INDIVIDUAL_STUDY_QUESTION', 'Please rate the following test case by its readability: 1 star, test case is not readable at all; 5 stars, test case is very readable. <br/ > Then, justify your rating by selecting the appropriated tags. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much readable this test case is. <br/ > <br/ >');
+define('PAIR_STUDY_QUESTION', 'For the following pair of test cases, please select the one that you think is more readable by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
 define('INCOMPLETE_STUDY', 'Please answer all questions before submitting.');
 define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.'); # haven't answered anything at all
 define('INCOMPLETE_STUDY_INDIVIDUAL_MISSING_RATE', 'Your answer is incomplete. Please rate the following test case.');

@@ -12,14 +12,7 @@
 <div class="row row-offcanvas row-offcanvas-left">
 
   <div class="row center-block col-md-12">
-    <h4>Please rate the following test case by its readability:
-    1 star, test case is not readable at all;
-    5 stars, test case is very readable. <br/ >
-    Then, justify your rating by selecting the appropriated tags.
-    <br/ > <br/ >
-    Select the 'Skip' button below if you are not able to assess how
-    much readable this test case is.
-    <br/ > <br/ ></h4>
+    <h4>{{ constant('INDIVIDUAL_STUDY_QUESTION')|raw }}</h4>
   </div>
 
 <form id="_form" role="form" method="post" action="{{ constant('URL') }}study/action">

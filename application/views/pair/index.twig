@@ -33,7 +33,7 @@
       <div class="panel panel-default">
         <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
           {% if chosen_snippet_id == snippet_a_id %}
-          <label class="btn btn-default active chosen_snippet" style="width:100%;">
+          <label class="btn btn-primary active chosen_snippet" style="width:100%;">
             <input name="chosen_snippet_id" type="radio" id="{{ snippet_a_id }}" value="{{ snippet_a_id }}" autocomplete="off" checked>{{ constant('TEST_A') }}</input>
           </label>
           {% else %}
@@ -55,7 +55,7 @@
       <div class="panel panel-default">
         <div class="panel-heading panel-heading-choose-option" data-toggle="buttons">
           {% if chosen_snippet_id == snippet_b_id %}
-          <label class="btn btn-default active chosen_snippet" style="width:100%;">
+          <label class="btn btn-primary active chosen_snippet" style="width:100%;">
             <input name="chosen_snippet_id" type="radio" id="{{ snippet_b_id }}" value="{{ snippet_b_id }}" autocomplete="off" checked>{{ constant('TEST_B') }}</input>
           </label>
           {% else %}

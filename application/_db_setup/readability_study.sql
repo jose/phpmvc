@@ -104,22 +104,12 @@ CREATE TABLE `ContainerTag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `Snippet`
+-- Table structure for table `Answer`
 --
 
-CREATE TABLE `Snippet` (
+CREATE TABLE `Answer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `path` text NOT NULL, -- local path, e.g, http://localhost/.../public/snippets/.../nu.xom.Attribute.postprocessed.java
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `Study`
---
-
-CREATE TABLE `Study` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` ENUM('individual', 'pair'),
+  `type` ENUM('rate', 'forced_choice'),
   `user_id` varchar(32) NOT NULL,
   `time_to_answer` int(11) NOT NULL,
   `dont_know_answer` text NOT NULL,
@@ -130,69 +120,74 @@ CREATE TABLE `Study` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `IndividualStudy`
+-- Table structure for table `Rate`
 --
 
-CREATE TABLE `IndividualStudy` (
+CREATE TABLE `Rate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `study_id` int(11) NOT NULL,
-  `snippet_id` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL,
   `num_stars` decimal(2,1) NOT NULL,
-  `like_id` int(11) NOT NULL,
-  `dislike_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`study_id`)
-    REFERENCES Study(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`snippet_id`)
-    REFERENCES Snippet(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`like_id`)
-    REFERENCES Container(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`dislike_id`)
-    REFERENCES Container(`id`)
+  FOREIGN KEY (`answer_id`)
+    REFERENCES Answer(`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `PairStudy`
+-- Table structure for table `ForcedChoice`
 --
 
-CREATE TABLE `PairStudy` (
+CREATE TABLE `ForcedChoice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `study_id` int(11) NOT NULL,
-  `snippet_a_id` int(11) NOT NULL,
-  `like_a_id` int(11) NOT NULL,
-  `dislike_a_id` int(11) NOT NULL,
-  `snippet_b_id` int(11) NOT NULL,
-  `like_b_id` int(11) NOT NULL,
-  `dislike_b_id` int(11) NOT NULL,
-  `chosen_snippet_id` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL,
+  `chosen_snippet_id` text NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`study_id`)
-    REFERENCES Study(`id`)
+  FOREIGN KEY (`answer_id`)
+    REFERENCES Answer(`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `Snippet`
+--
+
+CREATE TABLE `Snippet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path` text NOT NULL, -- local path, e.g, http://localhost/.../public/snippets/.../nu.xom.Attribute.postprocessed.java
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `AnswerSnippet`
+--
+
+CREATE TABLE `AnswerSnippet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `answer_id` int(11) NOT NULL,
+  `snippet_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`, `answer_id`, `snippet_id`),
+  FOREIGN KEY (`answer_id`)
+    REFERENCES Answer(`id`)
     ON DELETE CASCADE,
-  FOREIGN KEY (`snippet_a_id`)
+  FOREIGN KEY (`snippet_id`)
     REFERENCES Snippet(`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `AnswerSnippetContainer`
+--
+
+CREATE TABLE `AnswerSnippetContainer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `answer_snipper_id` int(11) NOT NULL,
+  `container_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`, `answer_snipper_id`, `container_id`),
+  FOREIGN KEY (`answer_snipper_id`)
+    REFERENCES AnswerSnippet(`id`)
     ON DELETE CASCADE,
-  FOREIGN KEY (`like_a_id`)
+  FOREIGN KEY (`container_id`)
     REFERENCES Container(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`dislike_a_id`)
-    REFERENCES Container(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`snippet_b_id`)
-    REFERENCES Snippet(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`like_b_id`)
-    REFERENCES Container(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`dislike_b_id`)
-    REFERENCES Container(`id`)
-    ON DELETE CASCADE,
-  FOREIGN KEY (`chosen_snippet_id`)
-    REFERENCES Snippet(`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

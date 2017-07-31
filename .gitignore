@@ -621,6 +621,10 @@ composer.lock
 
 public/snippets/
 public/subjects/
+public/phpFileTree/
+public/competency-test-data.csv
+public/rate-survey-data.csv
+public/forced_choice-survey-data.csv
 
 # EOF
 

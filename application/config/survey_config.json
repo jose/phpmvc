@@ -2,20 +2,20 @@
   "type": [
     {
       "id": 1,
-      "name": "individual"
+      "name": "rate"
     },
     {
       "id": 2,
-      "name": "pair"
+      "name": "forced_choice"
     }
   ],
-  "individual": [
+  "rate": [
     {
       "num_questions": 30,
       "allow_multiple_attempts": "no"
     }
   ],
-  "pair": [
+  "forced_choice": [
     {
       "num_questions": 10,
       "allow_multiple_attempts": "no"

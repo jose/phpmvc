@@ -39,7 +39,7 @@ class Home extends Controller {
         return;
       } else {
         // existing user
-        header('location: ' . URL . 'study?user_id=' . $user_id);
+        header('location: ' . URL . 'survey?user_id=' . $user_id);
         return;
       }
     }

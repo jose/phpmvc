@@ -1,19 +1,23 @@
 <?php
 
 /**
- * Study Class Controller
+ * Survey Class Controller
  */
-class Study extends Controller {
+class Survey extends Controller {
 
-  // a score < than will not allow user to perform the study
+  // a score < than will not allow user to perform the survey
   private $threshold_score;
 
-  private $study_type;
+  private $survey_type;
 
   private $num_questions;
 
-  // can same user perform same study several times?
+  // can same user perform same survey several times?
   private $allow_multiple_attempts;
+
+  // types of questions
+  private $RATE_QUESTION_STR = "rate";
+  private $FORCED_CHOICE_QUESTION_STR = "forced_choice";
 
   /**
    * Constructor
@@ -23,7 +27,7 @@ class Study extends Controller {
 
     if (Session::get('token') !== null) {
       // to avoid reading parameters over and over
-      $this->study_type = Session::get('study_type');
+      $this->survey_type = Session::get('survey_type');
       $this->num_questions = Session::get('num_questions');
       $this->allow_multiple_attempts = Session::get('allow_multiple_attempts');
       $this->threshold_score = Session::get('threshold_score');
@@ -32,14 +36,14 @@ class Study extends Controller {
     }
 
     // read configurations
-    $configurations = json_decode(file_get_contents(PATH_CONFS . "study_config.json"), true);
+    $configurations = json_decode(file_get_contents(PATH_CONFS . "survey_config.json"), true);
     if (!isset($configurations) || $configurations == null) {
-      Session::set('s_errors', array('study_configuration' => 'It was not possible to read study parameters.'));
+      Session::set('s_errors', array('survey_configuration' => 'It was not possible to read survey parameters.'));
       return;
     }
 
     if (!isset($configurations['type'])) {
-      Session::set('s_errors', array('study_configuration' => 'It was not possible to initialise all study parameters.'));
+      Session::set('s_errors', array('survey_configuration' => 'It was not possible to initialise all survey parameters.'));
       return;
     }
 
@@ -48,17 +52,17 @@ class Study extends Controller {
       array_push($type_of_studies, $type['name']);
     }
 
-    $this->study_type = $type_of_studies[array_rand($configurations['type'])];
-    Session::set('study_type', $this->study_type);
+    $this->survey_type = $type_of_studies[array_rand($configurations['type'])];
+    Session::set('survey_type', $this->survey_type);
 
-    $this->num_questions = $configurations[$this->study_type][0]['num_questions'];
+    $this->num_questions = $configurations[$this->survey_type][0]['num_questions'];
     Session::set('num_questions', $this->num_questions);
 
-    $this->allow_multiple_attempts = (strtolower($configurations[$this->study_type][0]['allow_multiple_attempts']) == "no" ? false : true);
+    $this->allow_multiple_attempts = (strtolower($configurations[$this->survey_type][0]['allow_multiple_attempts']) == "no" ? false : true);
     Session::set('allow_multiple_attempts', $this->allow_multiple_attempts);
 
-    if (!isset($this->study_type) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
-      Session::set('s_errors', array('study_configuration' => 'Configuration file is not well formed.'));
+    if (!isset($this->survey_type) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
+      Session::set('s_errors', array('survey_configuration' => 'Configuration file is not well formed.'));
       return;
     }
 
@@ -92,19 +96,19 @@ class Study extends Controller {
       $user_model = $this->loadModel('user');
       $score = $user_model->getCompetencyScore($user_id);
       if ($score < $this->threshold_score) {
-        Session::set('s_errors', array(str_replace('$score', $score, STUDY_NOT_AVAILABLE_SCORE)));
+        Session::set('s_errors', array(str_replace('$score', $score, SURVEY_NOT_AVAILABLE_SCORE)));
         header('location: ' . URL);
         return;
       }
 
-      $study_model = $this->loadModel('study');
-      if (!$this->allow_multiple_attempts && $study_model->hasUserCompletedStudy($this->study_type, $user_id)) {
-        Session::set('s_errors', array(str_replace('$user_id', $user_id, ALREADY_DONE_STUDY)));
+      $survey_model = $this->loadModel('survey');
+      if (!$this->allow_multiple_attempts && $survey_model->hasUserCompletedSurvey($this->survey_type, $user_id)) {
+        Session::set('s_errors', array(str_replace('$user_id', $user_id, ALREADY_DONE_SURVEY)));
         header('location: ' . URL);
         return;
       }
 
-      $this->render('study/index', array(
+      $this->render('survey/index', array(
         'total_num_questions' => $this->num_questions
       ));
 
@@ -121,7 +125,7 @@ class Study extends Controller {
     $action_to_perform = ''; // invalid action by default!
 
     if ($_POST['submit'] == 'Begin') {
-      // select all questions for this study
+      // select all questions for this survey
       $questions = $this->selectQuestions();
       if (!isset($questions) || count($questions) == 0) {
         header('location: ' . URL);
@@ -130,19 +134,19 @@ class Study extends Controller {
 
       Session::set('questions', $questions);
 
-      $action_to_perform = 'study/question/' . $question_index;
+      $action_to_perform = 'survey/question/' . $question_index;
     } else if ($_POST['submit'] == 'Next') {
       if ($this->registerAnswer($question_index)) {
         $question_index++; // next question number
         Session::set('question_index', $question_index);
         $this->progressBar();
       }
-      $action_to_perform = 'study/question/' . $question_index;
+      $action_to_perform = 'survey/question/' . $question_index;
     } else if ($_POST['submit'] == 'Submit') {
       if ($this->registerAnswer($question_index)) {
-        $action_to_perform = 'study/submit/';
+        $action_to_perform = 'survey/submit/';
       } else  {
-        $action_to_perform = 'study/question/' . $question_index;
+        $action_to_perform = 'survey/question/' . $question_index;
       }
     }
 
@@ -153,33 +157,33 @@ class Study extends Controller {
    *
    */
   private function selectQuestions() {
-    if (strtolower($this->study_type) == "individual") {
-      return $this->selectQuestionsForIndividualStudy();
-    } else if (strtolower($this->study_type) == "pair") {
-      return $this->selectQuestionsForPairStudy();
+    if (strtolower($this->survey_type) == $this->RATE_QUESTION_STR) {
+      return $this->selectQuestionsForRateSurvey();
+    } else if (strtolower($this->survey_type) == $this->FORCED_CHOICE_QUESTION_STR) {
+      return $this->selectQuestionsForForcedChoiceSurvey();
     }
 
-    Session::set('s_errors', array('study' => 'Type of study not supported.'));
+    Session::set('s_errors', array('survey' => 'Type of survey not supported.'));
     return null;
   }
 
   /**
    *
    */
-  private function selectQuestionsForIndividualStudy() {
+  private function selectQuestionsForRateSurvey() {
     $questions = (array) null;
 
-    $study_model = $this->loadModel('study');
+    $survey_model = $this->loadModel('survey');
 
     // get all tags from DB
-    $all_tags = $study_model->getAllTags();
+    $all_tags = $survey_model->getAllTags();
     $tags_names = array();
     foreach ($all_tags as $tag) {
       array_push($tags_names, $tag->value);
     }
 
     // get all snippets from DB and randomly pick N, i.e., $this->num_questions
-    $all_snippets = $study_model->getAllSnippets();
+    $all_snippets = $survey_model->getAllSnippets();
     $rand_keys = array_rand($all_snippets, $this->num_questions);
     if (!is_array($rand_keys)) {
       // When picking only one entry, array_rand() returns the key for
@@ -188,7 +192,7 @@ class Study extends Controller {
       $rand_keys = array($rand_keys);
     }
 
-    // prepare questions for the study
+    // prepare questions for the survey
     $question_index = 0;
     foreach ($rand_keys as $rand_key) {
       $selected_snippet = $all_snippets[$rand_key];
@@ -204,7 +208,7 @@ class Study extends Controller {
           'tags' => $tags_names,
           'likes' => array(),
           'dislikes' => array(),
-          'question_type' => 'individual'
+          'question_type' => $this->RATE_QUESTION_STR
         )
       );
 
@@ -218,20 +222,20 @@ class Study extends Controller {
   /**
    *
    */
-  private function selectQuestionsForPairStudy() {
+  private function selectQuestionsForForcedChoiceSurvey() {
     $questions = (array) null;
 
-    $study_model = $this->loadModel('study');
+    $survey_model = $this->loadModel('survey');
 
     // get all tags from DB
-    $all_tags = $study_model->getAllTags();
+    $all_tags = $survey_model->getAllTags();
     $tags_names = array();
     foreach ($all_tags as $tag) {
       array_push($tags_names, $tag->value);
     }
 
     // get all snippets from DB and randomly pick N, i.e., $this->num_questions * 2
-    $all_snippets = $study_model->getAllSnippets();
+    $all_snippets = $survey_model->getAllSnippets();
     $rand_keys = array_rand($all_snippets, $this->num_questions * 2);
     if (!is_array($rand_keys)) {
       // When picking only one entry, array_rand() returns the key for
@@ -240,7 +244,7 @@ class Study extends Controller {
       $rand_keys = array($rand_keys);
     }
 
-    // prepare questions for the study
+    // prepare questions for the survey
     $question_index = 0;
     for ($i = 0; $i < count($rand_keys); $i = $i + 2) {
       $selected_snippet_a = $all_snippets[$rand_keys[$i]];
@@ -262,7 +266,7 @@ class Study extends Controller {
           'dont_know' => '',
           'tags' => $tags_names,
           'time_to_answer' => 0,
-          'question_type' => 'pair'
+          'question_type' => $this->FORCED_CHOICE_QUESTION_STR
         )
       );
 
@@ -286,7 +290,7 @@ class Study extends Controller {
 
     $it_should_be_at_question_index = Session::get('question_index');
     if ($question_index != $it_should_be_at_question_index) {
-      header('location: ' . URL . 'study/question/' . $it_should_be_at_question_index);
+      header('location: ' . URL . 'survey/question/' . $it_should_be_at_question_index);
       return;
     }
 
@@ -295,8 +299,8 @@ class Study extends Controller {
 
     // render question based on its type
 
-    if ($question['question_type'] == "individual") {
-      $this->render('individual/index', array(
+    if ($question['question_type'] == $this->RATE_QUESTION_STR) {
+      $this->render($this->RATE_QUESTION_STR . '/index', array(
         'question_index' => $question_index,
         'progress' => Session::get('progress'),
         'snippet_source_code' => $question['snippet_source_code'],
@@ -307,8 +311,8 @@ class Study extends Controller {
         'dont_know' => $question['dont_know'],
         'total_num_questions' => $this->num_questions-1
       ));
-    } else if ($question['question_type'] == "pair") {
-      $this->render('pair/index', array(
+    } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
+      $this->render($this->FORCED_CHOICE_QUESTION_STR . '/index', array(
         'question_index' => $question_index,
         'progress' => Session::get('progress'),
         'tags' => $question['tags'],
@@ -338,7 +342,7 @@ class Study extends Controller {
     $question['time_to_answer'] = $_POST['time_to_answer'];
 
     // no answer?
-    $dont_know = isset($_POST['dont_know_textarea']) ? $_POST['dont_know_textarea'] : '';
+    $dont_know = isset($_POST['dont_know_textarea']) ? str_replace("\n", ' ', $_POST['dont_know_textarea']) : '';
     if (str_word_count($dont_know) == 0) {
       $dont_know = '';
     }
@@ -347,7 +351,7 @@ class Study extends Controller {
     if ($dont_know != '') {
       $question['dont_know'] = $dont_know;
     } else {
-      if ($question['question_type'] == "individual") {
+      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         $question['likes'] = ($_POST['like-container'] == "" ? array() : explode(',', $_POST['like-container']));
         $question['dislikes'] = ($_POST['dislike-container'] == "" ? array() : explode(',', $_POST['dislike-container']));
         $question['num_stars'] = $_POST['star-rating'];
@@ -356,13 +360,13 @@ class Study extends Controller {
           Session::set('s_errors', array(INCOMPLETE_ANSWER));
           $is_it_complete = false;
         } else if ($question['num_stars'] == 0 && (count($question['likes']) > 0 || count($question['dislikes']) == 0)) {
-          Session::set('s_errors', array(INCOMPLETE_STUDY_INDIVIDUAL_MISSING_RATE));
+          Session::set('s_errors', array(INCOMPLETE_SURVEY_RATE_MISSING_RATE));
           $is_it_complete = false;
         } else if ($question['num_stars'] > 0 && (count($question['likes']) == 0 && count($question['dislikes']) == 0)) {
-          Session::set('s_errors', array(INCOMPLETE_STUDY_INDIVIDUAL_MISSING_TAGS));
+          Session::set('s_errors', array(INCOMPLETE_SURVEY_RATE_MISSING_TAGS));
           $is_it_complete = false;
         }
-      } else if ($question['question_type'] == "pair") {
+      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
         $question['snippet_a_likes'] = ($_POST['test_case_a_like-container'] == "" ? array() : explode(',', $_POST['test_case_a_like-container']));
         $question['snippet_a_dislikes'] = ($_POST['test_case_a_dislike-container'] == "" ? array() : explode(',', $_POST['test_case_a_dislike-container']));
         $question['snippet_b_likes'] = ($_POST['test_case_b_like-container'] == "" ? array() : explode(',', $_POST['test_case_b_like-container']));
@@ -375,15 +379,15 @@ class Study extends Controller {
           Session::set('s_errors', array(INCOMPLETE_ANSWER));
           $is_it_complete = false;
         } else if ($question['chosen_snippet_id'] == "") {
-          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_SELECTION));
+          Session::set('s_errors', array(INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_SELECTION));
           $is_it_complete = false;
         } else if ($question['chosen_snippet_id'] != "" &&
               (count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)) {
-          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_A));
+          Session::set('s_errors', array(INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_TAGS_OF_A));
           $is_it_complete = false;
         } else if ($question['chosen_snippet_id'] != "" &&
               (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)) {
-          Session::set('s_errors', array(INCOMPLETE_STUDY_PAIR_MISSING_TAGS_OF_B));
+          Session::set('s_errors', array(INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_TAGS_OF_B));
           $is_it_complete = false;
         }
       }
@@ -407,11 +411,11 @@ class Study extends Controller {
       if ($question['dont_know'] != '') {
         $how_many_answered_so_far++;
       } else {
-        if ($question['question_type'] == "individual") {
+        if ($question['question_type'] == $this->RATE_QUESTION_STR) {
           if (count($question['likes']) > 0 || count($question['dislikes']) > 0) {
             $how_many_answered_so_far++;
           }
-        } else if ($question['question_type'] == "pair") {
+        } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
           if ((count($question['snippet_a_likes']) > 0 || count($question['snippet_a_dislikes']) > 0)
               && (count($question['snippet_b_likes']) > 0 || count($question['snippet_b_dislikes']) > 0)
               && $question['chosen_snippet_id'] != "") {
@@ -447,11 +451,11 @@ class Study extends Controller {
         continue;
       }
 
-      if ($question['question_type'] == "individual") {
+      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         if (count($question['likes']) == 0 && count($question['dislikes']) == 0) {
           $completed = false;
         }
-      } else if ($question['question_type'] == "pair") {
+      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
         if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
             || (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)
             || $question['chosen_snippet_id'] == "") {
@@ -460,10 +464,10 @@ class Study extends Controller {
       }
 
       if (! $completed) {
-        Session::set('s_errors', array(INCOMPLETE_STUDY));
+        Session::set('s_errors', array(INCOMPLETE_SURVEY));
 
         Session::set('question_index', $question_index);
-        header('location: ' . URL . 'study/question/' . $question_index);
+        header('location: ' . URL . 'survey/question/' . $question_index);
 
         return;
       }
@@ -477,109 +481,44 @@ class Study extends Controller {
     }
 
     Session::set('submitted', "submitted");
-    header('location: ' . URL . 'study/thanks/');
+    header('location: ' . URL . 'survey/thanks/');
   }
 
   /**
    *
    */
   private function submitDB($user_id, $questions) {
-    // create a new study
-    $study_model = $this->loadModel('study');
+    // create a new survey
+    $survey_model = $this->loadModel('survey');
 
     foreach ($questions as $question) {
 
-      if ($question['question_type'] == "individual") {
-        // create two containers: one for likes and another for dislikes
-        $likes_container_id = $study_model->createContainer('like');
-        $dislikes_container_id = $study_model->createContainer('dislike');
-
-        if ($likes_container_id == -1 || $dislikes_container_id == -1) {
-          Session::set('s_errors', array("It was not possible to create containers!"));
-          // TODO revert DB
+      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
+        if (! $survey_model->createRateAnswer(
+          // Answer
+          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'],
+          // Rate
+          $question['num_stars'],
+          // AnswerSnipper
+          $question['snippet_id'],
+          // Tags
+          $question['likes'], $question['dislikes']
+        )) {
+          Session::set('s_errors', array("It was not possible to create a 'rate' survey!"));
           return false;
         }
-
-        // add each tag to a specific container
-
-        if (! $this->addTagsToContainer($study_model, $likes_container_id, $question['likes'])) {
-          Session::set('s_errors', array("Adding like-tags to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-        
-        if (! $this->addTagsToContainer($study_model, $dislikes_container_id, $question['dislikes'])) {
-          Session::set('s_errors', array("Adding dislikes-tags to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-
-        // create a general study
-        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know']);
-        if ($study_id == -1) {
-          Session::set('s_errors', array("It was not possible to create a general study!"));
-          // TODO revert DB
-          return false;
-        }
-
-        // create a specific study
-        if (! $study_model->createIndividualStudy($study_id, $question['snippet_id'], $question['num_stars'], $likes_container_id, $dislikes_container_id)) {
-          Session::set('s_errors', array("It was not possible to create a specific study!"));
-          // TODO revert DB
-          return false;
-        }
-
-      } else if ($question['question_type'] == "pair") {
-
-        // create four containers: two for likes and another two for dislikes
-        $likes_container_a_id = $study_model->createContainer('like');
-        $dislikes_container_a_id = $study_model->createContainer('dislike');
-        $likes_container_b_id = $study_model->createContainer('like');
-        $dislikes_container_b_id = $study_model->createContainer('dislike');
-
-        if ($likes_container_a_id == -1 || $dislikes_container_a_id == -1
-            || $likes_container_b_id == -1 || $dislikes_container_b_id == -1) {
-          Session::set('s_errors', array("It was not possible to create containers!"));
-          // TODO revert DB
-          return false;
-        }
-
-        // add each tag to a specific container
-
-        if (! $this->addTagsToContainer($study_model, $likes_container_a_id, $question['snippet_a_likes'])) {
-          Session::set('s_errors', array("Adding like-tags (of snippet A) to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-        if (! $this->addTagsToContainer($study_model, $dislikes_container_a_id, $question['snippet_a_dislikes'])) {
-          Session::set('s_errors', array("Adding dislikes-tags (of snippet A) to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-
-        if (! $this->addTagsToContainer($study_model, $likes_container_b_id, $question['snippet_b_likes'])) {
-          Session::set('s_errors', array("Adding like-tags (of snippet B) to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-        if (! $this->addTagsToContainer($study_model, $dislikes_container_b_id, $question['snippet_b_dislikes'])) {
-          Session::set('s_errors', array("Adding dislikes-tags (of snippet B) to its container failed!"));
-          // TODO revert DB
-          return false;
-        }
-
-        // create a general study
-        $study_id = $study_model->createStudy($question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know']);
-        if ($study_id == -1) {
-          Session::set('s_errors', array("It was not possible to create a general study!"));
-          // TODO revert DB
-          return false;
-        }
-
-        // create a specific study
-        if (! $study_model->createPairStudy($study_id, $question['snippet_a_id'], $likes_container_a_id, $dislikes_container_a_id, $question['snippet_b_id'], $likes_container_b_id, $dislikes_container_b_id, $question['chosen_snippet_id'])) {
-          Session::set('s_errors', array("It was not possible to create a specific study!"));
-          // TODO revert DB
+      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
+        if (! $survey_model->createForcedChoiceAnswer(
+          // Answer
+          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'],
+          // Chosen snippet
+          $question['chosen_snippet_id'],
+          // AnswerSnipper
+          $question['snippet_a_id'], $question['snippet_b_id'],
+          // Tags
+          $question['snippet_a_likes'], $question['snippet_a_dislikes'], $question['snippet_b_likes'], $question['snippet_b_dislikes']
+        )) {
+          Session::set('s_errors', array("It was not possible to create a 'forced_choice' survey!"));
           return false;
         }
       }
@@ -593,7 +532,7 @@ class Study extends Controller {
    */
   private function prettyPrintQuestions($questions) {
     foreach ($questions as $question) {
-      if ($question['question_type'] == "individual") {
+      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         print("<table style=\"width:100%;\">");
           print("<tr>");
             print("<th>question_type</th>");
@@ -615,7 +554,7 @@ class Study extends Controller {
           print("</tr>");
         print("</table>");
         print("<br />");
-      } else if ($question['question_type'] == "pair") {
+      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
         print("<table style=\"width:100%;\">");
           print("<tr>");
             print("<th>question_type</th>");
@@ -653,7 +592,7 @@ class Study extends Controller {
   private function addTagsToContainer($model, $container_id, $tags) {
     foreach ($tags as $tag) {
       $tag_id = $model->getTagID($tag);
-      if (! $model->addTagsToContainer($container_id, $tag_id)) {
+      if (! $model->addTagToContainer($container_id, $tag_id)) {
         return false;
       }
     }
@@ -674,7 +613,7 @@ class Study extends Controller {
 
     $submitted = Session::get('submitted');
     if (!isset($submitted)) {
-      header('location: ' . URL . 'study/question/' . Session::get('question_index'));
+      header('location: ' . URL . 'survey/question/' . Session::get('question_index'));
       return;
     }
 
@@ -684,7 +623,7 @@ class Study extends Controller {
     Session::destroy();
 
     // say thanks and show the token
-    $this->render('study/thanks', array(
+    $this->render('survey/thanks', array(
       'token' => $token
     ));
   }

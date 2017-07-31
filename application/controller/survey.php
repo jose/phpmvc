@@ -342,7 +342,7 @@ class Survey extends Controller {
     $question['time_to_answer'] = $_POST['time_to_answer'];
 
     // no answer?
-    $dont_know = isset($_POST['dont_know_textarea']) ? str_replace("\n", ' ', $_POST['dont_know_textarea']) : '';
+    $dont_know = isset($_POST['dont_know_textarea']) ? preg_replace('/\s+/', ' ', $_POST['dont_know_textarea']) : '';
     if (str_word_count($dont_know) == 0) {
       $dont_know = '';
     }

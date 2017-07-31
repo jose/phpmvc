@@ -48,6 +48,7 @@ define('FAIL', 'Fail');
 define('TAGS', 'Tags');
 define('TAGS_BOX_PLACE_HOLDER', 'Drag & drop tags, or type tag names');
 define('DONT_KNOW_BOX_PLACE_HOLDER', 'Please explain why you are skipping this question and then select the \'Next\' button.');
+define('COMMENTS_BOX_PLACE_HOLDER', 'Use this text area to provide any additional comments.');
 
 // competency
 define('COMPETENCY_TITLE', 'Java Competency Test');

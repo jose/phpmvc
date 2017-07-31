@@ -113,6 +113,7 @@ CREATE TABLE `Answer` (
   `user_id` varchar(32) NOT NULL,
   `time_to_answer` int(11) NOT NULL,
   `dont_know_answer` text NOT NULL,
+  `comments` text NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`)
     REFERENCES User(`id`)

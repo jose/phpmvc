@@ -74,7 +74,7 @@ class DataModel {
     # AnswerID, AnswerType, UserID, Time, Skip, SnippetID, SnippetPath, Stars, Likes, Dislikes
     $data = array();
 
-    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, Rate.num_stars AS Stars, Snippet.id AS SnippetID, Snippet.path AS SnippetPath FROM Answer, Rate, AnswerSnippet, Snippet WHERE Answer.type = \'rate\' AND Answer.id = Rate.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id');
+    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, Answer.comments AS Comments, Rate.num_stars AS Stars, Snippet.id AS SnippetID, Snippet.path AS SnippetPath FROM Answer, Rate, AnswerSnippet, Snippet WHERE Answer.type = \'rate\' AND Answer.id = Rate.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id');
     $query->execute();
 
     foreach ($query->fetchAll() as $answer) {
@@ -84,6 +84,7 @@ class DataModel {
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
       $data_point->Skip = str_replace(",", ';', $answer->Skip);
+      $data_point->Comments = str_replace(",", ';', $answer->Comments);
       $data_point->SnippetID = $answer->SnippetID;
       $data_point->SnippetPath = $answer->SnippetPath;
       $data_point->Stars = $answer->Stars;
@@ -103,7 +104,7 @@ class DataModel {
     # AnswerID, AnswerType, UserID, Time, Skip, Snippet_A_ID, Snippet_A_Path, Snippet_B_ID, Snippet_B_Path, ChosenSnippetID, Likes_A, Dislikes_A, Likes_B, Dislikes_B
     $data = array();
 
-    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, ForcedChoice.chosen_snippet_id AS ChosenSnippetID FROM Answer, ForcedChoice, AnswerSnippet, Snippet WHERE Answer.type = \'forced_choice\' AND Answer.id = ForcedChoice.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id GROUP BY Answer.id');
+    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, Answer.comments AS Comments, ForcedChoice.chosen_snippet_id AS ChosenSnippetID FROM Answer, ForcedChoice, AnswerSnippet, Snippet WHERE Answer.type = \'forced_choice\' AND Answer.id = ForcedChoice.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id GROUP BY Answer.id');
     $query->execute();
 
     foreach ($query->fetchAll() as $answer) {
@@ -113,6 +114,7 @@ class DataModel {
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
       $data_point->Skip = str_replace(",", ';', $answer->Skip);
+      $data_point->Comments = str_replace(",", ';', $answer->Comments);
       $data_point->ChosenSnippetID = $answer->ChosenSnippetID;
 
       $snippets = $this->getSnippetsIDsOfAnAnswer($answer->AnswerID);

@@ -205,6 +205,7 @@ class Survey extends Controller {
           'time_to_answer' => 0,
           'num_stars' => 0.0,
           'dont_know' => '',
+          'comments' => '',
           'tags' => $tags_names,
           'likes' => array(),
           'dislikes' => array(),
@@ -264,6 +265,7 @@ class Survey extends Controller {
           'snippet_b_dislikes' => array(),
           'chosen_snippet_id' => '',
           'dont_know' => '',
+          'comments' => '',
           'tags' => $tags_names,
           'time_to_answer' => 0,
           'question_type' => $this->FORCED_CHOICE_QUESTION_STR
@@ -309,6 +311,7 @@ class Survey extends Controller {
         'dislikes' => $question['dislikes'],
         'num_stars' => $question['num_stars'],
         'dont_know' => $question['dont_know'],
+        'comments' => $question['comments'],
         'total_num_questions' => $this->num_questions-1
       ));
     } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
@@ -326,6 +329,7 @@ class Survey extends Controller {
         'snippet_b_dislikes' => $question['snippet_b_dislikes'],
         'chosen_snippet_id' => $question['chosen_snippet_id'],
         'dont_know' => $question['dont_know'],
+        'comments' => $question['comments'],
         'total_num_questions' => $this->num_questions-1
       ));
     }
@@ -346,6 +350,8 @@ class Survey extends Controller {
     if (str_word_count($dont_know) == 0) {
       $dont_know = '';
     }
+
+    $question['comments'] = isset($_POST['comments_textarea']) ? preg_replace('/\s+/', ' ', $_POST['comments_textarea']) : '';
 
     $is_it_complete = true;
     if ($dont_know != '') {
@@ -496,7 +502,7 @@ class Survey extends Controller {
       if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         if (! $survey_model->createRateAnswer(
           // Answer
-          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'],
+          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
           // Rate
           $question['num_stars'],
           // AnswerSnipper
@@ -510,7 +516,7 @@ class Survey extends Controller {
       } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
         if (! $survey_model->createForcedChoiceAnswer(
           // Answer
-          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'],
+          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
           // Chosen snippet
           $question['chosen_snippet_id'],
           // AnswerSnipper
@@ -551,6 +557,7 @@ class Survey extends Controller {
             print("<td>" . implode(',', $question['likes']) . "</td>");
             print("<td>" . implode(',', $question['dislikes']) . "</td>");
             print("<td>" . $question['dont_know'] . "</td>");
+            print("<td>" . $question['comments'] . "</td>");
           print("</tr>");
         print("</table>");
         print("<br />");
@@ -579,6 +586,7 @@ class Survey extends Controller {
             print("<td>" . implode(',', $question['snippet_b_likes']) . "</td>");
             print("<td>" . implode(',', $question['snippet_b_dislikes']) . "</td>");
             print("<td>" . $question['dont_know'] . "</td>");
+            print("<td>" . $question['comments'] . "</td>");
           print("</tr>");
         print("</table>");
         print("<br />");

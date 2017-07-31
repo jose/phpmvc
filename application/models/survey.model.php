@@ -119,7 +119,7 @@ class SurveyModel {
    */
   public function createRateAnswer(
     // Answer
-    $type, $user_id, $time_to_answer, $dont_know_answer,
+    $type, $user_id, $time_to_answer, $dont_know_answer, $comments,
     // Rate
     $num_stars,
     // AnswerSnipper
@@ -143,17 +143,16 @@ class SurveyModel {
     if (! $this->addTagsToContainer($dislikes_container_id, $dislikes)) {
       return false;
     }
-    
-    
 
     // create a new answer
     try {
-      $query = $this->db->prepare('INSERT INTO Answer(type, user_id, time_to_answer, dont_know_answer) VALUES (:type, :user_id, :time_to_answer, :dont_know_answer)');
+      $query = $this->db->prepare('INSERT INTO Answer(type, user_id, time_to_answer, dont_know_answer, comments) VALUES (:type, :user_id, :time_to_answer, :dont_know_answer, :comments)');
       $query->execute(array(
         ':type' => $type,
         ':user_id' => $user_id,
         ':time_to_answer' => $time_to_answer,
-        ':dont_know_answer' => $dont_know_answer
+        ':dont_know_answer' => $dont_know_answer,
+        ':comments' => $comments
       ));
     } catch(PDOExecption $e) {
       $this->db->rollback();
@@ -215,7 +214,7 @@ class SurveyModel {
    */
   public function createForcedChoiceAnswer(
     // Answer
-    $type, $user_id, $time_to_answer, $dont_know_answer,
+    $type, $user_id, $time_to_answer, $dont_know_answer, $comments,
     // Chosen snippet
     $chosen_snippet_id,
     // AnswerSnipper
@@ -251,12 +250,13 @@ class SurveyModel {
 
     // create a new answer
     try {
-      $query = $this->db->prepare('INSERT INTO Answer(type, user_id, time_to_answer, dont_know_answer) VALUES (:type, :user_id, :time_to_answer, :dont_know_answer)');
+      $query = $this->db->prepare('INSERT INTO Answer(type, user_id, time_to_answer, dont_know_answer, comments) VALUES (:type, :user_id, :time_to_answer, :dont_know_answer, :comments)');
       $query->execute(array(
         ':type' => $type,
         ':user_id' => $user_id,
         ':time_to_answer' => $time_to_answer,
-        ':dont_know_answer' => $dont_know_answer
+        ':dont_know_answer' => $dont_know_answer,
+        ':comments' => $comments
       ));
     } catch(PDOExecption $e) {
       $this->db->rollback();

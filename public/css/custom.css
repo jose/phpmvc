@@ -90,7 +90,7 @@ span.glyphicon-triangle-bottom {
   overflow-y: auto;
 }
 
-.dont_know_textarea {
+.dont_know_textarea, .comments_textarea {
   resize: none;
 }
 

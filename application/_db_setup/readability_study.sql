@@ -180,10 +180,10 @@ CREATE TABLE `AnswerSnippet` (
 
 CREATE TABLE `AnswerSnippetContainer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `answer_snipper_id` int(11) NOT NULL,
+  `answer_snippet_id` int(11) NOT NULL,
   `container_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`, `answer_snipper_id`, `container_id`),
-  FOREIGN KEY (`answer_snipper_id`)
+  PRIMARY KEY (`id`, `answer_snippet_id`, `container_id`),
+  FOREIGN KEY (`answer_snippet_id`)
     REFERENCES AnswerSnippet(`id`)
     ON DELETE CASCADE,
   FOREIGN KEY (`container_id`)

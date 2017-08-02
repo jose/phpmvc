@@ -1,0 +1,108 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<!--<h1>Tags</h1>-->
+
+<!-- TestCase and a box to put tags -->
+<div class="row row-offcanvas row-offcanvas-left">
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}example/action">
+
+  <!-- TestCase -->
+  <div class="col-xs-12 col-sm-9 col-md-8" style="padding-left: 0;">
+    <div class="row center-block">
+      <!-- Tab header -->
+      <ul class="nav nav-tabs" id="test_case_tab">
+        <li class="active "><a href="#test" aria-controls="test" role="tab" data-toggle="tab">{{ constant('TEST_CASE') }}</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="test">
+          <pre class="scrollable" style="height: 670px;"><code class="language-java">
+@Test(timeout = 8000)
+public void test01()  throws Throwable  {
+  MutableDateTime mutableDateTime0 = new MutableDateTime();
+  int int0 = Calendar.ALL_STYLES;
+  mutableDateTime0.setTime(int0, int0, int0, int0);
+  // Undeclared exception!
+  try {
+    LocalDate.parse(string0);
+    fail("Expecting exception: IllegalArgumentException");
+  
+  } catch(IllegalArgumentException e) {
+     //
+     // Invalid format: \"{fmN^IHDDF\\;jb?Z@\"
+     //
+     verifyException("org.joda.time.format.DateTimeFormatter", e);
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="row center-block">
+      <p class="text-center">
+        <button class="btn btn-default" type="submit" name="submit" value="Previous" style="width: 19.7%">{{ constant('PREVIOUS') }}</button>
+        <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 79.7%;">{{ constant('NEXT') }}</button>
+      </p>
+      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
+
+    <!-- All Tags -->
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ constant('TAGS') }}</h3>
+      </div>
+      <div class="panel-body">
+        <div id="tags_container" class="bootstrap-tagsinput">
+          {% for tag in tags %}
+            <span id={{tag}} class="btn tag-item tag label label-info">{{tag}}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Like -->
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
+      </div>
+      <div class="panel-body">
+        <div id="like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+          <input name="like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Dislike -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
+      </div>
+      <div class="panel-body">
+        <div id="dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
+          <input name="dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Star rating -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-star" aria-hidden="true"></i>  Rating</h3>
+      </div>
+      <div class="panel-body text-center">
+        <input id="star-rating" name="star-rating" type="text" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
+      </div>
+    </div>
+  </div>
+
+</form>
+</div>
+
+{% endblock %}

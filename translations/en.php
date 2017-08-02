@@ -76,4 +76,13 @@ define('ALREADY_DONE_SURVEY', 'User with ID \'$user_id\', already have done this
 define('SURVEY_NOT_AVAILABLE', 'We will be in touch with you soon to let you know whether you are eligible to take part in our unit testing survey.');
 define('SURVEY_NOT_AVAILABLE_SCORE', 'You have failed the \'Java Competency Test\' with a score of $score%. We are sorry but without qualification you cannot proceed to take the survey.');
 
+// competency
+define('COMPETENCY_TITLE', 'Java Competency Test');
+define('COMPETENCY_SUB_TITLE', 'Please click on \'Start »\' button to begin the test.');
+define('COMPETENCY_SUBMIT_MESSAGE', 'You have finished your test, please submit your answers.');
+define('INCOMPLETE_COMPETENCY', 'You have to answer all your questions!');
+define('COMPETENCY_RESULT_SUCESS', '');
+define('ALREADY_DONE_COMPETENCY', 'User with ID: \'$user_id\', already have done the competency test.');
+define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' with a score of $score%.');
+
 ?>

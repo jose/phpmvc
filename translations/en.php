@@ -44,6 +44,7 @@ define('EXPLORER', 'Source Explorer');
 define('PASS', 'Pass');
 define('FAIL', 'Fail');
 define('TAGS', 'Tags');
+define('TAGS_BOX_PLACE_HOLDER', 'Drag & Drop tags, or type tag names');
 
 // competency
 define('COMPETENCY_TITLE', 'Java Competency Test');

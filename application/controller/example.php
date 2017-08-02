@@ -108,6 +108,16 @@ class Example extends Controller {
     return;
   }
 
+  public function tags_tour() {
+    // TODO get this list of tags from a database
+    $tags = ["Length", "Width", "Variables", "Indentation", "ConditionalStatements", "Numbers", "Comments", "Methods", "Parameters", "ArrayLength", "Spaces", "Parentheses", "ArithmeticOperators", "Comparisons", "Assertions", "Classes", "Characters", "Strings", "Exceptions", "Nulls", "Casts", "Booleans", "Arrays", "Fields"];
+
+    $this->render('example/tags_tour', array(
+      'tags' => $tags,
+    ));
+    return;
+  }
+
   /**
    *
    */

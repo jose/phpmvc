@@ -70,7 +70,7 @@
   <!-- All Tags -->
   <div class="row center-block col-md-12">
 
-    <div class="panel panel-info">
+    <div class="panel panel-info" id="tags_panel">
       <div class="panel-heading">
         <h3 class="panel-title">
           <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
@@ -157,9 +157,9 @@
       rows="3" placeholder="{{ constant('COMMENTS_BOX_PLACE_HOLDER') }}" enabled></textarea><br />
 
     <p class="text-center">
-      <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
+      <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" id="dont_know_button" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
       {% if (question_index != total_num_questions) %}
-        <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 74.5%;">{{ constant('NEXT') }}</button>
+        <button class="btn btn-default" type="submit" name="submit" value="Next" id="next_button" style="width: 74.5%;">{{ constant('NEXT') }}</button>
       {% else %}
         <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 74.5%;">{{ constant('SUBMIT') }}</button>
       {% endif %}
@@ -171,6 +171,31 @@
 
 </form>
 </div>
+
+{% if ((question_index == 0) and (s_errors is empty)) %}
+<!-- Only show/activate tour on the very first question -->
+<div class="modal fade" id="tour_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-primary">
+        <!--
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        -->
+        <h4 class="modal-title modal-title-primary">Information</h4>
+      </div>
+      <div class="modal-body">
+        <p>Before answering any question, please take a minute to
+        carefully follow and understand the step-by-step tour.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" name="forced_choice_modal" data-dismiss="modal" onclick="enableTour(this)">Start tour</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 <!-- keep session tags -->
 <script type="text/javascript">

@@ -1,120 +1,24 @@
 {% extends "_templates/base.twig" %}
 {% block content %}
 
-<!-- Progress-Bar -->
-<div class="progress">
-  <div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
-    {{ progress }}% {{ constant('PROGRESS_BAR_INFO') }}
-  </div>
+<div class="jumbotron">
+  <h1>{{ constant('SURVEY_TITLE') }}</h1>
+  <p>{{ constant('SURVEY_SUB_TITLE') }}</p>
 </div>
 
-<!-- TestCase and a box to put tags -->
-<div class="row row-offcanvas row-offcanvas-left">
+<p>Since you have already passed the Java qualification, you can
+immediately proceed with the Readability Survey. <br /> <br />
+This survey consists of <b>{{ total_num_questions }} code snippets</b>
+with associated questions. Please answer them to the best of your
+ability. <br /> Any knowledge of the system or any contextual
+information to answer these questions is provided.</p>
 
-  <div class="row center-block col-md-12">
-    <h4>{{ constant('RATE_SURVEY_QUESTION')|raw }}</h4>
-  </div>
-
-<form id="_form" role="form" method="post" action="{{ constant('URL') }}survey/action">
-
-  <!-- TestCase -->
-  <div class="col-xs-12 col-sm-9 col-md-8">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{ constant('TEST_CASE') }}</h3>
-      </div>
-      <div class="panel-body">
-        <pre class="scrollable_snippet" style="max-height: 500px; height: 500px;"><code class="language-java">{{ snippet_source_code }}</code></pre>
-      </div>
-    </div>
-    <textarea name="comments_textarea" id="comments_textarea" class="comments_textarea form-control"
-      rows="3" placeholder="{{ constant('COMMENTS_BOX_PLACE_HOLDER') }}" enabled></textarea>
-  </div>
-
-  <div class="col-xs-6 col-md-4 col-sm-3 sidebar-offcanvas" id="tags">
-
-    <!-- Star rating -->
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-star" aria-hidden="true"></i>  Rating</h3>
-      </div>
-      <div class="panel-body text-center">
-        <input id="star-rating" name="star-rating" type="text" value="{{ num_stars }}" class="rating" data-show-clear="false" data-show-caption="false" data-size="xs" >
-      </div>
-    </div>
-
-    <!-- All Tags -->
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-tags" aria-hidden="true"></i>  {{ constant('TAGS') }}</h3>
-      </div>
-      <div class="panel-body">
-        <div id="tags_container" class="bootstrap-tagsinput">
-          {% for tag in tags %}
-            <span id="{{tag}}" class="btn tag-item tag label label-info">{{tag}}</span>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <!-- Like -->
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  Like</h3>
-      </div>
-      <div class="panel-body">
-        <div id="like-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input name="like-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Dislike -->
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>  Dislike</h3>
-      </div>
-      <div class="panel-body">
-        <div id="dislike-container" class="bootstrap-tagsinput draggable_container" style="padding: 0px;">
-          <input name="dislike-container" class="input-tag tagsinput-typeahead" type="text" placeholder="{{ constant('TAGS_BOX_PLACE_HOLDER') }}" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row center-block">
-      <p class="text-center">
-        <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" style="width: 32.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
-        {% if (question_index != total_num_questions) %}
-          <button class="btn btn-default" type="submit" name="submit" value="Next" style="width: 66.5%;">{{ constant('NEXT') }}</button>
-        {% else %}
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 66.5%;">{{ constant('SUBMIT') }}</button>
-        {% endif %}
-      </p>
-      <textarea name="dont_know_textarea" id="dont_know_textarea" class="dont_know_textarea form-control"
-                  rows="6" placeholder="{{ constant('DONT_KNOW_BOX_PLACE_HOLDER') }}" disabled required style="display: none;"></textarea>
-      <input type="text" class="form-control" name="time_to_answer" id="time_to_answer" value="" style="visibility:hidden;"/>
-    </div>
-  </div>
-
+<form role="form" method="post" action="{{ constant('URL') }}survey/action">
+<div class="row center-block">
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">{{ constant('START') }}</button>
+  </p>
+</div>
 </form>
-</div>
-
-<!-- keep session tags -->
-<script type="text/javascript">
-$(document).ready(function() {
-  {% for like in likes %}
-    var tag = $('#tags_container').find({{like}}).text();
-    $('#like-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
-  {% endfor %}
-  {% for dislike in dislikes %}
-    var tag = $('#tags_container').find({{dislike}}).text();
-    $('#dislike-container').find('.tagsinput-typeahead').first().tagsinput('add', tag);
-  {% endfor %}
-});
-</script>
 
 {% endblock %}

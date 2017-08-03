@@ -108,10 +108,9 @@ class Survey extends Controller {
         return;
       }
 
-      $this->render('survey/index', array(
+      $this->render($this->survey_type . '/index', array(
         'total_num_questions' => $this->num_questions
       ));
-
     } else {
       header('location: ' . URL);
     }
@@ -302,7 +301,7 @@ class Survey extends Controller {
     // render question based on its type
 
     if ($question['question_type'] == $this->RATE_QUESTION_STR) {
-      $this->render($this->RATE_QUESTION_STR . '/index', array(
+      $this->render($this->RATE_QUESTION_STR . '/question', array(
         'question_index' => $question_index,
         'progress' => Session::get('progress'),
         'snippet_source_code' => $question['snippet_source_code'],
@@ -315,7 +314,7 @@ class Survey extends Controller {
         'total_num_questions' => $this->num_questions-1
       ));
     } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
-      $this->render($this->FORCED_CHOICE_QUESTION_STR . '/index', array(
+      $this->render($this->FORCED_CHOICE_QUESTION_STR . '/question', array(
         'question_index' => $question_index,
         'progress' => Session::get('progress'),
         'tags' => $question['tags'],

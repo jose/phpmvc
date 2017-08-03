@@ -25,6 +25,19 @@
   background-color: rgba(170, 170, 170, 0.4);
 }
 
+.modal-header-primary {
+  background-color: #337ab7;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.modal-title-primary {
+  color: #fff;
+}
+
 /**
  * Code snippets
  */
@@ -92,5 +105,13 @@ span.glyphicon-triangle-bottom {
 
 .dont_know_textarea, .comments_textarea {
   resize: none;
+}
+
+/**
+ * Tour
+ */
+.tour-backdrop {
+  opacity: 0.15;
+  filter: alpha(opacity=15;
 }
 

@@ -3,20 +3,64 @@
  */
 
 // Instance the tour
-var tour = new Tour({
+var rate_tour = new Tour({
   name: "rating_tour",
   steps: [
   {
-    element: "#test",
+    element: "#test_case_panel",
     placement: "top",
-    title: "Welcome to Bootstrap Tour!",
-    content: "Introduce new users to your product by walking them through it step by step."
+    title: "Source Code Snippet",
+    content: "Each question is composed by two panels. On the left panel,\
+    there is the source code of a unit test case."
   },
   {
-    element: "#tags",
+    element: "#rating_panel",
     placement: "left",
-    title: "Welcome to Bootstrap Tour!",
-    content: "Introduce new users to your product by walking them through it step by step.",
+    title: "Rating",
+    content: "And on the right there is a panel to help you answer your\
+    question. You can rate each test case from 1 to 5 stars. Give 1 star\
+    to test cases you think are not readable at all, and 5 stars to test\
+    cases you think are very readable."
+  },
+  {
+    element: "#tags_panel",
+    placement: "left",
+    title: "Tags",
+    content: "Use any set of tags to justify why do you think the test\
+    case provided is readable / unreadable. Tags from this box can be\
+    drag & drop into the below 'Like' or 'Dislike' box."
+  },
+  /*{
+    element: "#likes_panel",
+    placement: "left",
+    title: "Likes",
+    content: "..."
+  },
+  {
+    element: "#dislikes_panel",
+    placement: "left",
+    title: "Dislikes",
+    content: "..."
+  },*/
+  {
+    element: "#comments_textarea",
+    placement: "top",
+    title: "Extra Comments",
+    content: "Use this textbox to provide additional comments you might have."
+  },
+  {
+    element: "#dont_know_button",
+    placement: "top",
+    title: "Skip Question",
+    content: "In case you are not able to assess how much readable the\
+    test case is, use the 'Skip' button and provide an explanation on why."
+  },
+  {
+    element: "#next_button",
+    placement: "top",
+    title: "Move to Next Question",
+    content: "Once you have rated the test case provided or chosen to\
+    skip it, select 'Next' to go to the next question.",
     // Override template for the last step, i.e., no need to show "Next",
     // but "End tour" should be shown
     template: "<div class='popover tour'>\
@@ -55,10 +99,4 @@ var tour = new Tour({
     // document.location.href = '/url/' + userId;
   }
 });
-
-// Initialize the tour
-tour.init();
-
-// Start the tour
-tour.start(true);
 

@@ -51,3 +51,34 @@ $(document).ready(function() {
   box_b.height(max_height);
 });
 
+/**
+ * Start tour modal if any
+ */
+$(document).ready(function() {
+  $('#tour_modal').modal({
+    // Closes the modal when escape key is pressed
+    keyboard: false,
+    // true, false, or static. Specify 'static' for a backdrop which
+    // does not close the modal on click
+    backdrop: 'static',
+    // Shows the modal when initialized
+    show: true
+  });
+});
+
+function enableTour(button) {
+  if (button.name == "rate_modal") {
+    // Initialize the tour
+    rate_tour.init();
+    // Start the tour
+    rate_tour.start(true);
+  } else if (button.name == "forced_choice_modal") {
+    // Initialize the tour
+    forced_choice_tour.init();
+    // Start the tour
+    forced_choice_tour.start(true);
+  } else {
+    console.log("Tour '" + button.name + "' not recognized");
+  }
+}
+

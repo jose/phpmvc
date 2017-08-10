@@ -23,7 +23,9 @@ USE `readability-study`;
 
 INSERT INTO `Competency` (`id`, `score`) VALUES
 (1, 90),
-(2, 25);
+(2, 25),
+(3, 90),
+(4, 90);
 
 --
 -- Data for table `User`
@@ -31,7 +33,9 @@ INSERT INTO `Competency` (`id`, `score`) VALUES
 
 INSERT INTO `User` (`id`, `competency_id`) VALUES
 ('allowed', 1),
-('notallowed', 2);
+('notallowed', 2),
+('rate', 3),
+('forced_choice', 4);
 
 --
 -- Data for table `Tag`

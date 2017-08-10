@@ -52,7 +52,13 @@ class Survey extends Controller {
       array_push($type_of_studies, $type['name']);
     }
 
-    $this->survey_type = $type_of_studies[array_rand($configurations['type'])];
+    if ($_GET['user_id'] == "rate") {
+      $this->survey_type = "rate";
+    } else if ($_GET['user_id'] == "forced_choice") {
+      $this->survey_type = "forced_choice";
+    } else {
+      $this->survey_type = $type_of_studies[array_rand($configurations['type'])];
+    }
     Session::set('survey_type', $this->survey_type);
 
     $this->num_questions = $configurations[$this->survey_type][0]['num_questions'];

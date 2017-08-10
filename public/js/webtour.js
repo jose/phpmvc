@@ -19,16 +19,16 @@ var rate_tour = new Tour({
     title: "Rating",
     content: "And on the right there is a panel to help you answer your\
     question. You can rate each test case from 1 to 5 stars. Give 1 star\
-    to test cases you think are not readable at all, and 5 stars to test\
-    cases you think are very readable."
+    to test cases you do not like at all, and 5 stars to test cases\
+    you like very much."
   },
   {
     element: "#tags_panel",
     placement: "left",
     title: "Tags",
-    content: "Use any set of tags to justify why do you think the test\
-    case provided is readable / unreadable. Tags from this box can be\
-    drag & drop into the below 'Like' or 'Dislike' box."
+    content: "Use any set of tags to justify why do you like / dislike\
+    the test case provided. Tags from this box can be drag & drop into\
+     the below 'Like' or 'Dislike' box."
   },
   /*{
     element: "#likes_panel",
@@ -52,8 +52,8 @@ var rate_tour = new Tour({
     element: "#dont_know_button",
     placement: "top",
     title: "Skip Question",
-    content: "In case you are not able to assess how much readable the\
-    test case is, use the 'Skip' button and provide an explanation on why."
+    content: "In case you are not able to assess how much you like the\
+    test case, use the 'Skip' button and provide an explanation on why."
   },
   {
     element: "#next_button",
@@ -110,25 +110,15 @@ var forced_choice_tour = new Tour({
     placement: "top",
     title: "Test Cases",
     content: "Each question is composed by two unit test cases, select\
-    the one that you think is more readable by selecting 'Test A' or\
-    'Test B'."
-  },
-  {
-    element: "#rating_panel",
-    placement: "left",
-    title: "Rating",
-    content: "And on the right there is a panel to help you answer your\
-    question. You can rate each test case from 1 to 5 stars. Give 1 star\
-    to test cases you think are not readable at all, and 5 stars to test\
-    cases you think are very readable."
+    the one that you like most by selecting 'Test A' or 'Test B'."
   },
   {
     element: "#tags_panel",
     placement: "top",
     title: "Tags",
-    content: "Use any set of tags to justify why do you think 'Test A'\
-    is more/less readable than 'Test B' and vice-versa. Tags from this\
-    box can be drag & drop into the below 'Like' or 'Dislike' boxes."
+    content: "Use any set of tags to justify why do like/dislike 'Test A'\
+    more/less than 'Test B' and vice-versa. Tags from this box can be\
+    drag & drop into the below 'Like' or 'Dislike' boxes."
   },
   /*{
     element: "#likes_panel",
@@ -152,9 +142,8 @@ var forced_choice_tour = new Tour({
     element: "#dont_know_button",
     placement: "top",
     title: "Skip Question",
-    content: "In case you are not able to assess which unit test case\
-    is the most readable one, use the 'Skip' button and provide an \
-    explanation on why."
+    content: "In case you are not able to assess which test case you\
+    like most, use the 'Skip' button and provide an explanation on why."
   },
   {
     element: "#next_button",

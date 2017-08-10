@@ -63,13 +63,13 @@ define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' w
 define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');
 define('SURVEY_SUBMIT_MESSAGE', 'You have finished your survey, please submit your answers.');
-define('RATE_SURVEY_QUESTION', 'Please rate the following test case by its readability: 1 star, test case is not readable at all; 5 stars, test case is very readable. <br/ > Then, justify your rating by selecting the appropriated tags. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much readable this test case is. <br/ > <br/ >');
-define('FORCED_CHOICE_SURVEY_QUESTION', 'For the following pair of test cases, please select the one that you think is more readable by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
+define('RATE_SURVEY_QUESTION', 'Please rate the following test case by how much you like it: 1 star, you do not like it at all; 5 stars, you like it very much. <br/ > Then, justify your rating by selecting the appropriated tags. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much you like this test case. <br/ > <br/ >');
+define('FORCED_CHOICE_SURVEY_QUESTION', 'For the following pair of test cases, please select the one that you like most by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
 define('INCOMPLETE_SURVEY', 'Please answer all questions before submitting.');
 define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.'); # haven't answered anything at all
 define('INCOMPLETE_SURVEY_RATE_MISSING_RATE', 'Your answer is incomplete. Please rate the following test case.');
 define('INCOMPLETE_SURVEY_RATE_MISSING_TAGS', 'Your answer is incomplete. Please justify your rating by selecting the most appropriated tags.');
-define('INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_SELECTION', 'Your answer is incomplete. Please select the test case that you think is more readable by selecting \'Test A\' or \'Test B\'.');
+define('INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_SELECTION', 'Your answer is incomplete. Please select the test case that you like most by selecting \'Test A\' or \'Test B\'.');
 define('INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_TAGS_OF_A', 'Your answer is incomplete. Please justify your choice by selecting the appropriated tags, at least one per test case.');
 define('INCOMPLETE_SURVEY_FORCED_CHOICE_MISSING_TAGS_OF_B', 'Your answer is incomplete. Please justify your choice by selecting the appropriated tags, at least one per test case.');
 define('ALREADY_DONE_SURVEY', 'User with ID \'$user_id\', already have done this survey.');

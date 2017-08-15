@@ -10,17 +10,18 @@ var rate_tour = new Tour({
     element: "#test_case_panel",
     placement: "top",
     title: "Source Code Snippet",
-    content: "Each question is composed by two panels. On the left panel,\
-    there is the source code of a unit test case."
+    content: "On the left side of the webpage is the source code of a\
+    unit test case."
   },
   {
     element: "#rating_panel",
     placement: "left",
     title: "Rating",
-    content: "And on the right there is a panel to help you answer your\
-    question. You can rate each test case from 1 to 5 stars. Give 1 star\
-    to test cases you do not like at all, and 5 stars to test cases\
-    you like very much."
+    content: "And on the right side you can rate each test case from\
+    1 to 5 stars. Give 1 star to test cases you do not like at all, and\
+    5 stars to test cases you like very much. This should just capture\
+    your first impression of the test case, not how well you understand\
+    the test case."
   },
   {
     element: "#tags_panel",
@@ -45,13 +46,13 @@ var rate_tour = new Tour({
   {
     element: "#comments_textarea",
     placement: "top",
-    title: "Extra Comments",
+    title: "Extra Comments (optional)",
     content: "Use this textbox to provide additional comments you might have."
   },
   {
     element: "#dont_know_button",
     placement: "top",
-    title: "Skip Question",
+    title: "Provide an Explanation",
     content: "In case you are not able to assess how much you like the\
     test case, use the 'Skip' button and provide an explanation on why."
   },
@@ -135,15 +136,15 @@ var forced_choice_tour = new Tour({
   {
     element: "#comments_textarea",
     placement: "top",
-    title: "Extra Comments",
+    title: "Extra Comments (optional)",
     content: "Use this textbox to provide additional comments you might have."
   },
   {
     element: "#dont_know_button",
     placement: "top",
-    title: "Skip Question",
-    content: "In case you are not able to assess which test case you\
-    like most, use the 'Skip' button and provide an explanation on why."
+    title: "Provide an Explanation",
+    content: "In case you are not able to assess how much you like the\
+    test case, use the 'Skip' button and provide an explanation on why."
   },
   {
     element: "#next_button",

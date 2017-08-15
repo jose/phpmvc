@@ -47,8 +47,8 @@ define('PASS', 'Pass');
 define('FAIL', 'Fail');
 define('TAGS', 'Tags');
 define('TAGS_BOX_PLACE_HOLDER', 'Drag & drop tags, or type tag names');
-define('DONT_KNOW_BOX_PLACE_HOLDER', 'Please explain why you are skipping this question and then select the \'Next\' button.');
-define('COMMENTS_BOX_PLACE_HOLDER', 'Use this text area to provide any additional comments.');
+define('DONT_KNOW_BOX_PLACE_HOLDER', 'Please provide an explanation why you are skipping this question and then select the \'Next\' button.');
+define('COMMENTS_BOX_PLACE_HOLDER', 'Use this text area to provide any additional comments you might have.');
 
 // competency
 define('COMPETENCY_TITLE', 'Java Competency Test');
@@ -63,8 +63,8 @@ define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' w
 define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');
 define('SURVEY_SUBMIT_MESSAGE', 'You have finished your survey, please submit your answers.');
-define('RATE_SURVEY_QUESTION', 'Please rate the following test case by how much you like it: 1 star, you do not like it at all; 5 stars, you like it very much. <br/ > Then, justify your rating by selecting the appropriated tags. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much you like this test case. <br/ > <br/ >');
-define('FORCED_CHOICE_SURVEY_QUESTION', 'For the following pair of test cases, please select the one that you like most by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
+define('RATE_SURVEY_QUESTION', 'Please rate the following test case by how much you like it: 1 star, you do not like it at all; 5 stars, you like it very much. <br/ > Then, justify your rating by selecting the appropriated tags. <br/> This should just capture your first impression of the test case, not how well you understand the test case. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much you like this test case. <br/ > <br/ >');
+define('FORCED_CHOICE_SURVEY_QUESTION', 'For the following pair of test cases, please select the one that you like most by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/> This should just capture your first impression of the test case, not how well you understand the test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
 define('INCOMPLETE_SURVEY', 'Please answer all questions before submitting.');
 define('INCOMPLETE_ANSWER', 'Please answer the question before continuing.'); # haven't answered anything at all
 define('INCOMPLETE_SURVEY_RATE_MISSING_RATE', 'Your answer is incomplete. Please rate the following test case.');

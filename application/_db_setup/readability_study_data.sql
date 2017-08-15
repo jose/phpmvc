@@ -25,7 +25,27 @@ INSERT INTO `Competency` (`id`, `score`) VALUES
 (1, 90),
 (2, 25),
 (3, 90),
-(4, 90);
+(4, 90),
+(5, 90),
+(6, 90),
+(7, 90),
+(8, 90),
+(9, 90),
+(10, 90),
+(11, 90),
+(12, 90),
+(13, 90),
+(14, 90),
+(15, 90),
+(16, 90),
+(17, 90),
+(18, 90),
+(19, 90),
+(20, 90),
+(21, 90),
+(22, 90),
+(23, 90),
+(24, 90);
 
 --
 -- Data for table `User`
@@ -35,7 +55,27 @@ INSERT INTO `User` (`id`, `competency_id`) VALUES
 ('allowed', 1),
 ('notallowed', 2),
 ('rate', 3),
-('forced_choice', 4);
+('rate_1', 4),
+('rate_2', 5),
+('rate_3', 6),
+('rate_4', 7),
+('rate_5', 8),
+('rate_6', 9),
+('rate_7', 10),
+('rate_8', 11),
+('rate_9', 12),
+('rate_10', 13),
+('forced_choice', 14),
+('forced_choice_1', 15),
+('forced_choice_2', 16),
+('forced_choice_3', 17),
+('forced_choice_4', 18),
+('forced_choice_5', 19),
+('forced_choice_6', 20),
+('forced_choice_7', 21),
+('forced_choice_8', 22),
+('forced_choice_9', 23),
+('forced_choice_10', 24);
 
 --
 -- Data for table `Tag`

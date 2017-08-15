@@ -52,9 +52,9 @@ class Survey extends Controller {
       array_push($type_of_studies, $type['name']);
     }
 
-    if ($_GET['user_id'] == "rate") {
+    if (strpos($_GET['user_id'], "rate") === 0) {
       $this->survey_type = "rate";
-    } else if ($_GET['user_id'] == "forced_choice") {
+    } else if (strpos($_GET['user_id'], "forced_choice") === 0) {
       $this->survey_type = "forced_choice";
     } else {
       $this->survey_type = $type_of_studies[array_rand($configurations['type'])];

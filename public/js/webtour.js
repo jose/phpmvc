@@ -28,8 +28,8 @@ var rate_tour = new Tour({
     placement: "left",
     title: "Tags",
     content: "Use any set of tags to justify why do you like / dislike\
-    the test case provided. Tags from this box can be drag & drop into\
-     the below 'Like' or 'Dislike' box."
+    the test case provided. Tags from this box can be dragged & dropped into\
+     the below 'Like' or 'Dislike' boxes."
   },
   /*{
     element: "#likes_panel",
@@ -119,7 +119,7 @@ var forced_choice_tour = new Tour({
     title: "Tags",
     content: "Use any set of tags to justify why do like/dislike 'Test A'\
     more/less than 'Test B' and vice-versa. Tags from this box can be\
-    drag & drop into the below 'Like' or 'Dislike' boxes."
+    dragged & dropped into the below 'Like' or 'Dislike' boxes."
   },
   /*{
     element: "#likes_panel",

@@ -3,6 +3,7 @@
     <div class="navbar-header">
       <img src="{{ constant('URL') }}public/img/favicon.ico" alt="" height="40" style="padding-top: 5px;" />
     </div>
+    {% if question_type is defined %}
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -13,5 +14,6 @@
         </li>
       </ul>
     </div>
+    {% endif %}
   </div>
 </div>

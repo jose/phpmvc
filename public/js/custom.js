@@ -66,19 +66,27 @@ $(document).ready(function() {
   });
 });
 
-function enableTour(button) {
-  if (button.name == "rate_modal") {
-    // Initialize the tour
-    rate_tour.init();
-    // Start the tour
-    rate_tour.start(true);
-  } else if (button.name == "forced_choice_modal") {
-    // Initialize the tour
-    forced_choice_tour.init();
-    // Start the tour
-    forced_choice_tour.start(true);
+function enableTour(question_type) {
+  if (question_type == "rate") {
+    if (rate_tour.ended()) {
+      rate_tour.restart();
+    } else {
+      // Initialize the tour
+      rate_tour.init();
+      // Start the tour
+      rate_tour.start(true);
+    }
+  } else if (question_type == "forced_choice") {
+    if (forced_choice_tour.ended()) {
+      forced_choice_tour.restart();
+    } else {
+      // Initialize the tour
+      forced_choice_tour.init();
+      // Start the tour
+      forced_choice_tour.start(true);
+    }
   } else {
-    console.log("Tour '" + button.name + "' not recognized");
+    console.log("Tour '" + question_type + "' not recognized");
   }
 }
 

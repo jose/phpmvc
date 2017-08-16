@@ -1,13 +1,17 @@
 <div class="navbar navbar-default navbar-static-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <img src="{{ constant('URL') }}public/img/favicon.ico" alt="" height="40" style="padding-top:5px;" />
+      <img src="{{ constant('URL') }}public/img/favicon.ico" alt="" height="40" style="padding-top: 5px;" />
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#" name="rate_modal" onclick="enableTour('{{ question_type }}');" style="display: flex; align-items: center;">
+            {{ constant('HELP') }}
+            <i class="fa fa-2x fa-question-circle" aria-hidden="true" style="padding-left: 5px;"></i>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

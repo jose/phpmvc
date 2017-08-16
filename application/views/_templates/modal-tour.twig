@@ -1,0 +1,23 @@
+{% if ((question_index == 0) and (s_errors is empty)) %}
+<!-- Only show/activate tour on the very first question -->
+<div class="modal fade" id="tour_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-primary">
+        <!--
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        -->
+        <h4 class="modal-title modal-title-primary">{{ constant('TOUR_TITLE') }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ constant('TOUR_INFO') }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="enableTour('{{ question_type }}');">{{ constant('TOUR_START') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

@@ -11,9 +11,9 @@
 <!-- A pair of test cases -->
 <div class="row row-offcanvas">
 
-  <div class="row center-block col-md-12">
+  <!--div class="row center-block col-md-12">
     <h4>{{ constant('FORCED_CHOICE_SURVEY_QUESTION')|raw }}</h4>
-  </div>
+  </div-->
 
 <form id="_form" role="form" method="post" action="{{ constant('URL') }}survey/action">
 
@@ -172,30 +172,7 @@
 </form>
 </div>
 
-{% if ((question_index == 0) and (s_errors is empty)) %}
-<!-- Only show/activate tour on the very first question -->
-<div class="modal fade" id="tour_modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header modal-header-primary">
-        <!--
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        -->
-        <h4 class="modal-title modal-title-primary">Information</h4>
-      </div>
-      <div class="modal-body">
-        <p>Please take a minute to carefully follow and understand the
-        step-by-step tour.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" name="forced_choice_modal" data-dismiss="modal" onclick="enableTour(this)">Start tour</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
+{% include '_templates/modal-tour.twig' %}
 
 <!-- keep session tags -->
 <script type="text/javascript">

@@ -21,6 +21,7 @@ define('USER_ID_LABEL', 'Prolific Academic ID');
 define('USER_ID_PLACE_HOLDER', 'Write here your Prolific Academic ID (e.g., A3IZSXSSGW80FN)');
 
 // app
+define('HELP', 'Help');
 define('START', 'Start »');
 define('NEXT', 'Next »');
 define('PREVIOUS', '« Previous');
@@ -58,6 +59,11 @@ define('INCOMPLETE_COMPETENCY', 'You have to answer all your questions!');
 define('COMPETENCY_RESULT_SUCCESS', '');
 define('ALREADY_DONE_COMPETENCY', 'User with ID: \'$user_id\', already have done the competency test.');
 define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' with a score of $score%.');
+
+// tour
+define('TOUR_TITLE', 'Information');
+define('TOUR_INFO', 'Please take a minute to carefully follow and understand the step-by-step tour.');
+define('TOUR_START', 'Start tour');
 
 // survey
 define('SURVEY_TITLE', 'Java Unit Testing Survey');

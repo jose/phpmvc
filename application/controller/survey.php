@@ -317,7 +317,8 @@ class Survey extends Controller {
         'num_stars' => $question['num_stars'],
         'dont_know' => $question['dont_know'],
         'comments' => $question['comments'],
-        'total_num_questions' => $this->num_questions-1
+        'total_num_questions' => $this->num_questions-1,
+        'question_type' => $this->RATE_QUESTION_STR
       ));
     } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
       $this->render($this->FORCED_CHOICE_QUESTION_STR . '/question', array(
@@ -335,7 +336,8 @@ class Survey extends Controller {
         'chosen_snippet_id' => $question['chosen_snippet_id'],
         'dont_know' => $question['dont_know'],
         'comments' => $question['comments'],
-        'total_num_questions' => $this->num_questions-1
+        'total_num_questions' => $this->num_questions-1,
+        'question_type' => $this->FORCED_CHOICE_QUESTION_STR
       ));
     }
   }

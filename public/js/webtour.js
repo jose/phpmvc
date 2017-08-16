@@ -119,7 +119,8 @@ var forced_choice_tour = new Tour({
     title: "Tags",
     content: "Use any set of tags to justify why do like/dislike 'Test A'\
     more/less than 'Test B' and vice-versa. Tags from this box can be\
-    dragged & dropped into the below 'Like' or 'Dislike' boxes."
+    dragged & dropped into the below 'Like' or 'Dislike' boxes. At least\
+    one tag must be chosen per test case."
   },
   /*{
     element: "#likes_panel",

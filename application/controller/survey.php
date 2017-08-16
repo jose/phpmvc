@@ -240,9 +240,9 @@ class Survey extends Controller {
       array_push($tags_names, $tag->value);
     }
 
-    // get all snippets from DB and randomly pick N, i.e., $this->num_questions * 2
+    // get all snippets from DB and randomly pick N
     $all_snippets = $survey_model->getAllSnippets();
-    $rand_keys = array_rand($all_snippets, $this->num_questions * 2);
+    $rand_keys = array_rand($all_snippets, $this->num_questions);
     if (!is_array($rand_keys)) {
       // When picking only one entry, array_rand() returns the key for
       // a random entry. Otherwise, an array of keys for the random
@@ -252,9 +252,12 @@ class Survey extends Controller {
 
     // prepare questions for the survey
     $question_index = 0;
-    for ($i = 0; $i < count($rand_keys); $i = $i + 2) {
+    for ($i = 0; $i < count($rand_keys); $i = $i + 1) {
       $selected_snippet_a = $all_snippets[$rand_keys[$i]];
-      $selected_snippet_b = $all_snippets[$rand_keys[$i + 1]];
+      $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
+      if ($selected_snippet_b === NULL) {
+        die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+      }
 
       $question = array(
         $question_index => array(

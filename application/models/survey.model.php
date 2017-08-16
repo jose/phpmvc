@@ -68,6 +68,25 @@ class SurveyModel {
   /**
    *
    */
+  public function getPairSnippet($snippet) {
+    $feature = explode("_", $snippet->path)[0] . "_%";
+    $query = $this->db->prepare('SELECT * FROM Snippet WHERE Snippet.path LIKE :feature AND Snippet.id != :id_of_snippet_already_selected');
+
+    try {
+      $query->execute(array(
+        ':feature' => $feature,
+        ':id_of_snippet_already_selected' => $snippet->id
+      ));
+    } catch(PDOExecption $e) {
+      return NULL;
+    }
+
+    return $query->fetchObject();
+  }
+
+  /**
+   *
+   */
   public function createContainer($type) {
     try {
       $query = $this->db->prepare('INSERT INTO Container(type) VALUES (:type)');

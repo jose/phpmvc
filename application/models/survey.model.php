@@ -69,7 +69,8 @@ class SurveyModel {
    *
    */
   public function getPairSnippet($snippet) {
-    $feature = explode("_", $snippet->path)[0] . "_%";
+    $feature = explode("_", $snippet->path);
+    $feature = $feature[0] . "_%";
     $query = $this->db->prepare('SELECT * FROM Snippet WHERE Snippet.path LIKE :feature AND Snippet.id != :id_of_snippet_already_selected');
 
     try {

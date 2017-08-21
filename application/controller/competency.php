@@ -137,7 +137,7 @@ class Competency extends Controller {
     $time_to_answer = $_POST['time_to_answer'];
     $answers = Session::get('answers');
 
-    for ($i = 0; $i < count($answers); $i++) {
+    for ($i = 1; $i <= count($answers); $i++) {
       $qi = $answers[$i]['question_index'];
       if ($question_index == $qi) {
         $answers[$i]['time_to_answer'] = $time_to_answer;

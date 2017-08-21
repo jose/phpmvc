@@ -90,3 +90,15 @@ function enableTour(question_type) {
   }
 }
 
+/**
+ * Disable submit button right after it is pushed to prevent double
+ * form submissions
+ */
+
+function disableSubmitButton() {
+  var elem = document.getElementById('submit_button');
+  elem.disabled = true;
+  elem.innerText = "Submitting your data, please wait";
+  return true;
+}
+

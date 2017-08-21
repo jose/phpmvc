@@ -15,7 +15,7 @@
     <h4>{{ constant('RATE_SURVEY_QUESTION')|raw }}</h4>
   </div-->
 
-<form id="_form" role="form" method="post" action="{{ constant('URL') }}survey/action">
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}survey/action" onsubmit="disableSubmitButton()">
 
   <!-- TestCase -->
   <div class="col-xs-12 col-sm-9 col-md-8">
@@ -90,8 +90,10 @@
         <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" id="dont_know_button" style="width: 32.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
         {% if (question_index != total_num_questions) %}
           <button class="btn btn-default" type="submit" name="submit" value="Next" id="next_button" style="width: 66.5%;">{{ constant('NEXT') }}</button>
+          <input type="hidden" name="submit" value="Next" />
         {% else %}
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" style="width: 66.5%;">{{ constant('SUBMIT') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 66.5%;">{{ constant('SUBMIT') }}</button>
+          <input type="hidden" name="submit" value="Submit" />
         {% endif %}
       </p>
       <textarea name="dont_know_textarea" id="dont_know_textarea" class="dont_know_textarea form-control"

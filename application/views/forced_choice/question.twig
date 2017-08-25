@@ -154,7 +154,7 @@
   <!-- Buttons -->
   <div class="row center-block col-md-12">
     <textarea name="comments_textarea" id="comments_textarea" class="comments_textarea form-control"
-      rows="3" placeholder="{{ constant('COMMENTS_BOX_PLACE_HOLDER') }}" enabled></textarea><br />
+      rows="3" placeholder="{{ constant('COMMENTS_BOX_PLACE_HOLDER') }}" enabled>{% if (comments != '') %}{{ comments }}{% endif %}</textarea><br />
 
     <p class="text-center">
       <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" id="dont_know_button" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>

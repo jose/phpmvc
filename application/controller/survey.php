@@ -96,7 +96,7 @@ class Survey extends Controller {
     Session::set('progress', 0);
 
     if (isset($_GET['user_id'])) {
-      $user_id = $_GET['user_id'];
+      $user_id = preg_replace('/\s+/', '', $_GET['user_id']);
 
       // has he/she got a score > threshold?
       $user_model = $this->loadModel('user');

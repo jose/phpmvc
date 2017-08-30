@@ -50,7 +50,7 @@ class Competency extends Controller {
     Session::set('progress', 0);
 
     if (isset($_GET['user_id'])) {
-      $user_id = $_GET['user_id'];
+      $user_id = preg_replace('/\s+/', '', $_GET['user_id']);
 
       Session::set('user_id', $user_id);
       $this->render('competency/index', array(

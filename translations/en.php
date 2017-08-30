@@ -61,9 +61,9 @@ define('ALREADY_DONE_COMPETENCY', 'User with ID: \'$user_id\', already have done
 define('COMPETENCY_RESULT_FAIL', 'You have failed the \'Java Competency Test\' with a score of $score%.');
 
 // tour
-define('TOUR_TITLE', 'Information');
-define('TOUR_INFO', 'Please take a minute to carefully follow and understand the step-by-step tour.');
-define('TOUR_START', 'Start tour');
+define('TOUR_MODAL_TITLE', 'Information');
+define('TOUR_MODAL_INFO', 'Please take a minute to carefully follow and understand the step-by-step tour.');
+define('TOUR_MODAL_START', 'Start tour');
 
 // survey
 define('SURVEY_TITLE', 'Java Unit Testing Survey');

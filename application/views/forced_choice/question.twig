@@ -11,9 +11,12 @@
 <!-- A pair of test cases -->
 <div class="row row-offcanvas">
 
-  <!--div class="row center-block col-md-12">
-    <h4>{{ constant('FORCED_CHOICE_SURVEY_QUESTION')|raw }}</h4>
-  </div-->
+  {% if warm_up_question == true %}
+    <div class="row center-block col-md-12">
+      <!--h4>{{ constant('FORCED_CHOICE_SURVEY_QUESTION')|raw }}</h4-->
+      <h4>Demonstration question {{ question_index + 1 }} of {{ num_warm_up_questions }}.</h4>
+    </div>
+  {% endif %}
 
 <form id="_form" role="form" method="post" action="{{ constant('URL') }}survey/action" onsubmit="disableSubmitButton()">
 
@@ -158,7 +161,7 @@
 
     <p class="text-center">
       <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" id="dont_know_button" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
-      {% if (question_index != total_num_questions) %}
+      {% if (question_index != total_num_questions + num_warm_up_questions) %}
         <button class="btn btn-default" type="submit" name="submit" value="Next" id="next_button" style="width: 74.5%;">{{ constant('NEXT') }}</button>
         <input type="hidden" name="submit" value="Next" />
       {% else %}
@@ -175,6 +178,7 @@
 </div>
 
 {% include '_templates/modal-tour.twig' %}
+{% include '_templates/modal-survey.twig' %}
 
 <!-- keep session tags -->
 <script type="text/javascript">

@@ -10,6 +10,8 @@ class Survey extends Controller {
 
   private $survey_type;
 
+  private $num_warm_up_questions;
+
   private $num_questions;
 
   // can same user perform same survey several times?
@@ -28,6 +30,7 @@ class Survey extends Controller {
     if (Session::get('token') !== null) {
       // to avoid reading parameters over and over
       $this->survey_type = Session::get('survey_type');
+      $this->num_warm_up_questions = Session::get('num_warm_up_questions');
       $this->num_questions = Session::get('num_questions');
       $this->allow_multiple_attempts = Session::get('allow_multiple_attempts');
       $this->threshold_score = Session::get('threshold_score');
@@ -61,13 +64,16 @@ class Survey extends Controller {
     }
     Session::set('survey_type', $this->survey_type);
 
+    $this->num_warm_up_questions = $configurations[$this->survey_type][0]['num_warm_up_questions'];
+    Session::set('num_warm_up_questions', $this->num_warm_up_questions);
+
     $this->num_questions = $configurations[$this->survey_type][0]['num_questions'];
     Session::set('num_questions', $this->num_questions);
 
     $this->allow_multiple_attempts = (strtolower($configurations[$this->survey_type][0]['allow_multiple_attempts']) == "no" ? false : true);
     Session::set('allow_multiple_attempts', $this->allow_multiple_attempts);
 
-    if (!isset($this->survey_type) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
+    if (!isset($this->survey_type) || !isset($this->num_warm_up_questions) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
       Session::set('s_errors', array('survey_configuration' => 'Configuration file is not well formed.'));
       return;
     }
@@ -115,6 +121,7 @@ class Survey extends Controller {
       }
 
       $this->render($this->survey_type . '/index', array(
+        'total_num_warm_up_questions' => $this->num_warm_up_questions,
         'total_num_questions' => $this->num_questions
       ));
     } else {
@@ -187,9 +194,9 @@ class Survey extends Controller {
       array_push($tags_names, $tag->value);
     }
 
-    // get all snippets from DB and randomly pick N, i.e., $this->num_questions
+    // get all snippets from DB and randomly pick N
     $all_snippets = $survey_model->getAllSnippets();
-    $rand_keys = array_rand($all_snippets, $this->num_questions);
+    $rand_keys = array_rand($all_snippets, $this->num_questions + $this->num_warm_up_questions);
     if (!is_array($rand_keys)) {
       // When picking only one entry, array_rand() returns the key for
       // a random entry. Otherwise, an array of keys for the random
@@ -214,6 +221,7 @@ class Survey extends Controller {
           'tags' => $tags_names,
           'likes' => array(),
           'dislikes' => array(),
+          'warm_up_question' => true ? $question_index < $this->num_warm_up_questions : false,
           'question_type' => $this->RATE_QUESTION_STR
         )
       );
@@ -242,7 +250,7 @@ class Survey extends Controller {
 
     // get all snippets from DB and randomly pick N
     $all_snippets = $survey_model->getAllSnippets();
-    $rand_keys = array_rand($all_snippets, $this->num_questions);
+    $rand_keys = array_rand($all_snippets, $this->num_questions + $this->num_warm_up_questions);
     if (!is_array($rand_keys)) {
       // When picking only one entry, array_rand() returns the key for
       // a random entry. Otherwise, an array of keys for the random
@@ -276,6 +284,7 @@ class Survey extends Controller {
           'comments' => '',
           'tags' => $tags_names,
           'time_to_answer' => 0,
+          'warm_up_question' => true ? $question_index < $this->num_warm_up_questions : false,
           'question_type' => $this->FORCED_CHOICE_QUESTION_STR
         )
       );
@@ -320,6 +329,8 @@ class Survey extends Controller {
         'num_stars' => $question['num_stars'],
         'dont_know' => $question['dont_know'],
         'comments' => $question['comments'],
+        'num_warm_up_questions' => $this->num_warm_up_questions,
+        'warm_up_question' => $question['warm_up_question'],
         'total_num_questions' => $this->num_questions-1,
         'question_type' => $this->RATE_QUESTION_STR
       ));
@@ -339,6 +350,8 @@ class Survey extends Controller {
         'chosen_snippet_id' => $question['chosen_snippet_id'],
         'dont_know' => $question['dont_know'],
         'comments' => $question['comments'],
+        'num_warm_up_questions' => $this->num_warm_up_questions,
+        'warm_up_question' => $question['warm_up_question'],
         'total_num_questions' => $this->num_questions-1,
         'question_type' => $this->FORCED_CHOICE_QUESTION_STR
       ));
@@ -424,6 +437,11 @@ class Survey extends Controller {
 
     $how_many_answered_so_far = 0;
     foreach ($questions as $question) {
+      if ($question['warm_up_question']) {
+        # warm-up questions should not update the progressBar
+        continue;
+      }
+
       if ($question['dont_know'] != '') {
         $how_many_answered_so_far++;
       } else {
@@ -461,6 +479,13 @@ class Survey extends Controller {
     // sanity check if user has answered all questions
     for ($question_index = 0; $question_index < count($questions); $question_index++) {
       $question = $questions[$question_index];
+
+      if ($question['warm_up_question']) {
+        # no need to check the answer of warm-up questions as they are
+        # not submitted to the DB
+        continue;
+      }
+
       $completed = true;
 
       if ($question['dont_know'] != '') {
@@ -509,6 +534,11 @@ class Survey extends Controller {
 
     foreach ($questions as $question) {
 
+      if ($question['warm_up_question']) {
+        # answers of warm-up questions are not submitted to the DB
+        continue;
+      }
+
       if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         if (! $survey_model->createRateAnswer(
           // Answer
@@ -548,6 +578,13 @@ class Survey extends Controller {
    */
   private function prettyPrintQuestions($questions) {
     foreach ($questions as $question) {
+
+      if ($question['warm_up_question']) {
+        # no need to keep track of answers of warm-up questions as
+        # they are only to practice/demonstration
+        continue;
+      }
+
       if ($question['question_type'] == $this->RATE_QUESTION_STR) {
         print("<table style=\"width:100%;\">");
           print("<tr>");

@@ -11,12 +11,14 @@
   ],
   "rate": [
     {
+      "num_warm_up_questions": 3,
       "num_questions": 30,
       "allow_multiple_attempts": "no"
     }
   ],
   "forced_choice": [
     {
+      "num_warm_up_questions": 3,
       "num_questions": 10,
       "allow_multiple_attempts": "no"
     }

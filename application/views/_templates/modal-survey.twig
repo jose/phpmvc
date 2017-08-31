@@ -1,0 +1,28 @@
+{% if ((question_index == num_warm_up_questions) and (s_errors is empty)) %}
+<!-- User has just finished the demonstration questions, and from now
+     he is performing the real survey -->
+<div class="modal fade" id="survey_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header modal-header-primary">
+        <!--
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        -->
+        <h4 class="modal-title modal-title-primary">{{ constant('SURVEY_MODAL_TITLE') }}</h4>
+      </div>
+      <div class="modal-body">
+        {% if ((question_index == 0) and (s_errors is empty)) %}
+          
+        {% else %}
+          <p>{{ constant('SURVEY_MODAL_INFO') }}</p>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ constant('SURVEY_MODAL_CLOSE') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

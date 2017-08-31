@@ -91,6 +91,21 @@ function enableTour(question_type) {
 }
 
 /**
+ * Start survey modal if any
+ */
+$(document).ready(function() {
+  $('#survey_modal').modal({
+    // Closes the modal when escape key is pressed
+    keyboard: true,
+    // true, false, or static. Specify 'static' for a backdrop which
+    // does not close the modal on click
+    backdrop: 'static',
+    // Shows the modal when initialized
+    show: true
+  });
+});
+
+/**
  * Disable submit button right after it is pushed to prevent double
  * form submissions
  */

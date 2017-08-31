@@ -65,6 +65,11 @@ define('TOUR_MODAL_TITLE', 'Information');
 define('TOUR_MODAL_INFO', 'Please take a minute to carefully follow and understand the step-by-step tour.');
 define('TOUR_MODAL_START', 'Start tour');
 
+// survey modal
+define('SURVEY_MODAL_TITLE', 'Information');
+define('SURVEY_MODAL_INFO', 'You have just completed the demonstration questions. From now on all your answers will be recorded.');
+define('SURVEY_MODAL_CLOSE', 'Close');
+
 // survey
 define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');

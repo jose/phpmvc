@@ -388,7 +388,7 @@ class Survey extends Controller {
         if ($question['num_stars'] == 0 && count($question['likes']) == 0 && count($question['dislikes']) == 0) {
           Session::set('s_errors', array(INCOMPLETE_ANSWER));
           $is_it_complete = false;
-        } else if ($question['num_stars'] == 0 && (count($question['likes']) > 0 || count($question['dislikes']) == 0)) {
+        } else if ($question['num_stars'] == 0 && (count($question['likes']) > 0 || count($question['dislikes']) > 0)) {
           Session::set('s_errors', array(INCOMPLETE_SURVEY_RATE_MISSING_RATE));
           $is_it_complete = false;
         } else if ($question['num_stars'] > 0 && (count($question['likes']) == 0 && count($question['dislikes']) == 0)) {

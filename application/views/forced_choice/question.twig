@@ -162,11 +162,11 @@
     <p class="text-center">
       <button class="btn btn-default" type="button" name="dont_know_button" value="Dont_Know" id="dont_know_button" style="width: 25.0%" onclick="enableDisableDontKnowTextArea(this)">{{ constant('DONT_KNOW') }}</button>
       {% if (question_index != total_num_questions + num_warm_up_questions) %}
-        <button class="btn btn-default" type="submit" name="submit" value="Next" id="next_button" style="width: 74.5%;">{{ constant('NEXT') }}</button>
+        <button class="btn btn-default" type="submit" name="submit" value="Next" id="submit_button" style="width: 74.5%;">{{ constant('NEXT') }}</button>
         <input type="hidden" name="submit" value="Next" />
       {% else %}
-        <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 74.5%;">{{ constant('SUBMIT') }}</button>
-        <input type="hidden" name="submit" value="Submit" />
+        <button class="btn btn-primary" type="submit" name="submit" value="Exit" id="submit_button" style="width: 74.5%;">{{ constant('EXIT') }}</button>
+        <input type="hidden" name="submit" value="Exit" />
       {% endif %}
     </p>
     <textarea name="dont_know_textarea" id="dont_know_textarea" class="dont_know_textarea form-control"

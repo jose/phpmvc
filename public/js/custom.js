@@ -113,7 +113,7 @@ $(document).ready(function() {
 function disableSubmitButton() {
   var elem = document.getElementById('submit_button');
   elem.disabled = true;
-  elem.innerText = "Submitting your data, please wait";
+  elem.innerText = "Submitting your data, please wait.";
   return true;
 }
 

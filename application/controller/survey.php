@@ -148,17 +148,25 @@ class Survey extends Controller {
 
       $action_to_perform = 'survey/question/' . $question_index;
     } else if ($_POST['submit'] == 'Next') {
-      if ($this->registerAnswer($question_index)) {
-        $question_index++; // next question number
-        Session::set('question_index', $question_index);
-        $this->progressBar();
+      if ($this->checkAnswer($question_index)) {
+        // as we do not allow users to change any previous answer, we
+        // can simple submit every single one to the DB.
+        if ($this->submitToDB($question_index)) {
+          $question_index++; // next question number
+          Session::set('question_index', $question_index);
+          $this->progressBar();
+        }
       }
       $action_to_perform = 'survey/question/' . $question_index;
-    } else if ($_POST['submit'] == 'Submit') {
-      if ($this->registerAnswer($question_index)) {
-        $action_to_perform = 'survey/submit/';
-      } else  {
-        $action_to_perform = 'survey/question/' . $question_index;
+    } else if ($_POST['submit'] == 'Exit') {
+      $action_to_perform = 'survey/question/' . $question_index;
+      if ($this->checkAnswer($question_index)) {
+        // as we do not allow users to change any previous answer, we
+        // can simple submit every single one to the DB.
+        if ($this->submitToDB($question_index)) {
+          Session::set('completed', "completed");
+          $action_to_perform = 'survey/thanks/';
+        }
       }
     }
 
@@ -361,7 +369,7 @@ class Survey extends Controller {
   /**
    *
    */
-  private function registerAnswer($question_index) {
+  private function checkAnswer($question_index) {
     $questions = Session::get('questions');
     $question = $questions[$question_index];
 
@@ -466,107 +474,67 @@ class Survey extends Controller {
   /**
    *
    */
-  public function submit() {
-    // if there is no user_id, user should not have access to this function
+  private function submitToDB($question_index) {
     $user_id = Session::get('user_id');
     if (!isset($user_id)) {
+      // this function is private and it is not likely that someone
+      // would be able to access it without a user_id, but just in
+      // case
       header('location: ' . URL);
-      return;
+      return false;
     }
 
     $questions = Session::get('questions');
+    $question = $questions[$question_index];
 
-    // sanity check if user has answered all questions
-    for ($question_index = 0; $question_index < count($questions); $question_index++) {
-      $question = $questions[$question_index];
-
-      if ($question['warm_up_question']) {
-        # no need to check the answer of warm-up questions as they are
-        # not submitted to the DB
-        continue;
-      }
-
-      $completed = true;
-
-      if ($question['dont_know'] != '') {
-        continue;
-      }
-
-      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
-        if (count($question['likes']) == 0 && count($question['dislikes']) == 0) {
-          $completed = false;
-        }
-      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
-        if ((count($question['snippet_a_likes']) == 0 && count($question['snippet_a_dislikes']) == 0)
-            || (count($question['snippet_b_likes']) == 0 && count($question['snippet_b_dislikes']) == 0)
-            || $question['chosen_snippet_id'] == "") {
-          $completed = false;
-        }
-      }
-
-      if (! $completed) {
-        Session::set('s_errors', array(INCOMPLETE_SURVEY));
-
-        Session::set('question_index', $question_index);
-        header('location: ' . URL . 'survey/question/' . $question_index);
-
-        return;
-      }
+    if ($question['warm_up_question']) {
+      # no need to keep track of answers of warm-up questions as they
+      # are only to practice/demonstration
+      return true;
     }
 
-    if (! $this->submitDB($user_id, $questions)) {
-      var_dump(Session::get('s_errors'));
-      print("<br />");
-      $this->prettyPrintQuestions($questions);
-      die(); // TODO are you sure? how about writing everything to a file and send it to me by email?
-    }
-
-    Session::set('submitted', "submitted");
-    header('location: ' . URL . 'survey/thanks/');
-  }
-
-  /**
-   *
-   */
-  private function submitDB($user_id, $questions) {
-    // create a new survey
+    // get survey model to access DB functions
     $survey_model = $this->loadModel('survey');
 
-    foreach ($questions as $question) {
+    if ($question['question_type'] == $this->RATE_QUESTION_STR) {
+      if (! $survey_model->createRateAnswer(
+        // Answer
+        $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
+        // Rate
+        $question['num_stars'],
+        // AnswerSnipper
+        $question['snippet_id'],
+        // Tags
+        $question['likes'], $question['dislikes']
+      )) {
+        Session::set('s_errors', array("It was not possible to create a 'rate' answer!"));
 
-      if ($question['warm_up_question']) {
-        # answers of warm-up questions are not submitted to the DB
-        continue;
+        var_dump(Session::get('s_errors'));
+        print("<br />");
+        $this->prettyPrintQuestion($question);
+        die(); // TODO are you sure? how about writing everything to a file and send it to me by email?
+
+        return false;
       }
+    } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
+      if (! $survey_model->createForcedChoiceAnswer(
+        // Answer
+        $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
+        // Chosen snippet
+        $question['chosen_snippet_id'],
+        // AnswerSnipper
+        $question['snippet_a_id'], $question['snippet_b_id'],
+        // Tags
+        $question['snippet_a_likes'], $question['snippet_a_dislikes'], $question['snippet_b_likes'], $question['snippet_b_dislikes']
+      )) {
+        Session::set('s_errors', array("It was not possible to create a 'forced_choice' answer!"));
 
-      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
-        if (! $survey_model->createRateAnswer(
-          // Answer
-          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
-          // Rate
-          $question['num_stars'],
-          // AnswerSnipper
-          $question['snippet_id'],
-          // Tags
-          $question['likes'], $question['dislikes']
-        )) {
-          Session::set('s_errors', array("It was not possible to create a 'rate' survey!"));
-          return false;
-        }
-      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
-        if (! $survey_model->createForcedChoiceAnswer(
-          // Answer
-          $question['question_type'], $user_id, $question['time_to_answer'], $question['dont_know'], $question['comments'],
-          // Chosen snippet
-          $question['chosen_snippet_id'],
-          // AnswerSnipper
-          $question['snippet_a_id'], $question['snippet_b_id'],
-          // Tags
-          $question['snippet_a_likes'], $question['snippet_a_dislikes'], $question['snippet_b_likes'], $question['snippet_b_dislikes']
-        )) {
-          Session::set('s_errors', array("It was not possible to create a 'forced_choice' survey!"));
-          return false;
-        }
+        var_dump(Session::get('s_errors'));
+        print("<br />");
+        $this->prettyPrintQuestion($question);
+        die(); // TODO are you sure? how about writing everything to a file and send it to me by email?
+
+        return false;
       }
     }
 
@@ -576,68 +544,59 @@ class Survey extends Controller {
   /**
    *
    */
-  private function prettyPrintQuestions($questions) {
-    foreach ($questions as $question) {
-
-      if ($question['warm_up_question']) {
-        # no need to keep track of answers of warm-up questions as
-        # they are only to practice/demonstration
-        continue;
-      }
-
-      if ($question['question_type'] == $this->RATE_QUESTION_STR) {
-        print("<table style=\"width:100%;\">");
-          print("<tr>");
-            print("<th>question_type</th>");
-            print("<th>snippet_id</th>");
-            print("<th>time_to_answer</th>");
-            print("<th>num_stars</th>");
-            print("<th>likes</th>");
-            print("<th>dislikes</th>");
-            print("<th>don't know</th>");
-          print("</tr>");
-          print("<tr>");
-            print("<td>" . $question['question_type'] . "</td>");
-            print("<td>" . $question['snippet_id'] . "</td>");
-            print("<td>" . $question['time_to_answer'] . "</td>");
-            print("<td>" . $question['num_stars'] . "</td>");
-            print("<td>" . implode(',', $question['likes']) . "</td>");
-            print("<td>" . implode(',', $question['dislikes']) . "</td>");
-            print("<td>" . $question['dont_know'] . "</td>");
-            print("<td>" . $question['comments'] . "</td>");
-          print("</tr>");
-        print("</table>");
-        print("<br />");
-      } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
-        print("<table style=\"width:100%;\">");
-          print("<tr>");
-            print("<th>question_type</th>");
-            print("<th>snippet_a_id</th>");
-            print("<th>snippet_b_id</th>");
-            print("<th>time_to_answer</th>");
-            print("<th>chosen_snippet_id</th>");
-            print("<th>snippet_a_likes</th>");
-            print("<th>snippet_a_dislikes</th>");
-            print("<th>snippet_b_likes</th>");
-            print("<th>snippet_b_dislikes</th>");
-            print("<th>don't know</th>");
-          print("</tr>");
-          print("<tr>");
-            print("<td>" . $question['question_type'] . "</td>");
-            print("<td>" . $question['snippet_a_id'] . "</td>");
-            print("<td>" . $question['snippet_b_id'] . "</td>");
-            print("<td>" . $question['time_to_answer'] . "</td>");
-            print("<td>" . $question['chosen_snippet_id'] . "</td>");
-            print("<td>" . implode(',', $question['snippet_a_likes']) . "</td>");
-            print("<td>" . implode(',', $question['snippet_a_dislikes']) . "</td>");
-            print("<td>" . implode(',', $question['snippet_b_likes']) . "</td>");
-            print("<td>" . implode(',', $question['snippet_b_dislikes']) . "</td>");
-            print("<td>" . $question['dont_know'] . "</td>");
-            print("<td>" . $question['comments'] . "</td>");
-          print("</tr>");
-        print("</table>");
-        print("<br />");
-      }
+  private function prettyPrintQuestions($question) {
+    if ($question['question_type'] == $this->RATE_QUESTION_STR) {
+      print("<table style=\"width:100%;\">");
+        print("<tr>");
+          print("<th>question_type</th>");
+          print("<th>snippet_id</th>");
+          print("<th>time_to_answer</th>");
+          print("<th>num_stars</th>");
+          print("<th>likes</th>");
+          print("<th>dislikes</th>");
+          print("<th>don't know</th>");
+        print("</tr>");
+        print("<tr>");
+          print("<td>" . $question['question_type'] . "</td>");
+          print("<td>" . $question['snippet_id'] . "</td>");
+          print("<td>" . $question['time_to_answer'] . "</td>");
+          print("<td>" . $question['num_stars'] . "</td>");
+          print("<td>" . implode(',', $question['likes']) . "</td>");
+          print("<td>" . implode(',', $question['dislikes']) . "</td>");
+          print("<td>" . $question['dont_know'] . "</td>");
+          print("<td>" . $question['comments'] . "</td>");
+        print("</tr>");
+      print("</table>");
+      print("<br />");
+    } else if ($question['question_type'] == $this->FORCED_CHOICE_QUESTION_STR) {
+      print("<table style=\"width:100%;\">");
+        print("<tr>");
+          print("<th>question_type</th>");
+          print("<th>snippet_a_id</th>");
+          print("<th>snippet_b_id</th>");
+          print("<th>time_to_answer</th>");
+          print("<th>chosen_snippet_id</th>");
+          print("<th>snippet_a_likes</th>");
+          print("<th>snippet_a_dislikes</th>");
+          print("<th>snippet_b_likes</th>");
+          print("<th>snippet_b_dislikes</th>");
+          print("<th>don't know</th>");
+        print("</tr>");
+        print("<tr>");
+          print("<td>" . $question['question_type'] . "</td>");
+          print("<td>" . $question['snippet_a_id'] . "</td>");
+          print("<td>" . $question['snippet_b_id'] . "</td>");
+          print("<td>" . $question['time_to_answer'] . "</td>");
+          print("<td>" . $question['chosen_snippet_id'] . "</td>");
+          print("<td>" . implode(',', $question['snippet_a_likes']) . "</td>");
+          print("<td>" . implode(',', $question['snippet_a_dislikes']) . "</td>");
+          print("<td>" . implode(',', $question['snippet_b_likes']) . "</td>");
+          print("<td>" . implode(',', $question['snippet_b_dislikes']) . "</td>");
+          print("<td>" . $question['dont_know'] . "</td>");
+          print("<td>" . $question['comments'] . "</td>");
+        print("</tr>");
+      print("</table>");
+      print("<br />");
     }
   }
 
@@ -666,8 +625,8 @@ class Survey extends Controller {
       return;
     }
 
-    $submitted = Session::get('submitted');
-    if (!isset($submitted)) {
+    $completed = Session::get('completed');
+    if (!isset($completed)) {
       header('location: ' . URL . 'survey/question/' . Session::get('question_index'));
       return;
     }

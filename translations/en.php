@@ -25,7 +25,7 @@ define('HELP', 'Help');
 define('START', 'Start »');
 define('NEXT', 'Next »');
 define('PREVIOUS', '« Previous');
-define('SUBMIT', 'Submit your data »');
+define('EXIT', 'Finish');
 define('DONT_KNOW', "Skip");
 define('MESSAGE_ERROR', 'Error:');
 define('MESSAGE_SUCCESS', '');

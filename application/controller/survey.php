@@ -603,20 +603,6 @@ class Survey extends Controller {
   /**
    *
    */
-  private function addTagsToContainer($model, $container_id, $tags) {
-    foreach ($tags as $tag) {
-      $tag_id = $model->getTagID($tag);
-      if (! $model->addTagToContainer($container_id, $tag_id)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   *
-   */
   public function thanks() {
     // if there is no user_id, user should not have access to 'thanks' option
     $user_id = Session::get('user_id');

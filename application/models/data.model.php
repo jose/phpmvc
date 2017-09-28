@@ -83,8 +83,8 @@ class DataModel {
       $data_point->AnswerType = $answer->AnswerType;
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
-      $data_point->Skip = escapeAndQuoteString($answer->Skip);
-      $data_point->Comments = escapeAndQuoteString($answer->Comments);
+      $data_point->Skip = $this->escapeAndQuoteString($answer->Skip);
+      $data_point->Comments = $this->escapeAndQuoteString($answer->Comments);
       $data_point->SnippetID = $answer->SnippetID;
       $data_point->SnippetPath = $answer->SnippetPath;
       $data_point->Stars = $answer->Stars;
@@ -113,8 +113,8 @@ class DataModel {
       $data_point->AnswerType = $answer->AnswerType;
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
-      $data_point->Skip = escapeAndQuoteString($answer->Skip);
-      $data_point->Comments = escapeAndQuoteString($answer->Comments);
+      $data_point->Skip = $this->escapeAndQuoteString($answer->Skip);
+      $data_point->Comments = $this->escapeAndQuoteString($answer->Comments);
       $data_point->ChosenSnippetID = $answer->ChosenSnippetID;
 
       $snippets = $this->getSnippetsIDsOfAnAnswer($answer->AnswerID);

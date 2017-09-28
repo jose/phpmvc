@@ -143,7 +143,7 @@ class DataModel {
   private function escapeAndQuoteString($str) {
     //return "\"" . str_replace(",", ';', $str) . "\"";
     // http://php.net/htmlspecialchars or http://php.net/manual/en/function.addslashes.php
-    return "\"" . htmlspecialchars($str, ENT_COMPAT | ENT_HTML401, 'UTF-8', true) . "\"";
+    return "\"" . htmlspecialchars($str, ENT_COMPAT, 'UTF-8', true) . "\"";
   }
 }
 

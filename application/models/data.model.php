@@ -83,8 +83,8 @@ class DataModel {
       $data_point->AnswerType = $answer->AnswerType;
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
-      $data_point->Skip = str_replace(",", ';', $answer->Skip);
-      $data_point->Comments = str_replace(",", ';', $answer->Comments);
+      $data_point->Skip = escapeAndQuoteString($answer->Skip);
+      $data_point->Comments = escapeAndQuoteString($answer->Comments);
       $data_point->SnippetID = $answer->SnippetID;
       $data_point->SnippetPath = $answer->SnippetPath;
       $data_point->Stars = $answer->Stars;
@@ -113,8 +113,8 @@ class DataModel {
       $data_point->AnswerType = $answer->AnswerType;
       $data_point->UserID = $answer->UserID;
       $data_point->Time = $answer->Time;
-      $data_point->Skip = str_replace(",", ';', $answer->Skip);
-      $data_point->Comments = str_replace(",", ';', $answer->Comments);
+      $data_point->Skip = escapeAndQuoteString($answer->Skip);
+      $data_point->Comments = escapeAndQuoteString($answer->Comments);
       $data_point->ChosenSnippetID = $answer->ChosenSnippetID;
 
       $snippets = $this->getSnippetsIDsOfAnAnswer($answer->AnswerID);
@@ -135,6 +135,15 @@ class DataModel {
     }
 
     return $data;
+  }
+
+  /**
+   *
+   */
+  private function escapeAndQuoteString($str) {
+    //return "\"" . str_replace(",", ';', $str) . "\"";
+    // http://php.net/htmlspecialchars or http://php.net/manual/en/function.addslashes.php
+    return "\"" . htmlspecialchars($str, ENT_COMPAT | ENT_HTML401, 'UTF-8', true) . "\"";
   }
 }
 

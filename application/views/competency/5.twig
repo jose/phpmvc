@@ -135,7 +135,7 @@ this.scaleX, this.scaleY</code></pre>
       </div>
       <p class="text-center">
         {% if (question_index == 1) and (question_index == total_num_questions) %}
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 100%;">{{ constant('SUBMIT') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 100%;">{{ constant('EXIT') }}</button>
           <input type="hidden" name="submit" value="Submit" />
         {% elseif (question_index == 1) and (question_index != total_num_questions) %}
           <button class="btn btn-default" type="submit" name="submit" value="Next" id="next_button" style="width: 98.5%;">{{ constant('NEXT') }}</button>
@@ -143,7 +143,7 @@ this.scaleX, this.scaleY</code></pre>
         {% elseif (question_index > 1) and (question_index == total_num_questions) %}
           <button class="btn btn-default" type="submit" name="submit" value="Previous" id="previous_button" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>
           <input type="hidden" name="submit" value="Previous" />
-          <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 69.0%;">{{ constant('SUBMIT') }}</button>
+          <button class="btn btn-primary" type="submit" name="submit" value="Submit" id="submit_button" style="width: 69.0%;">{{ constant('EXIT') }}</button>
           <input type="hidden" name="submit" value="Submit" />
         {% elseif (question_index > 1) and (question_index != total_num_questions) %}
           <button class="btn btn-default" type="submit" name="submit" value="Previous" id="previous_button" style="width: 29.0%">{{ constant('PREVIOUS') }}</button>

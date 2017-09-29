@@ -5,7 +5,7 @@
   <h1>{{ constant('SURVEY_TITLE') }}</h1>
   <p>{{ constant('THANKS_MESSAGE') }}</p>
   <br /><br />
-  <p>{{ constant('TOKEN_MESSAGE') }} {{ token }}</p>
+  <p>{{ constant('TOKEN_MESSAGE') | replace({'$token': token, '$prolific_token': prolific_token}) | raw }}</p>
 </div>
 
 {% endblock %}

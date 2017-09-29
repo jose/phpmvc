@@ -31,7 +31,8 @@ define('MESSAGE_ERROR', 'Error:');
 define('MESSAGE_SUCCESS', '');
 define('PROGRESS_BAR_INFO', 'Complete');
 define('THANKS_MESSAGE', 'Thank you very much for your time!');
-define('TOKEN_MESSAGE', 'To claim your payment on \'Prolific Academic\', please copy the following token:');
+//define('TOKEN_MESSAGE', 'To claim your payment on \'Prolific Academic\', please copy the following token:');
+define('TOKEN_MESSAGE', 'To claim your payment, please copy the following token <strong>$token</strong> and go to <a href="https://www.prolific.ac/submissions/complete?cc=$prolific_token" target="_blank">Prolific Academic</a>');
 
 // snippets
 define('SNIPPET', 'Snippet');

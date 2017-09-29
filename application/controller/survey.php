@@ -17,6 +17,8 @@ class Survey extends Controller {
   // can same user perform same survey several times?
   private $allow_multiple_attempts;
 
+  private $prolific_token;
+
   // types of questions
   private $RATE_QUESTION_STR = "rate";
   private $FORCED_CHOICE_QUESTION_STR = "forced_choice";
@@ -33,6 +35,7 @@ class Survey extends Controller {
       $this->num_warm_up_questions = Session::get('num_warm_up_questions');
       $this->num_questions = Session::get('num_questions');
       $this->allow_multiple_attempts = Session::get('allow_multiple_attempts');
+      $this->prolific_token = Session::get('prolific_token');
       $this->threshold_score = Session::get('threshold_score');
 
       return;
@@ -64,16 +67,21 @@ class Survey extends Controller {
     }
     Session::set('survey_type', $this->survey_type);
 
-    $this->num_warm_up_questions = $configurations[$this->survey_type][0]['num_warm_up_questions'];
+    $survey_configuration = $configurations[$this->survey_type][0];
+
+    $this->num_warm_up_questions = $survey_configuration['num_warm_up_questions'];
     Session::set('num_warm_up_questions', $this->num_warm_up_questions);
 
-    $this->num_questions = $configurations[$this->survey_type][0]['num_questions'];
+    $this->num_questions = $survey_configuration['num_questions'];
     Session::set('num_questions', $this->num_questions);
 
-    $this->allow_multiple_attempts = (strtolower($configurations[$this->survey_type][0]['allow_multiple_attempts']) == "no" ? false : true);
+    $this->allow_multiple_attempts = (strtolower($survey_configuration['allow_multiple_attempts']) == "no" ? false : true);
     Session::set('allow_multiple_attempts', $this->allow_multiple_attempts);
 
-    if (!isset($this->survey_type) || !isset($this->num_warm_up_questions) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
+    $this->prolific_token = $survey_configuration['prolific_token'];
+    Session::set('prolific_token', $this->prolific_token);
+
+    if (!isset($this->survey_type) || !isset($this->num_warm_up_questions) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts) || !isset($this->prolific_token)) {
       Session::set('s_errors', array('survey_configuration' => 'Configuration file is not well formed.'));
       return;
     }
@@ -618,13 +626,15 @@ class Survey extends Controller {
     }
 
     $token = Session::get('token');
+    $prolific_token = Session::get('prolific_token');
 
     // clean session
     Session::destroy();
 
     // say thanks and show the token
     $this->render('survey/thanks', array(
-      'token' => $token
+      'token' => $token,
+      'prolific_token' => $prolific_token
     ));
   }
 }

@@ -9,8 +9,7 @@
   
   {% if score >= threshold_score %}
     You achieved a score of {{ score }}%. <br />
-    We will be in touch with you soon to let you know whether you
-    are eligible to take part in our unit testing study.
+    You can now take part in our unit testing study.
     <br /><br />
 
     Please note that you will not have to do the competency quiz again
@@ -22,5 +21,21 @@
   {% endif %}
   </p>
 </div>
+
+{% if score >= threshold_score %}
+<form role="form" method="post" action="{{ constant('URL') }}home/action">
+<div class="row center-block">
+  <p>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">{{ constant('USER_ID_LABEL') }}</span>
+      <input type="text" class="form-control" name="user_id" id="user_id" placeholder="{{ constant('USER_ID_PLACE_HOLDER') }}" aria-describedby="basic-addon1" value="{{ user_id }}" required readonly/>
+    </div>
+  </p>
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Begin" style="width: 100%;">{{ constant('START') }}</button>
+  </p>
+</div>
+</form>
+{% endif %}
 
 {% endblock %}

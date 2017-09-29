@@ -284,6 +284,7 @@ class Competency extends Controller {
 
     // say thanks and goodbye
     $this->render('competency/thanks', array(
+      'user_id' => $user_id,
       'score' => $score,
       'threshold_score' => $this->threshold_score
     ));

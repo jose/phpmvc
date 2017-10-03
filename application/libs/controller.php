@@ -18,6 +18,9 @@ class Controller {
     if (self::$db == null) {
       $this->databaseConnection();
     }
+
+    // seed the random number generator
+    srand(31);
   }
 
   /**

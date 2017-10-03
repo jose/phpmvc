@@ -56,6 +56,12 @@ class Competency extends Controller {
       $this->render('competency/index', array(
         'total_num_questions' => $this->num_questions
       ));
+
+      $type_of_survey = $_GET['type_of_survey'];
+      Session::set('type_of_survey', $type_of_survey);
+
+      $set_of_questions = $_GET['set_of_questions'];
+      Session::set('set_of_questions', $set_of_questions);
     } else {
       header('location: ' . URL);
     }
@@ -272,6 +278,9 @@ class Competency extends Controller {
       return;
     }
 
+    $type_of_survey = Session::get('type_of_survey');
+    $set_of_questions = Session::get('set_of_questions');
+
     // get users' score
     $score = Session::get('score');
     if (!isset($score)) {
@@ -285,6 +294,8 @@ class Competency extends Controller {
     // say thanks and goodbye
     $this->render('competency/thanks', array(
       'user_id' => $user_id,
+      'type_of_survey' => $type_of_survey,
+      'set_of_questions' => $set_of_questions,
       'score' => $score,
       'threshold_score' => $this->threshold_score
     ));

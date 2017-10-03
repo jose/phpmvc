@@ -26,9 +26,29 @@
 <form role="form" method="post" action="{{ constant('URL') }}home/action">
 <div class="row center-block">
   <p>
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">{{ constant('USER_ID_LABEL') }}</span>
-      <input type="text" class="form-control" name="user_id" id="user_id" placeholder="{{ constant('USER_ID_PLACE_HOLDER') }}" aria-describedby="basic-addon1" value="{{ user_id }}" required readonly/>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{ constant('USER_ID_LABEL') }}</span>
+        <input type="text" class="form-control" name="user_id" id="user_id" placeholder="{{ constant('USER_ID_PLACE_HOLDER') }}" aria-describedby="basic-addon1" value="{{ user_id }}" required readonly/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{ constant('TYPE_OF_SURVEY_LABEL') }}</span>
+        <select class="form-control" name="type_of_survey" id="type_of_survey" required readonly>
+          <option selected value="{{ type_of_survey }}">{{ type_of_survey }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{ constant('SET_OF_QUESTIONS_LABEL') }}</span>
+        <select class="form-control" name="set_of_questions" id="set_of_questions" required readonly>
+          <option selected value="{{ set_of_questions }}">{{ set_of_questions }}</option>
+        </select>
+      </div>
     </div>
   </p>
   <p>

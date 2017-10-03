@@ -19,6 +19,11 @@ define('HOME_TITLE', 'Java Unit Testing Survey');
 define('HOME_SUB_TITLE', 'Please insert your \'Prolific Academic ID\' and click on \'Start »\' button to begin the survey.');
 define('USER_ID_LABEL', 'Prolific Academic ID');
 define('USER_ID_PLACE_HOLDER', 'Write here your Prolific Academic ID (e.g., A3IZSXSSGW80FN)');
+define('TYPE_OF_SURVEY_LABEL', 'Type of Survey');
+define('SET_OF_QUESTIONS_LABEL', 'Set of Questions');
+define('CHOOSE_LABEL', 'Choose ...');
+define('RANDOM_LABEL', 'Random');
+define('NONE_LABEL', 'None');
 
 // app
 define('HELP', 'Help');
@@ -75,6 +80,8 @@ define('SURVEY_MODAL_CLOSE', 'Close');
 define('SURVEY_TITLE', 'Java Unit Testing Survey');
 define('SURVEY_SUB_TITLE', 'Please click on \'Start »\' button to begin the survey.');
 define('SURVEY_SUBMIT_MESSAGE', 'You have finished your survey, please submit your answers.');
+define('RATE_SURVEY_NAME', 'Rate');
+define('FORCED_CHOICE_SURVEY_NAME', 'Forced choice');
 define('RATE_SURVEY_QUESTION', 'Please rate the following test case by how much you like it: 1 star, you do not like it at all; 5 stars, you like it very much. <br/ > Then, justify your rating by selecting the appropriated tags. <br/> This should just capture your first impression of the test case, not how well you understand the test case. <br/ > <br/ > Select the \'Skip\' button below if you are not able to assess how much you like this test case. <br/ > <br/ >');
 define('FORCED_CHOICE_SURVEY_QUESTION', 'For the following pair of test cases, please select the one that you like most by selecting \'Test A\' or \'Test B\'. <br/ > Then, justify your choice by selecting the appropriated tags, at least one per test case. <br/> This should just capture your first impression of the test case, not how well you understand the test case. <br/ > <br/ > If you are not able to chose one test case, please justify why by selecting the \'Skip\' button below. <br/ > <br/ >');
 define('INCOMPLETE_SURVEY', 'Please answer all questions before submitting.');

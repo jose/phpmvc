@@ -14,6 +14,8 @@ class Survey extends Controller {
 
   private $num_questions;
 
+  private $set_of_questions;
+
   // can same user perform same survey several times?
   private $allow_multiple_attempts;
 
@@ -34,12 +36,27 @@ class Survey extends Controller {
       $this->survey_type = Session::get('survey_type');
       $this->num_warm_up_questions = Session::get('num_warm_up_questions');
       $this->num_questions = Session::get('num_questions');
+      $this->set_of_questions = Session::get('set_of_questions');
       $this->allow_multiple_attempts = Session::get('allow_multiple_attempts');
       $this->prolific_token = Session::get('prolific_token');
       $this->threshold_score = Session::get('threshold_score');
 
       return;
     }
+
+    if (!isset($_GET['type_of_survey'])) {
+      Session::set('s_errors', array('type_of_survey' => 'There is no type of survey defined.'));
+      return;
+    }
+    $this->survey_type = $_GET['type_of_survey'];
+    Session::set('survey_type', $this->survey_type);
+
+    if (!isset($_GET['set_of_questions'])) {
+      Session::set('s_errors', array('set_of_questions' => 'There is no set of questions defined.'));
+      return;
+    }
+    $this->set_of_questions = $_GET['set_of_questions'];
+    Session::set('set_of_questions', $this->set_of_questions);
 
     // read configurations
     $configurations = json_decode(file_get_contents(PATH_CONFS . "survey_config.json"), true);
@@ -52,20 +69,6 @@ class Survey extends Controller {
       Session::set('s_errors', array('survey_configuration' => 'It was not possible to initialise all survey parameters.'));
       return;
     }
-
-    $type_of_studies = array();
-    foreach ($configurations['type'] as $type) {
-      array_push($type_of_studies, $type['name']);
-    }
-
-    if (strpos($_GET['user_id'], "rate") === 0) {
-      $this->survey_type = "rate";
-    } else if (strpos($_GET['user_id'], "forced_choice") === 0) {
-      $this->survey_type = "forced_choice";
-    } else {
-      $this->survey_type = $type_of_studies[array_rand($configurations['type'])];
-    }
-    Session::set('survey_type', $this->survey_type);
 
     $survey_configuration = $configurations[$this->survey_type][0];
 
@@ -210,43 +213,59 @@ class Survey extends Controller {
       array_push($tags_names, $tag->value);
     }
 
-    // get all snippets from DB and randomly pick N
+    // get all snippets from DB and shuffle them
     $all_snippets = $survey_model->getAllSnippets();
-    $rand_keys = array_rand($all_snippets, $this->num_questions + $this->num_warm_up_questions);
-    if (!is_array($rand_keys)) {
-      // When picking only one entry, array_rand() returns the key for
-      // a random entry. Otherwise, an array of keys for the random
-      // entries is returned. 
-      $rand_keys = array($rand_keys);
+    shuffle($all_snippets);
+
+    // warm-up questions
+
+    $question_index = 0;
+
+    while (count($questions) < $this->num_warm_up_questions) {
+      $snippet = $all_snippets[array_rand($all_snippets, 1)];
+      $question = $this->createRateQuestion($question_index, $tags_names, $snippet);
+
+      $questions = array_merge($questions, $question);
+      $question_index++;
     }
 
     // prepare questions for the survey
-    $question_index = 0;
-    foreach ($rand_keys as $rand_key) {
-      $selected_snippet = $all_snippets[$rand_key];
 
-      $question = array(
-        $question_index => array(
-          'snippet_id' => $selected_snippet->id,
-          'snippet_path' => $selected_snippet->path,
-          'snippet_source_code' => file_get_contents(URL . $selected_snippet->path),
-          'time_to_answer' => 0,
-          'num_stars' => 0.0,
-          'dont_know' => '',
-          'comments' => '',
-          'tags' => $tags_names,
-          'likes' => array(),
-          'dislikes' => array(),
-          'warm_up_question' => true ? $question_index < $this->num_warm_up_questions : false,
-          'question_type' => $this->RATE_QUESTION_STR
-        )
-      );
+    $question_index = $this->num_questions * $this->set_of_questions;
+
+    while (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
+      $snippet = $all_snippets[$question_index];
+      $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
 
       $questions = array_merge($questions, $question);
       $question_index++;
     }
 
     return $questions;
+  }
+
+  /**
+   *
+   */
+  private function createRateQuestion($index, $tags, $snippet) {
+    $question = array(
+      $index => array(
+        'snippet_id' => $snippet->id,
+        'snippet_path' => $snippet->path,
+        'snippet_source_code' => file_get_contents(URL . $snippet->path),
+        'time_to_answer' => 0,
+        'num_stars' => 0.0,
+        'dont_know' => '',
+        'comments' => '',
+        'tags' => $tags,
+        'likes' => array(),
+        'dislikes' => array(),
+        'warm_up_question' => true ? $index < $this->num_warm_up_questions : false,
+        'question_type' => $this->RATE_QUESTION_STR
+      )
+    );
+
+    return $question;
   }
 
   /**
@@ -264,52 +283,107 @@ class Survey extends Controller {
       array_push($tags_names, $tag->value);
     }
 
-    // get all snippets from DB and randomly pick N
+    // get all snippets from DB and shuffle them
     $all_snippets = $survey_model->getAllSnippets();
-    $rand_keys = array_rand($all_snippets, $this->num_questions + $this->num_warm_up_questions);
-    if (!is_array($rand_keys)) {
-      // When picking only one entry, array_rand() returns the key for
-      // a random entry. Otherwise, an array of keys for the random
-      // entries is returned. 
-      $rand_keys = array($rand_keys);
-    }
+    shuffle($all_snippets);
 
-    // prepare questions for the survey
+    // warm-up questions
+
     $question_index = 0;
-    for ($i = 0; $i < count($rand_keys); $i = $i + 1) {
-      $selected_snippet_a = $all_snippets[$rand_keys[$i]];
+
+    while (count($questions) < $this->num_warm_up_questions) {
+      $selected_snippet_a = $all_snippets[array_rand($all_snippets, 1)];
       $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
       if ($selected_snippet_b === NULL) {
         die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
       }
 
-      $question = array(
-        $question_index => array(
-          'snippet_a_id' => $selected_snippet_a->id,
-          'snippet_a_path' => $selected_snippet_a->path,
-          'snippet_a_source_code' => file_get_contents(URL . $selected_snippet_a->path),
-          'snippet_a_likes' => array(),
-          'snippet_a_dislikes' => array(),
-          'snippet_b_id' => $selected_snippet_b->id,
-          'snippet_b_path' => $selected_snippet_b->path,
-          'snippet_b_source_code' => file_get_contents(URL . $selected_snippet_b->path),
-          'snippet_b_likes' => array(),
-          'snippet_b_dislikes' => array(),
-          'chosen_snippet_id' => '',
-          'dont_know' => '',
-          'comments' => '',
-          'tags' => $tags_names,
-          'time_to_answer' => 0,
-          'warm_up_question' => true ? $question_index < $this->num_warm_up_questions : false,
-          'question_type' => $this->FORCED_CHOICE_QUESTION_STR
-        )
-      );
+      // avoid duplicate questions
+      if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
+        continue;
+      }
+
+      $question = $this->createForcedChoiceQuestion($question_index, $tags_names, $selected_snippet_a, $selected_snippet_b);
 
       $questions = array_merge($questions, $question);
       $question_index++;
     }
 
+    // prepare questions for the survey
+
+    $question_index = $this->num_questions * $this->set_of_questions;
+
+    while (count($questions) < $this->num_questions + $this->num_warm_up_questions ||
+            $question_index >= count($all_snippets)) {
+      $selected_snippet_a = $all_snippets[$question_index];
+      $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
+      if ($selected_snippet_b === NULL) {
+        die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+      }
+
+      // avoid duplicate questions
+      if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
+        $question_index++;
+        continue;
+      }
+
+      $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
+
+      $questions = array_merge($questions, $question);
+      $question_index++;
+    }
+
+    if (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
+      die("Unfortunately, it was not possible to create '" . ($this->num_questions + $this->num_warm_up_questions) . "' forced choice questions!");
+    }
+
     return $questions;
+  }
+
+  /**
+   *
+   */
+  private function isDuplicateForcedChoiceQuestionWithSnippet($questions, $snippet_id) {
+    if ($questions == null) {
+      return false;
+    }
+
+    foreach ($questions as $question) {
+      if ($question['snippet_a_id'] == $snippet_id || $question['snippet_b_id'] == $snippet_id) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   *
+   */
+  private function createForcedChoiceQuestion($index, $tags, $snippet_a, $snippet_b) {
+    $question = array(
+      $index => array(
+        'snippet_a_id' => $snippet_a->id,
+        'snippet_a_path' => $snippet_a->path,
+        'snippet_a_source_code' => file_get_contents(URL . $snippet_a->path),
+        'snippet_a_likes' => array(),
+        'snippet_a_dislikes' => array(),
+        'snippet_b_id' => $snippet_b->id,
+        'snippet_b_path' => $snippet_b->path,
+        'snippet_b_source_code' => file_get_contents(URL . $snippet_b->path),
+        'snippet_b_likes' => array(),
+        'snippet_b_dislikes' => array(),
+        'chosen_snippet_id' => '',
+        'dont_know' => '',
+        'comments' => '',
+        'tags' => $tags,
+        'time_to_answer' => 0,
+        'warm_up_question' => true ? $index < $this->num_warm_up_questions : false,
+        'question_type' => $this->FORCED_CHOICE_QUESTION_STR
+      )
+    );
+
+    return $question;
   }
 
   /**

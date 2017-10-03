@@ -34,10 +34,10 @@ class Home extends Controller {
     }
 
     $survey_configuration = $configurations["rate"][0];
-    $rate_number_of_sets = (int) (count($all_snippets) / $survey_configuration['num_questions']) - 1;
+    $rate_number_of_sets = (int) (count($all_snippets) / $survey_configuration['num_questions']);
 
     $survey_configuration = $configurations["forced_choice"][0];
-    $forced_choice_number_of_sets = (int) (count($all_snippets) / 2 / $survey_configuration['num_questions']) - 1;
+    $forced_choice_number_of_sets = (int) (count($all_snippets) / $survey_configuration['num_questions']);
 
     $this->render('home/index', array(
       'rate_number_of_sets' => $rate_number_of_sets,

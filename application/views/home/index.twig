@@ -84,7 +84,7 @@ $(document).ready(function() {
       how_many_options = {{ forced_choice_number_of_sets }};
     }
 
-    for (i = 0; i < how_many_options; i++) {
+    for (i = 0; i <= how_many_options; i++) {
       elem.append($('<option>', {
         value: i,
         text : i

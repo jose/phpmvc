@@ -228,25 +228,27 @@ class Survey extends Controller {
 
     // prepare questions for the survey
 
-    $question_index = $this->num_questions * $this->set_of_questions;
+    if ($this->set_of_questions != "-1") {
+      $question_index = $this->num_questions * $this->set_of_questions;
 
-    while (count($questions) < $this->num_questions + $this->num_warm_up_questions &&
-            $question_index < count($all_snippets)) {
-      $snippet = $all_snippets[$question_index];
+      while (count($questions) < $this->num_questions + $this->num_warm_up_questions &&
+              $question_index < count($all_snippets)) {
+        $snippet = $all_snippets[$question_index];
 
-      // avoid duplicate questions
-      if ($this->isDuplicateRateQuestion($questions, $snippet->id)) {
-        continue;
+        // avoid duplicate questions
+        if ($this->isDuplicateRateQuestion($questions, $snippet->id)) {
+          continue;
+        }
+
+        $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
+        $questions = array_merge($questions, $question);
+        $question_index++;
       }
-
-      $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
-      $questions = array_merge($questions, $question);
-      $question_index++;
     }
 
     if (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
-      // in case the last 'set of questions' reached the limit, get
-      // random questions
+      // in case the last 'set of questions' reached the limit or user
+      // do not want to choose a set of questions, get random ones
       while (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
         $question = $this->randomRateQuestion($all_snippets, $questions, $tags_names);
         if ($question != null) {
@@ -344,31 +346,33 @@ class Survey extends Controller {
 
     // prepare questions for the survey
 
-    $question_index = $this->num_questions * $this->set_of_questions;
+    if ($this->set_of_questions != "-1") {
+      $question_index = $this->num_questions * $this->set_of_questions;
 
-    while (count($questions) < $this->num_questions + $this->num_warm_up_questions &&
-            $question_index < count($all_snippets)) {
-      $selected_snippet_a = $all_snippets[$question_index];
-      $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
-      if ($selected_snippet_b === NULL) {
-        die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
-      }
+      while (count($questions) < $this->num_questions + $this->num_warm_up_questions &&
+              $question_index < count($all_snippets)) {
+        $selected_snippet_a = $all_snippets[$question_index];
+        $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
+        if ($selected_snippet_b === NULL) {
+          die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+        }
 
-      // avoid duplicate questions
-      if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
+        // avoid duplicate questions
+        if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
+          $question_index++;
+          continue;
+        }
+
+        $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
+
+        $questions = array_merge($questions, $question);
         $question_index++;
-        continue;
       }
-
-      $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
-
-      $questions = array_merge($questions, $question);
-      $question_index++;
     }
 
     if (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
-      // in case the last 'set of questions' reached the limit, get
-      // random questions
+      // in case the last 'set of questions' reached the limit or user
+      // do not want to choose a set of questions, get random ones
       while (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
         $question = $this->randomForcedChoiceQuestion($survey_model, $all_snippets, $questions, $tags_names);
         if ($question != null) {

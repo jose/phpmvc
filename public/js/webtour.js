@@ -57,7 +57,7 @@ var rate_tour = new Tour({
     test case, use the 'Skip' button and provide an explanation on why."
   },
   {
-    element: "#next_button",
+    element: "#submit_button",
     placement: "top",
     title: "Move to Next Question",
     content: "Once you have rated the test case provided or chosen to\
@@ -148,7 +148,7 @@ var forced_choice_tour = new Tour({
     test case, use the 'Skip' button and provide an explanation on why."
   },
   {
-    element: "#next_button",
+    element: "#submit_button",
     placement: "top",
     title: "Move to Next Question",
     content: "Once you have answered the question or chosen to skip it,\

@@ -220,9 +220,10 @@ class Survey extends Controller {
     // warm-up questions
 
     while (count($questions) < $this->num_warm_up_questions) {
-      $snippet = $all_snippets[array_rand($all_snippets, 1)];
-      $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
-      $questions = array_merge($questions, $question);
+      $question = $this->randomRateQuestion($all_snippets, $questions, $tags_names);
+      if ($question != null) {
+        $questions = array_merge($questions, $question);
+      }
     }
 
     // prepare questions for the survey
@@ -247,19 +248,29 @@ class Survey extends Controller {
       // in case the last 'set of questions' reached the limit, get
       // random questions
       while (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
-        $snippet = $all_snippets[array_rand($all_snippets, 1)];
-
-        // avoid duplicate questions
-        if ($this->isDuplicateRateQuestion($questions, $snippet->id)) {
-          continue;
+        $question = $this->randomRateQuestion($all_snippets, $questions, $tags_names);
+        if ($question != null) {
+          $questions = array_merge($questions, $question);
         }
-
-        $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
-        $questions = array_merge($questions, $question);
       }
     }
 
     return $questions;
+  }
+
+  /**
+   *
+   */
+  private function randomRateQuestion($snippets, $questions, $tags) {
+    $snippet = $snippets[array_rand($snippets, 1)];
+
+    // avoid duplicate questions
+    if ($this->isDuplicateRateQuestion($questions, $snippet->id)) {
+      return null;
+    }
+
+    $question = $this->createRateQuestion(count($questions), $tags, $snippet);
+    return $question;
   }
 
   /**
@@ -325,19 +336,10 @@ class Survey extends Controller {
     // warm-up questions
 
     while (count($questions) < $this->num_warm_up_questions) {
-      $selected_snippet_a = $all_snippets[array_rand($all_snippets, 1)];
-      $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
-      if ($selected_snippet_b === NULL) {
-        die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+      $question = $this->randomForcedChoiceQuestion($survey_model, $all_snippets, $questions, $tags_names);
+      if ($question != null) {
+        $questions = array_merge($questions, $question);
       }
-
-      // avoid duplicate questions
-      if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
-        continue;
-      }
-
-      $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
-      $questions = array_merge($questions, $question);
     }
 
     // prepare questions for the survey
@@ -368,23 +370,33 @@ class Survey extends Controller {
       // in case the last 'set of questions' reached the limit, get
       // random questions
       while (count($questions) < $this->num_questions + $this->num_warm_up_questions) {
-        $selected_snippet_a = $all_snippets[array_rand($all_snippets, 1)];
-        $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
-        if ($selected_snippet_b === NULL) {
-          die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+        $question = $this->randomForcedChoiceQuestion($survey_model, $all_snippets, $questions, $tags_names);
+        if ($question != null) {
+          $questions = array_merge($questions, $question);
         }
-
-        // avoid duplicate questions
-        if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
-          continue;
-        }
-
-        $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
-        $questions = array_merge($questions, $question);
       }
     }
 
     return $questions;
+  }
+
+  /**
+   *
+   */
+  private function randomForcedChoiceQuestion($survey_model, $snippets, $questions, $tags) {
+    $selected_snippet_a = $snippets[array_rand($snippets, 1)];
+    $selected_snippet_b = $survey_model->getPairSnippet($selected_snippet_a);
+    if ($selected_snippet_b === NULL) {
+      die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
+    }
+
+    // avoid duplicate questions
+    if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
+      return null;
+    }
+
+    $question = $this->createForcedChoiceQuestion(count($questions), $tags, $selected_snippet_a, $selected_snippet_b);
+    return $question;
   }
 
   /**

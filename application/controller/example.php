@@ -64,7 +64,7 @@ class Example extends Controller {
    */
   public function filetree() {
     // PHP file tree
-    $phpFileTree_model = $this->loadModel('phpFileTree');
+    $phpFileTree_model = Controller::loadModel('phpFileTree');
 
     // get file tree
     $subject_name = "org.apache.commons.math3";

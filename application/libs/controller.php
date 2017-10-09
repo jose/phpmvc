@@ -55,8 +55,8 @@ class Controller {
    * @param string $model_name The name of the model
    * @return object model
    */
-  public function loadModel($model_name) {
-    require 'application/models/' . strtolower($model_name) . '.model.php';
+  public static function loadModel($model_name) {
+    require_once 'application/models/' . strtolower($model_name) . '.model.php';
     $model_name = $model_name . "Model";
     return new $model_name(self::$db); // return new model
   }

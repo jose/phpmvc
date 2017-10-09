@@ -18,6 +18,8 @@ require_once('translations/en.php');
 // load application class
 require_once('application/libs/application.php');
 require_once('application/libs/controller.php');
+require_once('application/libs/encryption.php');
+require_once('application/controller/utils.php');
 
 // session
 require_once('application/libs/session.php');

@@ -625,6 +625,7 @@ public/phpFileTree/
 public/competency-test-data.csv
 public/rate-survey-data.csv
 public/forced_choice-survey-data.csv
+application/config/key.txt
 
 # EOF
 

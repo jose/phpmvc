@@ -13,16 +13,14 @@
     {
       "num_warm_up_questions": 3,
       "num_questions": 20,
-      "allow_multiple_attempts": "no",
-      "prolific_token": "XQJWREXM"
+      "allow_multiple_attempts": "no"
     }
   ],
   "forced_choice": [
     {
       "num_warm_up_questions": 3,
       "num_questions": 10,
-      "allow_multiple_attempts": "no",
-      "prolific_token": "5AZHG1E4"
+      "allow_multiple_attempts": "no"
     }
   ]
 }

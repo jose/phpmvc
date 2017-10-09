@@ -36,18 +36,7 @@
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">{{ constant('TYPE_OF_SURVEY_LABEL') }}</span>
-        <select class="form-control" name="type_of_survey" id="type_of_survey" required readonly>
-          <option selected value="{{ type_of_survey }}">{{ type_of_survey }}</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">{{ constant('SET_OF_QUESTIONS_LABEL') }}</span>
-        <select class="form-control" name="set_of_questions" id="set_of_questions" required readonly>
-          <option selected value="{{ set_of_questions }}">{{ set_of_questions }}</option>
-        </select>
+        <input type="text" class="form-control" name="study_hash" id="study_hash" placeholder="" aria-describedby="basic-addon1" value="{{ study_hash }}" required readonly/>
       </div>
     </div>
   </p>

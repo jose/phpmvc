@@ -49,19 +49,21 @@ class Competency extends Controller {
     Session::set('question_index', 1);
     Session::set('progress', 0);
 
-    if (isset($_GET['user_id'])) {
+    if (isset($_GET['user_id']) && isset($_GET['study_hash'])) {
       $user_id = preg_replace('/\s+/', '', $_GET['user_id']);
-
       Session::set('user_id', $user_id);
+
+      $ciphertext = $_GET['study_hash'];
+      $secret_data = Utils::isHashValid($ciphertext);
+      if ($secret_data == null) {
+        header('location: ' . URL);
+        return;
+      }
+      Session::set('study_hash', $ciphertext);
+
       $this->render('competency/index', array(
         'total_num_questions' => $this->num_questions
       ));
-
-      $type_of_survey = $_GET['type_of_survey'];
-      Session::set('type_of_survey', $type_of_survey);
-
-      $set_of_questions = $_GET['set_of_questions'];
-      Session::set('set_of_questions', $set_of_questions);
     } else {
       header('location: ' . URL);
     }
@@ -242,11 +244,11 @@ class Competency extends Controller {
    */
   private function submitDB($user_id, $answers, $score) {
     // create a new competency
-    $competency_model = $this->loadModel('competency');
+    $competency_model = Controller::loadModel('competency');
     $competency_id = $competency_model->addCompetency($score);
 
     // add user
-    $user_model = $this->loadModel('user');
+    $user_model = Controller::loadModel('user');
     $user_model->addUser($user_id, $competency_id);
 
     // add all answers
@@ -278,9 +280,6 @@ class Competency extends Controller {
       return;
     }
 
-    $type_of_survey = Session::get('type_of_survey');
-    $set_of_questions = Session::get('set_of_questions');
-
     // get users' score
     $score = Session::get('score');
     if (!isset($score)) {
@@ -288,14 +287,15 @@ class Competency extends Controller {
       return;
     }
 
+    $study_hash = Session::get('study_hash');
+
     // clean session
     Session::destroy();
 
     // say thanks and goodbye
     $this->render('competency/thanks', array(
       'user_id' => $user_id,
-      'type_of_survey' => $type_of_survey,
-      'set_of_questions' => $set_of_questions,
+      'study_hash' => $study_hash,
       'score' => $score,
       'threshold_score' => $this->threshold_score
     ));

@@ -44,29 +44,29 @@ class Survey extends Controller {
       return;
     }
 
-    if (!isset($_GET['type_of_survey'])) {
-      Session::set('s_errors', array('type_of_survey' => 'There is no type of survey defined.'));
+    if (!isset($_GET['study_hash'])) {
+      Session::set('s_errors', array('hash' => 'In order to perform a study a valid hash must be provided.'));
       return;
     }
-    $this->survey_type = $_GET['type_of_survey'];
+
+    $ciphertext = $_GET['study_hash'];
+
+    $secret_data = Utils::isHashValid($ciphertext);
+    if ($secret_data == null) {
+      return;
+    }
+
+    $this->survey_type = $secret_data['type_of_survey'];
     Session::set('survey_type', $this->survey_type);
 
-    if (!isset($_GET['set_of_questions'])) {
-      Session::set('s_errors', array('set_of_questions' => 'There is no set of questions defined.'));
-      return;
-    }
-    $this->set_of_questions = $_GET['set_of_questions'];
+    $this->set_of_questions = $secret_data['set_of_questions'];
     Session::set('set_of_questions', $this->set_of_questions);
 
-    // read configurations
-    $configurations = json_decode(file_get_contents(PATH_CONFS . "survey_config.json"), true);
-    if (!isset($configurations) || $configurations == null) {
-      Session::set('s_errors', array('survey_configuration' => 'It was not possible to read survey parameters.'));
-      return;
-    }
+    $this->prolific_token = $secret_data['prolific_token'];
+    Session::set('prolific_token', $this->prolific_token);
 
-    if (!isset($configurations['type'])) {
-      Session::set('s_errors', array('survey_configuration' => 'It was not possible to initialise all survey parameters.'));
+    $configurations = Utils::isConfigurationFileWellFormed();
+    if ($configurations == null) {
       return;
     }
 
@@ -81,10 +81,7 @@ class Survey extends Controller {
     $this->allow_multiple_attempts = (strtolower($survey_configuration['allow_multiple_attempts']) == "no" ? false : true);
     Session::set('allow_multiple_attempts', $this->allow_multiple_attempts);
 
-    $this->prolific_token = $survey_configuration['prolific_token'];
-    Session::set('prolific_token', $this->prolific_token);
-
-    if (!isset($this->survey_type) || !isset($this->num_warm_up_questions) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts) || !isset($this->prolific_token)) {
+    if (!isset($this->survey_type) || !isset($this->num_warm_up_questions) || !isset($this->num_questions) || !isset($this->allow_multiple_attempts)) {
       Session::set('s_errors', array('survey_configuration' => 'Configuration file is not well formed.'));
       return;
     }
@@ -112,11 +109,11 @@ class Survey extends Controller {
     Session::set('question_index', 0);
     Session::set('progress', 0);
 
-    if (isset($_GET['user_id'])) {
+    if (isset($_GET['user_id']) && isset($_GET['study_hash'])) {
       $user_id = preg_replace('/\s+/', '', $_GET['user_id']);
 
       // has he/she got a score > threshold?
-      $user_model = $this->loadModel('user');
+      $user_model = Controller::loadModel('user');
       $score = $user_model->getCompetencyScore($user_id);
       if ($score < $this->threshold_score) {
         Session::set('s_errors', array(str_replace('$score', $score, SURVEY_NOT_AVAILABLE_SCORE)));
@@ -124,7 +121,7 @@ class Survey extends Controller {
         return;
       }
 
-      $survey_model = $this->loadModel('survey');
+      $survey_model = Controller::loadModel('survey');
       if (!$this->allow_multiple_attempts && $survey_model->hasUserCompletedSurvey($this->survey_type, $user_id)) {
         Session::set('s_errors', array(str_replace('$user_id', $user_id, ALREADY_DONE_SURVEY)));
         header('location: ' . URL);
@@ -204,7 +201,7 @@ class Survey extends Controller {
   private function selectQuestionsForRateSurvey() {
     $questions = (array) null;
 
-    $survey_model = $this->loadModel('survey');
+    $survey_model = Controller::loadModel('survey');
 
     // get all tags from DB
     $all_tags = $survey_model->getAllTags();
@@ -322,7 +319,7 @@ class Survey extends Controller {
   private function selectQuestionsForForcedChoiceSurvey() {
     $questions = (array) null;
 
-    $survey_model = $this->loadModel('survey');
+    $survey_model = Controller::loadModel('survey');
 
     // get all tags from DB
     $all_tags = $survey_model->getAllTags();
@@ -639,7 +636,7 @@ class Survey extends Controller {
     }
 
     // get survey model to access DB functions
-    $survey_model = $this->loadModel('survey');
+    $survey_model = Controller::loadModel('survey');
 
     if ($question['question_type'] == $this->RATE_QUESTION_STR) {
       if (! $survey_model->createRateAnswer(

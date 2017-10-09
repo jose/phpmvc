@@ -31,7 +31,7 @@ class Data extends Controller {
     print("  </tr>");
     print("</table>");
 
-    $data_model = $this->loadModel('data');
+    $data_model = Controller::loadModel('data');
 
     /**
      * Competency Test

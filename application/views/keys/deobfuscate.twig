@@ -1,0 +1,28 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}keys/deobfuscate">
+<div class="row center-block">
+  <p>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">URL or Hash</span>
+        <textarea class="form-control" name="ciphertext" id="ciphertext" rows="6" placeholder="">{{ ciphertext }}</textarea>
+      </div>
+    </div>
+  </p>
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Deobfuscate" style="width: 100%">Deobfuscate</button>
+  </p>
+  <p>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">URL or Hash</span>
+        <textarea class="form-control" name="secret_data" id="secret_data" rows="2" placeholder="">{{ secret_data }}</textarea>
+      </div>
+    </div>
+  </p>
+</div>
+</form>
+
+{% endblock %}

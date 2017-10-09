@@ -1,0 +1,100 @@
+{% extends "_templates/base.twig" %}
+{% block content %}
+
+<form id="_form" role="form" method="post" action="{{ constant('URL') }}keys/obfuscate">
+<div class="row center-block">
+  <p>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{ constant('TYPE_OF_SURVEY_LABEL') }}</span>
+        <select class="form-control" name="type_of_survey" id="type_of_survey" required>
+          <option selected value="">{{ constant('CHOOSE_LABEL') }}</option>
+          <option value="rate">{{ constant('RATE_SURVEY_NAME') }}</option>
+          <option value="forced_choice">{{ constant('FORCED_CHOICE_SURVEY_NAME') }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{ constant('SET_OF_QUESTIONS_LABEL') }}</span>
+        <select class="form-control" name="set_of_questions" id="set_of_questions" required disabled></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Prolific Token</span>
+        <textarea class="form-control" name="prolific_token" id="prolific_token" rows="1" placeholder=""></textarea>
+      </div>
+    </div>
+  </p>
+  <p>
+    <button class="btn btn-primary" type="submit" name="submit" value="Obfuscate" style="width: 100%;">Obfuscate</button>
+  </p>
+  <p>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">URL</span>
+        <textarea class="form-control" name="ciphertext" id="ciphertext" rows="6" placeholder="">{{ ciphertext }}</textarea>
+      </div>
+    </div>
+  </p>
+</div>
+</form>
+
+<!-- Dynamic Dependent Select Box -->
+<script type="text/javascript">
+$(document).ready(function() {
+  fillSelectSetOfQuestions();
+
+  $('#type_of_survey').change(function() {
+    fillSelectSetOfQuestions();
+  });
+
+  function fillSelectSetOfQuestions() {
+    var elem = $('#set_of_questions');
+    elem.empty(); // remove all options
+
+    var type_of_survey = document.getElementById("type_of_survey");
+    var type_of_survey_value = type_of_survey.options[type_of_survey.selectedIndex].value;
+    if (type_of_survey_value == "") {
+      elem.attr("disabled", true);
+      return;
+    }
+
+    // add default empty option
+    elem.append($('<option>', {
+      selected: true,
+      value: "",
+      text : "{{ constant('CHOOSE_LABEL') }}"
+    }));
+
+    // add options
+
+    var how_many_options = 0;
+
+    if (type_of_survey_value == "rate") {
+      how_many_options = {{ rate_number_of_sets }};
+    } else if (type_of_survey_value == "forced_choice") {
+      how_many_options = {{ forced_choice_number_of_sets }};
+    }
+
+    for (i = 0; i <= how_many_options; i++) {
+      elem.append($('<option>', {
+        value: i,
+        text : i
+      }));
+    }
+
+    elem.append($('<option>', {
+      value: "-1",
+      text : "{{ constant('RANDOM_LABEL') }}"
+    }));
+
+    elem.attr("disabled", false); // and re-enable it
+  }
+});
+</script>
+
+{% endblock %}

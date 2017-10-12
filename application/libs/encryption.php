@@ -1,8 +1,5 @@
 <?php
 
-use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
-
 /**
  * Base Encryption Class
  */
@@ -14,7 +11,7 @@ class Encryption {
   private static function loadEncryptionKeyFromConfig() {
     // load the content of /application/config/key.txt
     $keyAscii = file_get_contents(PATH_CONFS . "key.txt");
-    return Key::loadFromAsciiSafeString($keyAscii);
+    return intval($keyAscii);
   }
 
   /**
@@ -22,7 +19,24 @@ class Encryption {
    */
   public static function encrypt($secret_data) {
     $key = Encryption::loadEncryptionKeyFromConfig();
-    $ciphertext = Crypto::encrypt($secret_data, $key);
+    $ciphertext = "";
+
+    // use something as simple as 'Caesar Cipher'. The Caesar cipher,
+    // also known as a shift cipher, is one of the simplest forms of
+    // encryption. It is a substitution cipher where each letter in the
+    // original message (called the plaintext) is replaced with a letter
+    // corresponding to a certain number of letters up or down in the
+    // alphabet.
+    for ($i = 0; $i < strlen($secret_data); $i++) {
+      $ciphertext .= chr((ord($secret_data[$i]) + $key) % 255);
+    }
+
+    // reverse text
+    $ciphertext = strrev($ciphertext);
+
+    // convert from text to hexadecimal
+    $ciphertext = implode(unpack("H*", $ciphertext));
+
     return $ciphertext;
   }
 
@@ -31,14 +45,17 @@ class Encryption {
    */
   public static function decrypt($ciphertext) {
     $key = Encryption::loadEncryptionKeyFromConfig();
+    $secret_data = "";
 
-    $secret_data = null;
-    try {
-      $secret_data = Crypto::decrypt($ciphertext, $key);
-    } catch (\Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException $ex) {
-      // An attack! Either the wrong key was loaded, or the ciphertext has
-      // changed since it was created -- either corrupted in the database or
-      // intentionally modified by someone trying to carry out an attack.
+    // convert from hexadecimal to text
+    $secret_data = pack("H*", $ciphertext);
+
+    // reverse text
+    $secret_data = strrev($secret_data);
+
+    // reverse 'Caesar Cipher'
+    for ($i = 0; $i < strlen($secret_data); $i++) {
+      $secret_data[$i] = chr((ord($secret_data[$i]) - $key) % 255);
     }
 
     return $secret_data;

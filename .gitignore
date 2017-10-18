@@ -626,6 +626,7 @@ public/competency-test-data.csv
 public/rate-survey-data.csv
 public/forced_choice-survey-data.csv
 application/config/key.txt
+public/features_centroids.txt
 
 # EOF
 

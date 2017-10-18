@@ -155,6 +155,7 @@ CREATE TABLE `ForcedChoice` (
 CREATE TABLE `Snippet` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `path` text NOT NULL, -- local path, e.g, http://localhost/.../public/snippets/.../nu.xom.Attribute.postprocessed.java
+  `feature` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

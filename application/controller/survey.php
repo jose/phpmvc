@@ -212,7 +212,7 @@ class Survey extends Controller {
 
     // get all snippets from DB and shuffle them
     $all_snippets = $survey_model->getAllSnippets();
-    shuffle($all_snippets);
+    $this->sort($all_snippets);
 
     // warm-up questions
 
@@ -330,7 +330,7 @@ class Survey extends Controller {
 
     // get all snippets from DB and shuffle them
     $all_snippets = $survey_model->getAllSnippets();
-    shuffle($all_snippets);
+    $this->sort($all_snippets);
 
     // warm-up questions
 
@@ -770,6 +770,43 @@ class Survey extends Controller {
       'token' => $token,
       'prolific_token' => $prolific_token
     ));
+  }
+
+  private static function cmp_snippets($a, $b) {
+    if ($a->weight == $b->weight) {
+      return 0;
+    }
+    # descending sort, i.e., from the highest weight to the lowest
+    return ($a->weight > $b->weight) ? -1 : 1;
+  }
+
+  /**
+   *
+   */
+  private function sort(&$snippets) {
+    $weights_file = dirname(__FILE__) . "/../../public/features_centroids.txt";
+    if (!file_exists($weights_file)) {
+      shuffle($snippets);
+    } else {
+      $weights = (array) null;
+
+      $handle = fopen($weights_file, "r");
+      if ($handle) {
+        while (($line = fgets($handle)) !== false) {
+          $a_line = explode(",", $line);
+          $weight = array($a_line[0] => $a_line[1]);
+          $weights = array_merge($weights, $weight);
+        }
+        fclose($handle);
+      }
+
+      foreach($snippets as $snippet) {
+        $snippet->weight = $weights[$snippet->feature];
+      }
+
+      // custom sort
+      usort($snippets, array("Survey", "cmp_snippets"));
+    }
   }
 }
 

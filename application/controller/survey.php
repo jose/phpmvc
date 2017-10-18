@@ -231,6 +231,7 @@ class Survey extends Controller {
       while (count($questions) < $this->num_questions + $this->num_warm_up_questions &&
               $question_index < count($all_snippets)) {
         $snippet = $all_snippets[$question_index];
+        $question_index++;
 
         // avoid duplicate questions
         if ($this->isDuplicateRateQuestion($questions, $snippet->id)) {
@@ -239,7 +240,6 @@ class Survey extends Controller {
 
         $question = $this->createRateQuestion(count($questions), $tags_names, $snippet);
         $questions = array_merge($questions, $question);
-        $question_index++;
       }
     }
 
@@ -353,17 +353,15 @@ class Survey extends Controller {
         if ($selected_snippet_b === NULL) {
           die("Unfortunately, it was not possible to select a pair for snippet '" . $selected_snippet_a->path . "'!");
         }
+        $question_index++;
 
         // avoid duplicate questions
         if ($this->isDuplicateForcedChoiceQuestionWithSnippet($questions, $selected_snippet_a->id)) {
-          $question_index++;
           continue;
         }
 
         $question = $this->createForcedChoiceQuestion(count($questions), $tags_names, $selected_snippet_a, $selected_snippet_b);
-
         $questions = array_merge($questions, $question);
-        $question_index++;
       }
     }
 

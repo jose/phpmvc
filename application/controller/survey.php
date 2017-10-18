@@ -774,8 +774,8 @@ class Survey extends Controller {
     if ($a->weight == $b->weight) {
       return 0;
     }
-    # descending sort, i.e., from the highest weight to the lowest
-    return ($a->weight > $b->weight) ? -1 : 1;
+    # ascending sort, i.e., from the lowest weight to the highest
+    return ($a->weight < $b->weight) ? -1 : 1;
   }
 
   /**

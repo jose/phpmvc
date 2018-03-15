@@ -51,6 +51,13 @@ class Competency extends Controller {
 
     if (isset($_GET['user_id']) && isset($_GET['study_hash'])) {
       $user_id = preg_replace('/\s+/', '', $_GET['user_id']);
+
+      $user_model = Controller::loadModel('user');
+      if ($user_model->exists($user_id)) {
+        Session::set('s_errors', array(str_replace('$user_id', $user_id, ALREADY_DONE_COMPETENCY)));
+        header('location: ' . URL);
+        return;
+      }
       Session::set('user_id', $user_id);
 
       $ciphertext = $_GET['study_hash'];

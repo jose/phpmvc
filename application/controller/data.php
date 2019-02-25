@@ -39,27 +39,27 @@ class Data extends Controller {
     print("<h2>Competency Test</h2>");
 
     print("<table>");
-    # UserID, CompetencyID, Score, QuestionID, Answer, Time
+    # user_id,competency_id,score,question_id,answer,time
     print("  <tr>");
-    print("    <th>UserID</th>");
-    print("    <th>CompetencyID</th>");
-    print("    <th>Score</th>");
-    print("    <th>QuestionID</th>");
-    print("    <th>Answer</th>");
-    print("    <th>Time (seconds)</th>");
+    print("    <th>user_id</th>");
+    print("    <th>competency_id</th>");
+    print("    <th>score</th>");
+    print("    <th>question_id</th>");
+    print("    <th>answer</th>");
+    print("    <th>time (seconds)</th>");
     print("  </tr>");
     $competency_file = fopen(dirname(__FILE__) . "/../../public/competency-test-data.csv", "w") or die("Unable to open '" . dirname(__FILE__) . "/../../public/competency-test-data.csv" . "' file!");
-    fwrite($competency_file, "UserID,CompetencyID,Score,QuestionID,Answer,Time\n");
+    fwrite($competency_file, "user_id,competency_id,score,question_id,answer,time\n");
     foreach ($data_model->getCompentencyTestData() as $competency_test_data) {
       print("  <tr>");
-      print("    <td>" . $competency_test_data->UserID . "</td>");
-      print("    <td>" . $competency_test_data->CompetencyID . "</td>");
-      print("    <td>" . $competency_test_data->Score . "</td>");
-      print("    <td>" . $competency_test_data->QuestionID . "</td>");
-      print("    <td>" . $competency_test_data->Answer . "</td>");
-      print("    <td>" . $competency_test_data->Time . "</td>");
+      print("    <td>" . $competency_test_data->user_id . "</td>");
+      print("    <td>" . $competency_test_data->competency_id . "</td>");
+      print("    <td>" . $competency_test_data->score . "</td>");
+      print("    <td>" . $competency_test_data->question_id . "</td>");
+      print("    <td>" . $competency_test_data->answer . "</td>");
+      print("    <td>" . $competency_test_data->time . "</td>");
       print("  </tr>");
-      fwrite($competency_file, "$competency_test_data->UserID,$competency_test_data->CompetencyID,$competency_test_data->Score,$competency_test_data->QuestionID,$competency_test_data->Answer,$competency_test_data->Time\n");
+      fwrite($competency_file, "$competency_test_data->user_id,$competency_test_data->competency_id,$competency_test_data->score,$competency_test_data->question_id,$competency_test_data->answer,$competency_test_data->time\n");
     }
     fclose($competency_file);
     print("</table>");
@@ -68,39 +68,42 @@ class Data extends Controller {
      * Rate Survey
      */
     print("<h2>Rate Survey</h2>");
-
+    # answer_id, answer_type, time, dont_know_answer, comments, num_stars, user_id, snippet_id, snippet_path, snippet_feature, tag_id, tag_value, container_type
     print("<table>");
-    # AnswerID, AnswerType, UserID, Time, Skip, SnippetID, SnippetPath, Stars, Likes, Dislikes
     print("  <tr>");
-    print("    <th>AnswerID</th>");
-    print("    <th>AnswerType</th>");
-    print("    <th>UserID</th>");
-    print("    <th>Time (seconds)</th>");
-    print("    <th>SkipMessage</th>");
-    print("    <th>Comments</th>");
-    print("    <th>SnippetID</th>");
-    print("    <th>SnippetPath</th>");
-    print("    <th>Stars</th>");
-    print("    <th>Likes</th>");
-    print("    <th>Dislikes</th>");
+    print("    <th>answer_id</th>");
+    print("    <th>answer_type</th>");
+    print("    <th>time (seconds)</th>");
+    print("    <th>dont_know_answer</th>");
+    print("    <th>comments</th>");
+    print("    <th>num_stars</th>");
+    print("    <th>user_id</th>");
+    print("    <th>snippet_id</th>");
+    print("    <th>snippet_path</th>");
+    print("    <th>snippet_feature</th>");
+    print("    <th>tag_id</th>");
+    print("    <th>tag_value</th>");
+    print("    <th>container_type</th>");
     print("  </tr>");
     $rate_survey_file = fopen(dirname(__FILE__) . "/../../public/rate-survey-data.csv", "w") or die("Unable to open '" . dirname(__FILE__) . "/../../public/rate-survey-data.csv" . "' file!");
-    fwrite($rate_survey_file, "AnswerID,AnswerType,UserID,Time,SkipMessage,Comments,SnippetID,SnippetPath,Stars,Likes,Dislikes\n");
+    fwrite($rate_survey_file, "answer_id,answer_type,time,dont_know_answer,comments,num_stars,user_id,snippet_id,snippet_path,snippet_feature,tag_id,tag_value,container_type\n");
     foreach ($data_model->getRateSurveyData() as $rate_survey_data) {
       print("  <tr>");
-      print("    <td>" . $rate_survey_data->AnswerID . "</td>");
-      print("    <td>" . $rate_survey_data->AnswerType . "</td>");
-      print("    <td>" . $rate_survey_data->UserID . "</td>");
-      print("    <td>" . $rate_survey_data->Time . "</td>");
-      print("    <td>" . $rate_survey_data->Skip . "</td>");
-      print("    <td>" . $rate_survey_data->Comments . "</td>");
-      print("    <td>" . $rate_survey_data->SnippetID . "</td>");
-      print("    <td><a href='" . URL . $rate_survey_data->SnippetPath . "'>" . $rate_survey_data->SnippetPath . "</a></td>");
-      print("    <td>" . $rate_survey_data->Stars . "</td>");
-      print("    <td>" . implode(',', $rate_survey_data->Likes) . "</td>");
-      print("    <td>" . implode(',', $rate_survey_data->Dislikes) . "</td>");
+      print("    <td>" . $rate_survey_data->answer_id . "</td>");
+      print("    <td>" . $rate_survey_data->answer_type . "</td>");
+      print("    <td>" . $rate_survey_data->time . "</td>");
+      print("    <td>" . $this->escapeAndQuoteString($rate_survey_data->dont_know_answer) . "</td>");
+      print("    <td>" . $this->escapeAndQuoteString($rate_survey_data->comments) . "</td>");
+      print("    <td>" . $rate_survey_data->num_stars . "</td>");
+      print("    <td>" . $rate_survey_data->user_id . "</td>");
+      print("    <td>" . $rate_survey_data->snippet_id . "</td>");
+      print("    <td><a href='" . URL . $rate_survey_data->snippet_path . "'>" . $rate_survey_data->snippet_path . "</a></td>");
+      print("    <td>" . $rate_survey_data->snippet_feature . "</td>");
+      print("    <td>" . $rate_survey_data->tag_id . "</td>");
+      print("    <td>" . $rate_survey_data->tag_value . "</td>");
+      print("    <td>" . $rate_survey_data->container_type . "</td>");
       print("  </tr>");
-      fwrite($rate_survey_file, "$rate_survey_data->AnswerID,$rate_survey_data->AnswerType,$rate_survey_data->UserID,$rate_survey_data->Time,$rate_survey_data->Skip,$rate_survey_data->Comments,$rate_survey_data->SnippetID," . URL . $rate_survey_data->SnippetPath . ",$rate_survey_data->Stars," . implode(';', $rate_survey_data->Likes) . "," . implode(';', $rate_survey_data->Dislikes) . "\n");
+      fwrite($rate_survey_file, "$rate_survey_data->answer_id,$rate_survey_data->answer_type,$rate_survey_data->time," . $this->escapeAndQuoteString($rate_survey_data->dont_know_answer) . "," . $this->escapeAndQuoteString($rate_survey_data->comments) . ",$rate_survey_data->num_stars,$rate_survey_data->user_id,$rate_survey_data->snippet_id," . URL . "$rate_survey_data->snippet_path,$rate_survey_data->snippet_feature,$rate_survey_data->tag_id,$rate_survey_data->tag_value,$rate_survey_data->container_type" . "\n");
     }
     fclose($rate_survey_file);
     print("</table>");
@@ -111,45 +114,41 @@ class Data extends Controller {
     print("<h2>Forced Choice Survey</h2>");
 
     print("<table>");
-    # AnswerID, AnswerType, UserID, Time, Skip, Snippet_A_ID, Snippet_A_Path, Snippet_B_ID, Snippet_B_Path, ChosenSnippetID, Likes_A, Dislikes_A, Likes_B, Dislikes_B
+    # answer_id, answer_type, time, dont_know_answer, comments, chosen_snippet_id, user_id, snippet_id, snippet_path, snippet_feature, tag_id, tag_value, container_type
     print("  <tr>");
-    print("    <th>AnswerID</th>");
-    print("    <th>AnswerType</th>");
-    print("    <th>UserID</th>");
-    print("    <th>Time (seconds)</th>");
-    print("    <th>SkipMessage</th>");
-    print("    <th>Comments</th>");
-    print("    <th>Snippet_A_ID</th>");
-    print("    <th>Snippet_A_Path</th>");
-    print("    <th>Snippet_B_ID</th>");
-    print("    <th>Snippet_B_Path</th>");
-    print("    <th>ChosenSnippetID</th>");
-    print("    <th>Likes_A</th>");
-    print("    <th>Dislikes_A</th>");
-    print("    <th>Likes_B</th>");
-    print("    <th>Dislikes_B</th>");
+    print("    <th>answer_id</th>");
+    print("    <th>answer_type</th>");
+    print("    <th>time (seconds)</th>");
+    print("    <th>dont_know_answer</th>");
+    print("    <th>comments</th>");
+    print("    <th>chosen_snippet_id</th>");
+    print("    <th>user_id</th>");
+    print("    <th>snippet_id</th>");
+    print("    <th>snippet_path</th>");
+    print("    <th>snippet_feature</th>");
+    print("    <th>tag_id</th>");
+    print("    <th>tag_value</th>");
+    print("    <th>container_type</th>");
     print("  </tr>");
     $forced_choice_survey_file = fopen(dirname(__FILE__) . "/../../public/forced_choice-survey-data.csv", "w") or die("Unable to open '" . dirname(__FILE__) . "/../../public/forced_choice-survey-data.csv" . "' file!");
-    fwrite($forced_choice_survey_file, "AnswerID,AnswerType,UserID,Time,SkipMessage,Comments,Snippet_A_ID,Snippet_A_Path,Snippet_B_ID,Snippet_B_Path,ChosenSnippetID,Likes_A,Dislikes_A,Likes_B,Dislikes_B\n");
+    fwrite($forced_choice_survey_file, "answer_id,answer_type,time,dont_know_answer,comments,chosen_snippet_id,user_id,snippet_id,snippet_path,snippet_feature,tag_id,tag_value,container_type\n");
     foreach ($data_model->getForcedChoiceSurveyData() as $forced_choice_survey_data) {
       print("  <tr>");
-      print("    <td>" . $forced_choice_survey_data->AnswerID . "</td>");
-      print("    <td>" . $forced_choice_survey_data->AnswerType . "</td>");
-      print("    <td>" . $forced_choice_survey_data->UserID . "</td>");
-      print("    <td>" . $forced_choice_survey_data->Time . "</td>");
-      print("    <td>" . $forced_choice_survey_data->Skip . "</td>");
-      print("    <td>" . $forced_choice_survey_data->Comments . "</td>");
-      print("    <td>" . $forced_choice_survey_data->Snippet_A_ID . "</td>");
-      print("    <td><a href='" . URL . $forced_choice_survey_data->Snippet_A_Path . "'>" . $forced_choice_survey_data->Snippet_A_Path . "</a></td>");
-      print("    <td>" . $forced_choice_survey_data->Snippet_B_ID . "</td>");
-      print("    <td><a href='" . URL . $forced_choice_survey_data->Snippet_B_Path . "'>" . $forced_choice_survey_data->Snippet_B_Path . "</a></td>");
-      print("    <td>" . $forced_choice_survey_data->ChosenSnippetID . "</td>");
-      print("    <td>" . implode(',', $forced_choice_survey_data->Likes_A) . "</td>");
-      print("    <td>" . implode(',', $forced_choice_survey_data->Dislikes_A) . "</td>");
-      print("    <td>" . implode(',', $forced_choice_survey_data->Likes_B) . "</td>");
-      print("    <td>" . implode(',', $forced_choice_survey_data->Dislikes_B) . "</td>");
+      print("    <td>" . $forced_choice_survey_data->answer_id . "</td>");
+      print("    <td>" . $forced_choice_survey_data->answer_type . "</td>");
+      print("    <td>" . $forced_choice_survey_data->time . "</td>");
+      print("    <td>" . $this->escapeAndQuoteString($forced_choice_survey_data->dont_know_answer) . "</td>");
+      print("    <td>" . $this->escapeAndQuoteString($forced_choice_survey_data->comments) . "</td>");
+      print("    <td>" . $forced_choice_survey_data->chosen_snippet_id . "</td>");
+      print("    <td>" . $forced_choice_survey_data->user_id . "</td>");
+      print("    <td>" . $forced_choice_survey_data->snippet_id . "</td>");
+      print("    <td><a href='" . URL . $forced_choice_survey_data->snippet_path . "'>" . $forced_choice_survey_data->snippet_path . "</a></td>");
+      print("    <td>" . $forced_choice_survey_data->snippet_feature . "</td>");
+      print("    <td>" . $forced_choice_survey_data->tag_id . "</td>");
+      print("    <td>" . $forced_choice_survey_data->tag_value . "</td>");
+      print("    <td>" . $forced_choice_survey_data->container_type . "</td>");
       print("  </tr>");
-      fwrite($forced_choice_survey_file, "$forced_choice_survey_data->AnswerID,$forced_choice_survey_data->AnswerType,$forced_choice_survey_data->UserID,$forced_choice_survey_data->Time,$forced_choice_survey_data->Skip,$forced_choice_survey_data->Comments,$forced_choice_survey_data->Snippet_A_ID," . URL . $forced_choice_survey_data->Snippet_A_Path . ",$forced_choice_survey_data->Snippet_B_ID," . URL . $forced_choice_survey_data->Snippet_B_Path . ",$forced_choice_survey_data->ChosenSnippetID," . implode(';', $forced_choice_survey_data->Likes_A) . "," . implode(';', $forced_choice_survey_data->Dislikes_A) . "," . implode(';', $forced_choice_survey_data->Likes_B) . "," . implode(';', $forced_choice_survey_data->Dislikes_B) . "\n");
+      fwrite($forced_choice_survey_file, "$forced_choice_survey_data->answer_id,$forced_choice_survey_data->answer_type,$forced_choice_survey_data->time," . $this->escapeAndQuoteString($forced_choice_survey_data->dont_know_answer) . "," . $this->escapeAndQuoteString($forced_choice_survey_data->comments) . ",$forced_choice_survey_data->chosen_snippet_id,$forced_choice_survey_data->user_id,$forced_choice_survey_data->snippet_id," . URL . "$forced_choice_survey_data->snippet_path,$forced_choice_survey_data->snippet_feature,$forced_choice_survey_data->tag_id,$forced_choice_survey_data->tag_value,$forced_choice_survey_data->container_type" . "\n");
     }
     fclose($forced_choice_survey_file);
     print("</table>");
@@ -201,6 +200,14 @@ class Data extends Controller {
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     readfile($file);
     die();
+  }
+
+  /**
+   *
+   */
+  private function escapeAndQuoteString($str) {
+    // http://php.net/htmlspecialchars or http://php.net/manual/en/function.addslashes.php
+    return str_replace(",", ';', "\"" . htmlspecialchars($str, ENT_COMPAT, 'UTF-8', true) . "\"");
   }
 }
 

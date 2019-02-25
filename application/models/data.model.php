@@ -23,127 +23,36 @@ class DataModel {
    *
    */
   public function getCompentencyTestData() {
-    $query = $this->db->prepare('SELECT User.id AS UserID, Competency.id AS CompetencyID, Competency.score AS Score, CompetencyAnswer.question_num AS QuestionID, CompetencyAnswer.choice AS Answer, CompetencyAnswer.time_to_answer AS Time FROM User, Competency, CompetencyAnswer WHERE User.competency_id = Competency.id AND Competency.id = CompetencyAnswer.competency_id');
+    # user_id,competency_id,score,question_id,answer,time
+
+    $query = $this->db->prepare("SELECT User.id AS 'user_id', Competency.id AS 'competency_id', Competency.score AS 'score', CompetencyAnswer.question_num AS 'question_id', CompetencyAnswer.choice AS 'answer', CompetencyAnswer.time_to_answer AS 'time' FROM User, Competency, CompetencyAnswer WHERE User.competency_id = Competency.id AND Competency.id = CompetencyAnswer.competency_id");
 
     $query->execute();
     return $query->fetchAll();
-  }
-
-  /**
-   *
-   */
-  private function getSnippetsIDsOfAnAnswer($answer_id) {
-    $query = $this->db->prepare('SELECT AnswerSnippet.snippet_id AS SnippetID, Snippet.path AS SnippetPath FROM Answer, AnswerSnippet, Snippet WHERE Answer.id = :answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id');
-    $query->execute(array(
-      ':answer_id' => $answer_id
-    ));
-    return $query->fetchAll();
-  }
-
-  /**
-   *
-   */
-  private function getTagsOfAnAnswer($tag_type, $answer_id, $snippet_id) {
-    // get answer/snippet ID
-    $query = $this->db->prepare('SELECT * FROM AnswerSnippet WHERE AnswerSnippet.answer_id = :answer_id AND AnswerSnippet.snippet_id = :snippet_id');
-    $query->execute(array(
-      ':answer_id' => $answer_id,
-      ':snippet_id' => $snippet_id
-    ));
-    $answer_snippet_id = $query->fetchObject()->id;
-
-    // get tags
-    $query = $this->db->prepare('SELECT Tag.value AS Tag FROM Container, ContainerTag, Tag, AnswerSnippetContainer WHERE Container.type = :tag_type AND Container.id = ContainerTag.container_id AND Tag.id = ContainerTag.tag_id AND Container.id = AnswerSnippetContainer.container_id AND AnswerSnippetContainer.answer_snippet_id = :answer_snippet_id');
-    $query->execute(array(
-      ':tag_type' => $tag_type,
-      ':answer_snippet_id' => $answer_snippet_id
-    ));
-
-    $tags = array();
-    foreach ($query->fetchAll() as $tag) {
-      $tags[] = $tag->Tag;
-    }
-
-    return $tags;
   }
 
   /**
    *
    */
   public function getRateSurveyData() {
-    # AnswerID, AnswerType, UserID, Time, Skip, SnippetID, SnippetPath, Stars, Likes, Dislikes
-    $data = array();
+    # answer_id, answer_type, time, dont_know_answer, comments, num_stars, user_id, snippet_id, snippet_path, snippet_feature, tag_id, tag_value, container_type
 
-    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, Answer.comments AS Comments, Rate.num_stars AS Stars, Snippet.id AS SnippetID, Snippet.path AS SnippetPath FROM Answer, Rate, AnswerSnippet, Snippet WHERE Answer.type = \'rate\' AND Answer.id = Rate.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id');
+    $query = $this->db->prepare("SELECT Answer.id AS 'answer_id', Answer.type AS 'answer_type', Answer.time_to_answer AS 'time', Answer.dont_know_answer AS 'dont_know_answer', Answer.comments AS 'comments', Rate.num_stars AS 'num_stars', User.id as 'user_id', Snippet.id AS 'snippet_id', Snippet.path AS 'snippet_path', Snippet.feature AS 'snippet_feature', Tag.id AS 'tag_id', Tag.value AS 'tag_value', Container.type AS 'container_type' FROM Rate, Answer, User, AnswerSnippet, Snippet, AnswerSnippetContainer, Container, ContainerTag, Tag WHERE Rate.answer_id = Answer.id AND User.id = Answer.user_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id AND AnswerSnippet.id = AnswerSnippetContainer.answer_snippet_id AND Container.id = AnswerSnippetContainer.container_id AND Container.id = ContainerTag.container_id AND Tag.id = ContainerTag.tag_id");
     $query->execute();
 
-    foreach ($query->fetchAll() as $answer) {
-      $data_point = new stdClass;
-      $data_point->AnswerID = $answer->AnswerID;
-      $data_point->AnswerType = $answer->AnswerType;
-      $data_point->UserID = $answer->UserID;
-      $data_point->Time = $answer->Time;
-      $data_point->Skip = $this->escapeAndQuoteString($answer->Skip);
-      $data_point->Comments = $this->escapeAndQuoteString($answer->Comments);
-      $data_point->SnippetID = $answer->SnippetID;
-      $data_point->SnippetPath = $answer->SnippetPath;
-      $data_point->Stars = $answer->Stars;
-      $data_point->Likes = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('like', $answer->AnswerID, $answer->SnippetID);
-      $data_point->Dislikes = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('dislike', $answer->AnswerID, $answer->SnippetID);
-
-      $data[] = $data_point;
-    }
-
-    return $data;
+    return $query->fetchAll();
   }
 
   /**
    *
    */
   public function getForcedChoiceSurveyData() {
-    # AnswerID, AnswerType, UserID, Time, Skip, Snippet_A_ID, Snippet_A_Path, Snippet_B_ID, Snippet_B_Path, ChosenSnippetID, Likes_A, Dislikes_A, Likes_B, Dislikes_B
-    $data = array();
+    # answer_id, answer_type, time, dont_know_answer, comments, chosen_snippet_id, user_id, snippet_id, snippet_path, snippet_feature, tag_id, tag_value, container_type
 
-    $query = $this->db->prepare('SELECT Answer.id AS AnswerID, Answer.type AS AnswerType, Answer.user_id AS UserID, Answer.time_to_answer AS Time, Answer.dont_know_answer AS Skip, Answer.comments AS Comments, ForcedChoice.chosen_snippet_id AS ChosenSnippetID FROM Answer, ForcedChoice, AnswerSnippet, Snippet WHERE Answer.type = \'forced_choice\' AND Answer.id = ForcedChoice.answer_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id GROUP BY Answer.id');
+    $query = $this->db->prepare("SELECT Answer.id AS 'answer_id', Answer.type AS 'answer_type', Answer.time_to_answer AS 'time', Answer.dont_know_answer AS 'dont_know_answer', Answer.comments AS 'comments', ForcedChoice.chosen_snippet_id AS 'chosen_snippet_id', User.id as 'user_id', Snippet.id AS 'snippet_id', Snippet.path AS 'snippet_path', Snippet.feature AS 'snippet_feature', Tag.id AS 'tag_id', Tag.value AS 'tag_value', Container.type AS 'container_type' FROM ForcedChoice, Answer, User, AnswerSnippet, Snippet, AnswerSnippetContainer, Container, ContainerTag, Tag WHERE ForcedChoice.answer_id = Answer.id AND User.id = Answer.user_id AND Answer.id = AnswerSnippet.answer_id AND Snippet.id = AnswerSnippet.snippet_id AND AnswerSnippet.id = AnswerSnippetContainer.answer_snippet_id AND Container.id = AnswerSnippetContainer.container_id AND Container.id = ContainerTag.container_id AND Tag.id = ContainerTag.tag_id");
     $query->execute();
 
-    foreach ($query->fetchAll() as $answer) {
-      $data_point = new stdClass;
-      $data_point->AnswerID = $answer->AnswerID;
-      $data_point->AnswerType = $answer->AnswerType;
-      $data_point->UserID = $answer->UserID;
-      $data_point->Time = $answer->Time;
-      $data_point->Skip = $this->escapeAndQuoteString($answer->Skip);
-      $data_point->Comments = $this->escapeAndQuoteString($answer->Comments);
-      $data_point->ChosenSnippetID = $answer->ChosenSnippetID;
-
-      $snippets = $this->getSnippetsIDsOfAnAnswer($answer->AnswerID);
-
-      $snippet = $snippets[0];
-      $data_point->Snippet_A_ID = $snippet->SnippetID;
-      $data_point->Snippet_A_Path = $snippet->SnippetPath;
-      $data_point->Likes_A = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('like', $answer->AnswerID, $snippet->SnippetID);
-      $data_point->Dislikes_A = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('dislike', $answer->AnswerID, $snippet->SnippetID);
-
-      $snippet = $snippets[1];
-      $data_point->Snippet_B_ID = $snippet->SnippetID;
-      $data_point->Snippet_B_Path = $snippet->SnippetPath;
-      $data_point->Likes_B = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('like', $answer->AnswerID, $snippet->SnippetID);
-      $data_point->Dislikes_B = $answer->Skip != '' ? array() : $this->getTagsOfAnAnswer('dislike', $answer->AnswerID, $snippet->SnippetID);
-
-      $data[] = $data_point;
-    }
-
-    return $data;
-  }
-
-  /**
-   *
-   */
-  private function escapeAndQuoteString($str) {
-    //return "\"" . str_replace(",", ';', $str) . "\"";
-    // http://php.net/htmlspecialchars or http://php.net/manual/en/function.addslashes.php
-    return "\"" . htmlspecialchars($str, ENT_COMPAT, 'UTF-8', true) . "\"";
+    return $query->fetchAll();
   }
 }
 
